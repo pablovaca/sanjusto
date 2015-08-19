@@ -1,0 +1,57 @@
+package com.sanjusto.controllers;
+
+import com.sanjusto.controllers.commons.BaseController;
+import com.sanjusto.services.TreatmentService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+import java.lang.reflect.InvocationTargetException;
+
+
+@Controller
+@RequestMapping(value = "/api/v1/treatments")
+@Transactional(propagation = Propagation.REQUIRES_NEW)
+public class TreatmentsController extends BaseController{
+
+    protected static final Logger log = LogManager.getLogger(TreatmentsController.class);
+
+    @RequestMapping(value = "/customers", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    public @ResponseBody String getAllCustomers() throws Exception{
+        String[] params = new String[]{"getAllCustomers"};
+        String param = this.makeJsonParam(params);
+        return this.methodController(param);
+    }
+
+    private String methodController(String param) {
+        try {
+            JSONObject jsonParam = new JSONObject(param);
+
+            TreatmentService treatmentService = serviceFactory.getTreatmentService();
+            String actionResult =  callService(treatmentService, TreatmentService.class, jsonParam);
+            return actionResult;
+
+        }catch (InvocationTargetException e) {
+            Throwable target=e.getTargetException();
+            if (target!=null)
+            {
+                return returnFail(target.getMessage());
+            }
+            log.error("Error in "+this.getClass(),e);
+            return returnFail(e.getMessage());
+        }catch (JSONException jsone) {
+            log.error("Error in "+this.getClass(),jsone);
+            log.error("Param="+param);
+            return returnFail(jsone.getMessage());
+        }
+        catch (Exception e) {
+            log.error("Error in "+this.getClass(),e);
+            return returnFail(e.getMessage());
+        }
+    }
+}

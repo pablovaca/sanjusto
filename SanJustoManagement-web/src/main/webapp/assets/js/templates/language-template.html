@@ -1,0 +1,8 @@
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?=model.selectedLanguage?> <span class="caret"></span></a>
+<ul class="dropdown-menu" role="menu">
+	<?_.each(model.languageAvailable, function(opt){
+		if(opt.code != model.selectedLanguage){?>
+			<li><a class="js-leng" data-id="<?=opt.id?>" href="#"><?=opt.nameShowed?></a></li>	
+	<?}
+	});?>						
+</ul>

@@ -1,0 +1,88 @@
+<? if (model != null && model.preview != null && model.preview.length > 0){?>
+        <div class="dstar-report-title">
+            <h4><?=model.title?></h4>            
+            <nav id="pager-top" class="reports-pagination" style="width: auto;"></nav>
+        </div>
+       
+        <?var page = model.lastResult;  
+        if(model.reportType == 'receivers' || model.reportType == 'senders'){?>
+        <table class="table">
+            <thead>
+                <tr>
+                  <th><span class="position-number"></span></th>
+                  <th></th>
+                  <th data-i18n="[html]translation:reports.table.name">Name</th>
+                  <?if(model.reportType == 'receivers'){?>
+                        <th data-i18n="[html]translation:reports.table.starsReceived"><?=model.filterValue?> Stars Received</th>
+                    <?} else {?>
+                        <th data-i18n="[html]translation:reports.table.starsSent"><?=model.filterValue?> Stars Sent</th>
+                    <?}?>                 
+                  <th class="column-position" data-i18n="[html]translation:reports.table.job">Job</th>
+                  <th data-i18n="[html]translation:reports.table.location">Location</th>
+                  <th data-i18n="[html]translation:reports.table.email">Email</th>
+                </tr>
+              </thead>
+            <tbody>             
+            <? _.each(model.preview,function(opt, index){?>
+                <tr>
+                    <td><span class="position-number"><?=index + page + 1?></span></td>
+                    <td><a href="#"><img class="img-circle js-user" style="width:30px;height:30px" data-id="<?=opt[0].id?>" src="<?=opt[0].profileImageId?>" alt=""/></a></td>
+                    <td><?=opt[0].firstName?> <?=opt[0].lastName?></td>
+                    <td><?=opt[1]?></td>  
+                    <td><?=opt[0].job?></td>
+                    <td><?=opt[0].office.name?></td>
+                    <td><?=opt[0].email?></td>
+                </tr>
+            <? }); ?>
+            </tbody>
+        </table>
+        <?} //report type sender - receivers
+        if(model.reportType == 'stars'){?>
+        <table class="table">
+            <thead>
+                <tr>
+                  <th><span class="position-number"></span></th>
+                  <th></th>
+                  <th data-i18n="[html]translation:reports.table.starName">Star Name</th>
+                  <th data-i18n="[html]translation:reports.table.starsReceived"><?=model.filterValue?> Stars Sent</th>           
+                  <th data-i18n="[html]translation:reports.table.path">Path</th>
+                </tr>
+            </thead>
+            <tbody>           
+            <? _.each(model.preview,function(opt, index){?>
+            <tr>
+                <td><span class="position-number"><?=index + page + 1?></span></td>
+                <td><a><img class="img-circle" style="width:30px;height:30px" src="<?=opt.imageId?>" alt=""/></a></td>
+                <td><?=opt.name?></td>
+                <td><?=opt.stars?></td>
+                <td><?=opt.path?></td>
+            </tr>
+            <? }); ?>
+            </tbody>
+        </table>
+        <?} //report type stars
+        if(model.reportType == 'locations'){?>
+        <table class="table">
+            <thead>
+                <tr>
+                  <th><span class="position-number"></span></th>                
+                  <th data-i18n="[html]translation:reports.table.location">Location</th>
+                  <th data-i18n="[html]translation:reports.table.starsReceived"><?=model.filterValue?> Stars Received</th>       
+                </tr>
+            </thead>
+            <tbody>            
+            <? _.each(model.preview,function(opt, index){?>
+            <tr>
+                <td><span class="position-number"><?=index + page + 1?></span></td>
+                <td><?=opt.name?></td> 
+                <td><?=opt.stars?></td>
+            </tr>
+            <? }); ?>
+            </tbody>
+        </table>        
+    <?}//report by locations?>
+        <!--here paginator-->
+        <nav id="pager-bottom" class="reports-pagination" style="width: auto;"></nav>
+    <?} else {?>
+    <p style="text-align: center;" data-i18n="[html]translation:leaderBoardReport.template.noResultsToDisplay">There are no results to display</p>
+    <?}?>

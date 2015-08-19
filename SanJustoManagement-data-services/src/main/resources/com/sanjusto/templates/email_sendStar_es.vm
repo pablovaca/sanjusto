@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <title>StarmeUp - Star Received</title>   
+  </head>
+  
+  <body style="font-family: Arial, Helvetica, sans-serif; margin: 0 auto; padding: 0; max-width: 602px;">
+  
+       
+    <div class="header">
+     <a href="${siteLink}"><img style="background:#59b3c5"  alt="starmeUp. Encuentra, reconoce y premia el talento!" src="${header-star-received}"></a>
+    </div><!--header-->
+
+    <div style="background: #FFF; color: #737373;">
+      <div style="text-align: center;">
+		<h2 style="font-weight: 100; color: rgb(33, 33, 33); font-size: 36px; margin: 25px 0px 10px;">Felicidades!</h2>
+	  </div>
+	  <div style="width:100%; overflow:hidden;">
+		<div style="width:485px; height:auto; padding: 0 0; display:table; margin: 0 auto;">
+		<div style="text-align: center;">
+			<img src="${starImage}" style="width: 102px; height: 102px; overflow: hidden; border-radius: 50%;">
+			<h2 style="font-weight: normal; color:#212121; font-size: 22px">Te has ganado una estrella por</h2>
+			<h2 style="font-weight: 100; color:#212121; font-size: 30px; line-height: 1;">${star.starMeUpOrganizationStar.nameShowed}</h2>
+			<h2 style="font-weight: normal; color:#212121; font-size: 22px">de <span style="font-weight: 600;">${star.from.DisplayName}</span></h2>
+			<img src="${userFromImage}" style="width:79px; max-height:79px; overflow:hidden;border-radius:50%;">
+		</div>
+		#if(${star.notes} && ${star.notes} != "")
+          <div style="background: #FFF url('${comment-arrow}') no-repeat center top;margin: 10px auto;overflow: hidden;padding: 10px;width: auto;">
+            <p style="background: none repeat scroll 0 0 #eee;color: #727272;display: block;font-size: 17px;font-style: italic;margin: 0 auto;overflow: hidden;padding: 19px;width: 310px;  text-overflow: ellipsis;">${star.notes}</p>
+          </div>
+        #end
+		<a href="${siteLink}" title="Ir a StarMeUp" target="_black" style="display: block; margin: 20px auto; padding: 12px 13px; color: #04bcd4; font-size:18px; border: 2px solid #00bcd4; width: 320px; text-align: center; text-decoration: none;">Ir a StarMeUp</a>
+		
+		<!--Links a PlayStore -->
+		<div style="margin: 10px auto; overflow: hidden; display: table;">
+            <a href="https://play.google.com/store/apps/details?id=com.globant.starmeup" style="display: table; float: left; margin: 5px 10px;">
+                <img src="${btn-download-googleplay}" alt="">
+            </a>
+            <a href="https://itunes.apple.com/us/app/starmeup/id973506772" style="float: left; display: table; margin: 5px 10px;">
+                <img src="${btn-download-app}" alt="">
+            </a>            
+        </div>
+		</div><!-- users -->
+	  </div>
+    </div><!--content-->	
+	#if(${suggestedU1} || ${suggestedU2} || ${suggestedU3})    
+    <div style="background: #bdce2e; margin-top: 20px; padding: 20px 30px; color: #FFF; text-align: center;">
+        <h3 style="font-weight: 100; font-size: 22px;">Quizás deberías darle una estrella a ellos! </h3>
+        <table width="100%">
+            <tbody>
+                <tr>
+                    #if (${suggestedU1}) 
+                    <td valign="top" style="padding: 10px; width:33%">
+                        <a href="${siteLink}" style="text-decoration:none;">
+                            <img src="${suggestedU1Image}" alt="avatar" style="margin: 5px;width:70px; max-height:70px; overflow:hidden;border-radius:50%;">
+                            <p style="text-align:center;font-size: 14px; color: #FFF; text-decoration: none; margin: 5px; font-weight: bold;">${suggestedU1.FirstName} ${suggestedU1.LastName}</p>
+                            #if(${suggestedU1.Job} && ${suggestedU1.Job} != "")
+                            <p style="text-align:center;font-size: 14px; color: #FFF; text-decoration: none; margin: 5px;">${suggestedU1.Job}</p>
+                            #end
+
+                        </a>
+                    </td>
+                    #end
+                    #if (${suggestedU2})
+                    <td valign="top" style="padding: 10px; width:33%">
+                        <a href="${siteLink}" style="text-decoration:none;">
+                            <img src="${suggestedU2Image}" alt="avatar" style="margin: 5px;width:70px; max-height:70px; overflow:hidden;border-radius:50%;">
+                            <p style="text-align:center;font-size: 14px; color: #FFF; text-decoration: none; margin: 5px; font-weight: bold;">${suggestedU2.FirstName} ${suggestedU2.LastName}</p>
+                            #if(${suggestedU2.Job} && ${suggestedU2.Job} != "")
+                            <p style="text-align:center;font-size: 14px; color: #FFF; text-decoration: none; margin: 5px;">${suggestedU2.Job}</p>
+                            #end
+                        </a>
+                    </td>
+                    #end
+                    #if (${suggestedU3})
+                    <td valign="top" style="padding: 10px; width:33%">
+                        <a href="${siteLink}" style="text-decoration:none;">
+                            <img src="${suggestedU3Image}" alt="avatar" style="margin: 5px;width:70px; max-height:70px; overflow:hidden;border-radius:50%;">
+                            <p style="text-align:center;font-size: 14px; color: #FFF; text-decoration: none; margin: 5px; font-weight: bold;">${suggestedU3.FirstName} ${suggestedU3.LastName}</p>
+                            #if(${suggestedU3.Job} && ${suggestedU3.Job} != "")
+                            <p style="text-align:center;font-size: 14px; color: #FFF; text-decoration: none; margin: 5px;">${suggestedU3.Job}</p>
+                            #end
+                        </a>
+                    </td>
+                    #end
+                </tr>
+            </tbody>
+        </table>
+    </div><!--suggested--> 
+    #end  
+    <div style="background: #1B1B1B; color: #FFF; text-align: center; padding: 20px 0; font-size: 11px;">
+        <img src="${logo-footer}" alt="starMeUp"><span style="display: inline-block; padding: 0 0 0 8px; vertical-align: super;">Powered by <a style="color: #A4D9D6; text-decoration: none;" href="http://www.globant.com/" title="Globant Site" target="_blank">Globant</a> &copy; 2015. All rights reserved.</span>
+    </div>
+  </body>
+</html>

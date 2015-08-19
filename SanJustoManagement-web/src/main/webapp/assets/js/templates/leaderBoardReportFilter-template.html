@@ -1,0 +1,64 @@
+<!-- <h4>Filter by:<a id="exportReceiversToCsv" href="#"><i class="fa fa-file-excel-o"></i> Export to Excel</a></h4> -->
+<!--  <div class="form-group" >
+	<label for="date">From:</label>
+	<div class="input-group date" style="width:160px; margin-right: 25px;" id="leaderBoardDateFrom">
+		<input type="text" class="form-control">
+		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+    	</span>
+	</div>
+</div>
+<div class="form-group" >
+	<label for="date">To:</label>
+	<div class="input-group date" style="width:160px; margin-right: 25px;" id="leaderBoardDateTo">
+		<input type="text" class="form-control">
+		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+    	</span>
+	</div>
+</div> -->
+<div class="row"></div>
+<form class="form-inline filters" role="form">
+	<h4 data-i18n="[html]translation:leaderBoardReport.template.searchForLeaders">Search for Leaders</h4>
+	<div class="form-group">	
+		<label for="date" data-i18n="[html]translation:leaderBoardReport.leaderBoardPeriod.period">Period</label>			
+			<select name="star-type" id="leaderBoardPeriod">
+				<option value="0" data-i18n="[html]translation:leaderBoardReport.leaderBoardPeriod.allTime">All time</option>
+				<option value="1" data-i18n="[html]translation:leaderBoardReport.leaderBoardPeriod.lastYear">Last year</option>
+				<option value="2" data-i18n="[html]translation:leaderBoardReport.leaderBoardPeriod.thisYear">This year</option>
+				<option value="3" data-i18n="[html]translation:leaderBoardReport.leaderBoardPeriod.lastMonth">Last month</option>
+				<option value="4" selected data-i18n="[html]translation:leaderBoardReport.leaderBoardPeriod.thisMonth">This Month</option>
+			</select>		
+	</div>
+	<div class="form-group">
+		<label for="star-type" data-i18n="[html]translation:leaderBoardReport.leaderBoardStarType.starType">Star Type</label>		
+			<select name="star-type" id="leaderBoardStarType">
+				<option value="0" data-i18n="[html]translation:leaderBoardReport.leaderBoardStarType.all">All</option>
+                <? if(model.isTalentModuleEnabled){ ?>
+                	<option value="-1" data-i18n="[html]translation:leaderBoardReport.leaderBoardStarType.coreStars">Core Stars</option>
+                	<option value="-2" data-i18n="[html]translation:leaderBoardReport.leaderBoardStarType.skillStars">Skill Stars</option>
+                <? } ?>
+				<? if (model != null && model.stars != null) {
+				_.each(model.stars,function(opt, index){?>
+					<option value="<?=opt.id?>"><?=opt.name?></option>
+				<?});
+				}?>
+			</select>		
+	</div>	
+	<div class="form-group">
+		<label for="date" data-i18n="[html]translation:leaderBoardReport.leaderBoardLocation.locations">Locations</label>			
+		<select name="location" id="leaderBoardLocation">
+			<option value="0" data-i18n="[html]translation:leaderBoardReport.leaderBoardLocation.all">All</option>
+			<? if (model != null && model.stars != null) {
+					_.each(model.locations,function(opt, index){?>
+				<option value="<?=opt.id?>"><?=opt.name?></option>
+			<?});
+			} ?>
+		</select>			
+	</div>
+	<div class="form-group">
+		<label for="star-type" data-i18n="[html]translation:leaderBoardReport.leaderBoardAction.action">Action</label>			
+		<select name="action" id="leaderBoardAction">
+			<option value="1" data-i18n="[html]translation:leaderBoardReport.leaderBoardAction.sent">Sent</option>
+			<option value="2" selected data-i18n="[html]translation:leaderBoardReport.leaderBoardAction.received">Received</option>
+		</select>			
+	</div>	
+</form>

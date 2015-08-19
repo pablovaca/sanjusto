@@ -1,0 +1,43 @@
+<div id="rolesResult" class="col-lg-12">
+	<article class="details">
+		<div class="header">
+			<h3 data-i18n="[html]translation:rolesAdministration.listOfRoles.title">List of Permissions by User</h3>
+		</div>
+		<div class="content">
+			<section class="bg-reports">
+				<div class="data-star-report">
+					<?if (model.usersRoles) {?>		
+					<table class="table">      
+						<thead>
+							<tr>							 
+					          <th></th>
+							  <th data-i18n="[html]translation:rolesAdministration.listOfRoles.tableName">Name</th>
+							  <th data-i18n="[html]translation:rolesAdministration.listOfRoles.tableEmail">Email</th>
+							  <?if(model.currentUserIsSuperAdmin){?>
+							  <th data-i18n="[html]translation:rolesAdministration.listOfRoles.tableOrgName">Organization</th>
+							  <?}?>
+							  <th data-i18n="[html]translation:rolesAdministration.listOfRoles.tableRole">Permission</th>
+							  <th></th>
+					        </tr>
+					  	</thead>	  
+				      	<tbody>
+				      	<?_.each(model.usersRoles, function(userRole, index){?>
+							<tr>					          
+					          <td><a href="#"><img class="img-circle" src="<?=userRole.user.profileImageId?>" style="width: 35px;"></a></td>
+							  <td><?=userRole.user.firstName?> <?=userRole.user.lastName?></td>
+							  <td><?=userRole.user.email?></td>
+							  <?if(model.currentUserIsSuperAdmin) {?>							  
+							  <td><?=userRole.user.organizationName?></td>
+							  <?}?>						  
+							  <td><?=userRole.role.role?></td>							          
+							  <td><a href="#" data-id="<?=userRole.id?>" class="quit js-removeRoles" data-i18n="[html]translation:rolesAdministration.listOfRoles.tableRemoveRole">Remove</a></td>
+					        </tr>
+					    <?})?>         
+				      	</tbody>
+				    </table> 
+				    <?}?>
+			    </div>
+		    </section>	       
+		</div>
+	</article>
+</div>

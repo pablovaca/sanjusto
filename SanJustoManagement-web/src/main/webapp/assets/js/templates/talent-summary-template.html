@@ -1,0 +1,58 @@
+<div class="talentBar-container">
+<? if(model != null && model.skills.length > 0){
+        var progressbar;
+        _.each(model.skills, function(opt, index){
+            progressbar = opt.stars*100/model.skills[0].stars;
+            if(index < 3){?>
+                <div class="bar-container">
+                    <div class="bar-data">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:<?=progressbar?>%;">
+
+                            </div>
+                        </div>
+                        <div class="progress-info">
+                            <span class="star-get"><span class="star-number"><?=opt.stars?></span></span>
+                            <span class="location truncate" style="width: 150px;" title="<?=opt.path?>"><?=opt.name?></span>
+                        </div>
+                    </div><!-- bar-data -->
+                </div><!-- bar-container -->
+            <?}
+        });?>
+<?if(model.skills.length > 3){?>
+<div id="hidSkills" class="all-bars-container collapse" style="height: 0px;">
+    <?_.each(model.skills, function(opt, index){
+        progressbar = opt.stars*100/model.skills[0].stars;
+        if(index >= 3){?>
+        <div class="bar-container">
+            <div class="bar-data">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:<?=progressbar?>%;">
+
+                    </div>
+                </div>
+                <div class="progress-info">
+                    <span class="star-get"><span class="star-number"><?=opt.stars?></span></span>
+                    <span class="location truncate" style="width: 150px;" title="<?=opt.path?>"><?=opt.name?></span>
+                </div>
+            </div><!-- bar-data -->
+        </div><!-- bar-container -->
+    <?}
+    });?>
+</div>
+<a id="toggleCollapseSkills" data-toggle="collapse" data-target="#hidSkills" style="cursor: pointer;"><?= $.t("translation:me.showMoreSkills")?></a>
+</div><!-- talentBar-container -->
+
+<?}?>
+<?}else{?>
+<div id="activity-feed">
+    <article class="panel box-comment">
+        <div class="no-activity">
+            <header>
+                <h4><?= $.t("translation:me.talentsSummary") ?> </h4>
+            </header>
+            <p><i class="fa fa-star fa-2x"></i><span id="noTalents"> <?= $.t('translation:me.youHaveNotAwardAnyStars') ?></span></p>
+        </div>
+    </article>
+</div>
+<?}?>

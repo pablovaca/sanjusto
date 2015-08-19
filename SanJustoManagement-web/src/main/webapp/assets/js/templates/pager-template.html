@@ -1,0 +1,31 @@
+<?if(model.totalPages > 1){?>
+  <form class="pagination-form form-inline filters hide" role="form">
+    <label for="page-number">Page</label>
+    <input type="text" class="form-control page-input">
+    <label for="page-number">from</label>
+    <label for="page-number"><?=model.totalPages?></label>
+  </form>
+  <ul class="pagination-bottom pagination">   
+    <li id="firts-page">
+        <a href="#" aria-label="First" class="js-navigate" data-id="first">&laquo;</a>
+    </li>
+    <li id="previous-page">
+      <a href="#" aria-label="Previous" class="js-navigate" data-id="previous">
+        <span aria-hidden="true" data-i18n="[html]translation:reports.table.previous">Previous</span>
+      </a>         
+    </li> 
+    <li><a><?if(model.lowerLimit > 0){?>...<?}?></a></li>          
+     <?for ($i=model.lowerLimit; $i <= model.upperLimit; $i++){?>
+        <li id="page-<?=$i+1?>"><a href="#" class="js-page" data-id="<?=$i?>"><?=$i+1?></a></li>   
+    <?}?>
+    <li><a><?if(model.upperLimit < model.totalPages-1){?>...<?}?></a></li>       
+    <li id ="next-page">
+      <a href="#" aria-label="Next" class="js-navigate" data-id="next">
+        <span aria-hidden="true" data-i18n="[html]translation:reports.table.next">Next</span>
+      </a>
+    </li>
+    <li id="last-page">
+        <a href="#" aria-label="Last" class="js-navigate" data-id="last">&raquo;</a>
+    </li>
+  </ul>
+<?}?>

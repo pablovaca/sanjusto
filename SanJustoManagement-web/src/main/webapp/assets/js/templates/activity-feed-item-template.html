@@ -1,0 +1,165 @@
+<?if(model.isAdmin) {
+if (model.activity.enabled) { ?>
+<!--  <div class="ocultar"><a href="#" class="js-hide-star">hide</a></div> -->
+<section>
+<?} else {?>
+<div class="ocultar"><a href="#" class="js-show-star" data-i18n="[html]home.activity-feed.show">show</a></div>
+<section class="admin-view">
+<?}}?>
+<article id="activity-<?=model.activity.id?>" class="panel box-comment">
+    <header>        
+        <div class="media-body name-comment">
+            <a data-id="<?=model.activity.from.id?>" class="media-left pic-small js-img-activity" href="#"><img style="width:30px;height:30px" class="img-circle" src="<?=  model.activity.from.profileImageId ?>" alt=""/></a>
+            <h5 class="media-heading"><span><?=model.activity.from.firstName?> <?=model.activity.from.lastName?></span> <?= $.t('home.activity-feed.sent-a-star')?></h5>
+        </div>
+        <div class="date-comment media-right"><small><?=model.activity.dateSpan?></small></div>
+    </header><!-- header -->
+
+    <div class="given">
+    <section class="container-received">
+        <div class="col-lg-6">
+            <div class="media name-receibed">
+              <div class="media-left media-middle">
+                <a data-id="<?=model.activity.to.id?>" href="#" class="js-img-activity"><img style="width:60px;height:60px" class="img-circle" src="<?=  model.activity.to.profileImageId ?>" alt=""/></a>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading"><?=model.activity.to.firstName?> <?=model.activity.to.lastName?></h4>
+                <small><?=model.activity.to.job?></small>
+              </div>
+            </div><!-- media -->
+        </div><!-- col-lg-6 -->
+
+        <div class="col-lg-6">
+        <div class="media star-receibed">
+              <a class="media-left media-middle">
+                <img style="height:60px" class="img-circle" src="<?=model.activity.star.imageUrl?>" alt=""/>
+              </a>
+              <div class="media-body">
+                <h5 class="media-heading" data-i18n="[html]translation:home.activity-feed.starReceived">Star Received</h5>
+                <h4 class="media-heading"><?=model.activity.star.nameShowed?></h4>
+              </div>
+            </div><!-- media -->
+        </div><!-- col-lg-6 -->
+        <div class="col-lg-12 sent-comment break-word">
+            <!-- <?=model.activity.notes.substring(0,model.activity.notesCharsView)?> -->
+
+            <? var viewMoreOrLessButton = false; _.each(model.activity.notes.substring(0,model.activity.notesCharsView).split('<br/>'),function(commentLine, index){ ?>
+
+                    <? if (index > 0 && !viewMoreOrLessButton) {?>
+                        <br/>
+                    <?}?>
+
+                    <? if (index >= model.activity.notesLinesView && !viewMoreOrLessButton) {?>
+                    <? viewMoreOrLessButton = true; ?>
+                        <span class="day-date"><a href="#" class="more-comments js-more-notes" data-i18n="[html]translation:home.activity-feed.viewMore">view more</a></span>
+                    <?}?>
+
+                    <? if (!viewMoreOrLessButton) {?>
+                        <?= commentLine ?>
+                    <?}?>
+
+                    <? if (model.activity.notes.length > model.activity.notesCharsView && !viewMoreOrLessButton) {?>
+                    <? viewMoreOrLessButton = true; ?>
+                        <span class="day-date"><a href="#" class="more-comments js-more-notes" data-i18n="[html]translation:home.activity-feed.viewMore">view more</a></span>
+                    <?}?>
+                    
+                <? }); ?>
+
+            <? if (!viewMoreOrLessButton) {?>
+                <? if (model.activity.notes.length > model.activity.notesCharsView) { ?>
+                    <span class="day-date"><a href="#" class="more-comments js-more-notes" data-i18n="[html]translation:home.activity-feed.viewMore">view more</a></span>
+                <? } else if (this.activity.fullNotes) {?>
+                    <span class="day-date"><a href="#" class="more-comments js-less-notes" data-i18n="[html]translation:home.activity-feed.viewLess">view less</a></span>
+                <?}?>
+            <?}?>
+        </div>
+    </section><!-- section -->
+    </div><!-- given -->
+
+    <? if (model.activity.lineToShow > 0) {
+       ?>
+        <a href="#" class="more-comments js-more-comments"><i class="fa fa-comments fa-2x"></i><?= $.t('home.activity-feed.view')?> <?=model.activity.lineToShow  ?> <?= ( model.activity.lineToShow > 1) ? $.t('home.activity-feed.moreComments') :  $.t('home.activity-feed.moreComment')   ?></a>
+    <? } ?>
+
+    <? if(model.activity.comments !=null && model.activity.comments.length > 0) {
+        var lines = 0;
+        _.each(model.activity.comments,function(comment){
+            if (comment.type == "COMMENT" && (comment.enabled || model.isAdmin)){
+                lines++;
+                if (lines > model.activity.lineToShow) {
+        ?>
+
+    <div class="comment break-word">
+        <a data-id="<?=comment.user.id?>" class="media-left pic-small js-img-activity" href="#"><img style="width:30px;height:30px" class="img-circle" src="<?=  comment.user.profileImageId ?>" alt=""/></a>
+        <div class="media-body">
+            <p class="media-heading" style="width:100%; <?if (!comment.enabled) {?>color:#c3c3c3;<?}?>">
+                <span style="<?if (!comment.enabled) {?>color:#ccc;<?}?>">
+                    <?=comment.user.firstName?> <?=comment.user.lastName?>
+                </span>
+                <? _.each(comment.comments.split('<br/>'),function(commentLine, index){
+                    if(index > 0) { ?>
+                        <br/>
+                    <?}?>
+                    <?= commentLine ?>
+                <? }); ?>
+            </p>
+            <small><?=comment.dateCommentSpan?>
+            <?if (model.isAdmin){
+            if(comment.enabled) { ?>
+                <a href="" class="js-hide-comment" data-i18n="[html]translation:home.activity-feed.hide" data-id="<?=comment.id?>">hide</a>
+            <?} else {?>
+                <a href="" class="js-show-comment" data-i18n="[html]translation:home.activity-feed.show" data-id="<?=comment.id?>">show</a>
+            <?}}?>
+            </small>
+        </div>
+    </div><!-- comment -->
+    <?          }
+            }
+        });
+    }?>
+
+    <form class="form-horizontal add-comment" role="form">
+        <textarea id="comment-<?=model.activity.id?>" class="form-control js-comment-text" rows="2" maxlength="140"  data-i18n="[placeholder]translation:home.activity-feed.addAComment" placeholder="Add a comment"></textarea>
+        <!-- <a href="#" id="btn-comment-<?=model.activity.id?>" type="button" class="btn btn-success disabled js-add-comment">Send</a> -->
+    </form>
+    <?if (!model.privateMode) {?>
+    <ul class="block-likes">
+        <? if (!model.activity.likeGiven) { ?>
+                <li><a href="#" id="btn-like-<?=model.activity.id?>" class="more-comments js-add-like" data-id="<?=model.activity.id?>"><i class="fa fa-thumbs-o-up fa-2x"></i></a></li>
+        <? } else { ?>
+                <li><a href="#" id="btn-unlike-<?=model.activity.id?>" class="more-comments js-add-unlike" data-id="<?=model.activity.likeGivenId?>"><i class="fa fa-thumbs-o-up fa-2x"></i></a></li>
+        <? } ?>
+        <li><span style="color:#337ab7; margin:0;" class="more-comments">
+        <?if(model.activity.likes != null && model.activity.likes > 0){?>
+            <a href="#" id="likes-number-link-<?=model.activity.id?>" data-toggle="modal" data-id="<?=model.activity.id?>" data-target="#likesModal-<?=model.activity.id?>"><?=model.activity.likes?></a>
+            <!-- &#160<a href="#" id="likes-link-<?=model.activity.id?>" data-toggle="modal" data-id="<?=model.activity.id?>" data-target="#likesModal-<?=model.activity.id?>">people like this</a>  -->
+        <?} else {?>
+            <?=model.activity.likes?>
+            <!-- &#160people like this -->
+        <?}?>
+        </span></li>
+        <li style="margin-left:10px;">
+            <a href="https://twitter.com/intent/tweet?url=https://starmeup.com&text=<?=model.twitterShareText?>" data-url="https://starmeup.com" data-text="<?=model.twitterShareText?>" class="ico-tw"></a>
+        </li>
+    </ul>
+    <?}?>
+
+    </article><!-- box-comment -->
+    </section>
+</section>
+
+<!-- .like-this modal 03 -->
+<div class="modal fade like-this js-likesModal" id="likesModal-<?=model.activity.id?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+           <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+             <h4 class="modal-title" data-i18n="[html]translation:home.activity-feed.peopleWhoLikeThis">People Who Like This</h4>
+            </div>
+            <div class="modal-body">
+              <div id="likesModalContent-<?=model.activity.id?>" class="media-container" style="overflow-y: auto;">
+              </div><!-- /.modal-media-container -->
+            </div><!-- /.modal-body -->
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- like-this -->

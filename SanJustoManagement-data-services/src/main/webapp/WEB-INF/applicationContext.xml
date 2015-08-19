@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+    http://www.springframework.org/schema/data/jpa
+    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd" >
+
+    <context:component-scan base-package="com.sanjusto.controllers" />
+
+    <bean id="external-configurer"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="1" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="location"
+            value="file:/usr/share/tomcat7/conf/sanjusto.properties" />
+    </bean>
+
+    <bean id="classpath-configurer"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="2" />
+        <property name="location" value="classpath:application.properties" />
+    </bean>
+
+    <mvc:annotation-driven />
+    <context:annotation-config />
+
+    <bean name="tokenEncoder" class="com.sanjusto.services.impl.TokenEncoder">
+        <property name="signingKey">
+            <bean class="java.lang.String">
+                <constructor-arg>
+                    <bean class="org.springframework.util.FileCopyUtils"
+                        factory-method="copyToByteArray">
+                        <constructor-arg
+                            value="${token.signing.certificate}"
+                            type="java.io.InputStream" />
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+        <property name="verifierKey">
+            <bean class="java.lang.String">
+                <constructor-arg>
+                    <bean class="org.springframework.util.FileCopyUtils"
+                        factory-method="copyToByteArray">
+                        <constructor-arg
+                            value="${token.verifier.certificate}"
+                            type="java.io.InputStream" />
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="dataSourceSanJusto" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+        destroy-method="close">
+        <property name="driverClass" value="${db.con.driver}" />
+        <property name="jdbcUrl" value="${db.con.url}" />
+        <property name="user" value="${db.con.user}" />
+        <property name="password" value="${db.con.pass}" />
+        <property name="minPoolSize" value="20" />
+        <property name="maxPoolSize" value="200" />
+    </bean>
+
+    <jpa:repositories base-package="com.sanjusto.data.repositories"
+        transaction-manager-ref="sjTransactionManager" />
+
+    <bean id="hibernateJpaAdapter"
+        class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="showSql" value="false" />
+        <property name="generateDdl" value="false" />
+        <property name="database" value="MYSQL" />
+    </bean>
+
+    <bean id="entityManagerFactory"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSourceSanJusto" />
+        <property name="jpaVendorAdapter" ref="hibernateJpaAdapter"/>
+        <property name="persistenceUnitPostProcessors">
+            <list>
+                <bean
+                    class="org.springframework.data.jpa.support.ClasspathScanningPersistenceUnitPostProcessor">
+                    <constructor-arg value="com.sanjusto.data.model" />
+                    <property name="mappingFileNamePattern" value="com/sanjusto/data/*.hbm.xml" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="sjTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="sjTransactionManager" />
+
+    <bean id="serviceFactory" class="com.sanjusto.services.impl.ServiceFactory">
+        <lookup-method name="getSecurityService" bean="securityService" />
+        <lookup-method name="getTreatmentService" bean="treatmentService" />
+    </bean>
+
+    <bean id="securityService" class="com.sanjusto.services.impl.SecurityServiceImpl" scope="prototype" />
+
+    <bean id="treatmentService" class="com.sanjusto.services.impl.TreatmentServiceImpl" scope="prototype" />
+
+</beans>

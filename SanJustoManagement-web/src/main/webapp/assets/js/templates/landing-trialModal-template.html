@@ -1,0 +1,29 @@
+<div class="modal fade" id="landingTrialModal" tabindex="-1" role="dialog" aria-labelledby="landingLoginModalLabel" aria-hidden="true">
+  <div class="modal-dialog box-login">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <!--<h4 class="modal-title" id="exampleModalLabel">New message</h4>-->
+      </div>
+      <div class="modal-body">
+        <form class="login js-trial-form" method="POST" action="#">
+          <div class="form-group">
+            <input id="firstName" type="text" name="firstName" placeholder="First Name" class="form-control half-input" data-i18n="[placeholder]translation:login.form.trial.firstNamePlaceholder"/> 
+            <input id="lastName" type="text" name="lastName" placeholder="Last Name" class="form-control half-input-right" data-i18n="[placeholder]translation:login.form.trial.lastNamePlaceholder"/>
+          </div>
+          <div class="form-group">
+            <input id="usernameTrial" type="email" name="username" placeholder="Email Address" class="form-control" data-i18n="[placeholder]translation:login.form.emailAddressPlaceholder"/>
+          </div>
+          <div class="form-group">
+            <input id="passwordTrial" type="password" name="password" placeholder="Password" data-i18n="[placeholder]translation:login.form.passwordPlaceholder" class="form-control">
+            <div id="loginErrorTrial" class="show-error"></div>      					
+    		    <button id="btn-submit-trial" type="submit" class="btn-login" data-i18n="[html]translation:login.form.trial.tryme"> Try me Now </button>	
+          </div>
+        </form>
+      </div>
+      <!--<div class="modal-footer">
+        
+      </div>-->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div id="receivers" class="data-star">
+	 <? if (model != null && model.receivers != null && model.receivers.length > 0) { ?>
+	 	<table class="table">
+      	
+			<caption data-i18n="[html]translation:leaderBoardReport.template.topUsers"> Top Users <a href="#" class="hide" data-i18n="[html]translation:leaderBoardReport.template.viewMyPosition">View my position</a></caption>
+			<tbody>
+			
+			<? _.each(model.receivers,function(opt, index){	?>
+      			
+			
+				<tr>
+		          <td><span class="position-number"><?=index + 1?></span></td>
+		          <td><a href="#"><img class="img-circle" style="width:30px;height:30px" data-id="<?= opt.id ?>" src="<?=  opt.profileImageId ?>" alt=""/></a></td>
+		          <td><?=opt.firstName?> <?=opt.lastName?></td>
+				  <td class="column-position"><?=opt.job?></td>
+		          <td>
+					  <div class="how-many">
+						<span><?=opt.starsCount?></span>
+					  </div>
+				  </td>
+		        </tr>
+				<? }); ?>
+			</tbody>
+			</table>
+			<? } else {?>
+			<p style="text-align: center;background-color: #EEE;" data-i18n="[html]translation:leaderBoardReport.template.noResultsToDisplay">There are no results to display</p>
+			<? }?>
+</div>
+
+<? if (model != null && model.leaderboardReportEnabled) { ?>
+		<a id="exportReceiversToCsv" href="#" class="export-pdf" data-i18n="[html]translation:leaderBoardReport.template.export">Export</a>	
+<? } ?>

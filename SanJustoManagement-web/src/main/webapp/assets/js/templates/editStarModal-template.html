@@ -1,0 +1,25 @@
+ <div class="bg-gray" style="margin-bottom: 10px;">
+	 <div class="upload-img">
+		<!-- The container for the uploaded files -->		 
+		<div id="files" class="files">	
+		<img id="selectedStarImage"  class="img-circle" style="width:126px; height:126px" class="img " onmousedown="return false"
+					src="<?= model.selectedStar != null ? model.selectedStar.imageUrl : '' ?>">				
+		</div>	  
+		<!-- The global progress bar -->
+		<div id="progress" class="progress" style="display: none">
+			<div class="progress-bar progress-bar-success"></div>
+		</div>
+		<span id="innerfileuploadSpan" class="btn-upload fileinput-button">	
+			<a data-i18n="[html]translation:admin.createStarPopUp.uploadImage" >Upload image</a>
+			<input id="innerfileupload" type="file">
+		</span>		 
+	</div><!-- upload-img -->	
+	<form class="upload-star" role="form" onsubmit="return false;">
+		  <div class="form-group">
+		  <input id="starName" type="categoria" class="form-control categoria" placeholder="New Star Name" value="<?=model.selectedStar.name?>" autocomplete="off"	data-provide="typeahead" data-i18n="[placeholder]translation:admin.createStarPopUp.newStarName"/>
+		  </div>
+		  <div class="form-group">
+			<textarea id="starDescription" class="form-control" rows="3" placeholder="Add a description" maxlength="1000" placeholder="Insert your description here" data-i18n="[placeholder]translation:admin.createStarPopUp.addDescription"><?=model.selectedStar.description?></textarea>
+		  </div>
+	</form>
+</div>

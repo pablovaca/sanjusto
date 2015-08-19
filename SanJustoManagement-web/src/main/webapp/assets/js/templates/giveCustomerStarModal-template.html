@@ -1,0 +1,21 @@
+<div class="modal fade inviteCongratsModal" id="giveCustomerStarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog small">
+	<div class="modal-content">
+	  <div class="modal-header hide">
+	  	<!--
+		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		<h4 class="" id="exampleModalLabel">Star to Give</h4> -->
+	  </div>
+	  <div class="modal-body">
+	  <div class="item-select">
+	  <h3>Muchas gracias!</h3>
+		<!--star img-->
+		<img src="<?=model.value.imageId?>" class="emoticon"/>		
+		<p>¡Tu calificación fue enviada!<br> para:</p>
+		<img class="user" src="<?=model.user.profileImage?>"/>
+		<p class="name"><?=model.user.firstName?> <?=model.user.lastName?></p>
+	  </div><!-- item-select -->
+	  </div>
+	</div>
+  </div>
+</div><!-- invite friend -->

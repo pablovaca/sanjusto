@@ -1,0 +1,42 @@
+<div class="modal fade" id="landingLoginModal" tabindex="-1" role="dialog" aria-labelledby="landingLoginModalLabel" aria-hidden="true">
+  <div class="modal-dialog box-login">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <!--<h4 class="modal-title" id="exampleModalLabel">New message</h4>-->
+      </div>
+      <div class="modal-body">
+        <form class="login js-login-form" method="POST" action="#">
+          <div class="form-group">
+            <input id="username" type="email" name="username" placeholder="Email Address" class="form-control" value="<?=model.username?>" data-i18n="[placeholder]translation:login.form.emailAddressPlaceholder" value="<?=model.username?>"/>
+          </div>
+          <div class="form-group">
+            <input id="password" type="password" name="password" placeholder="Password" data-i18n="[placeholder]translation:login.form.passwordPlaceholder" class="form-control">
+            <div id="loginError" class="show-error"></div>
+            <div id="resetPwd" class="show-error"></div>
+            <? if (model.typeLogin != 1) {?>
+    		    <div class="checkbox">
+                  <label style="padding-left: 0px;">
+                    <?if(model.username!=null && model.username!="") { ?>
+                        <input id="rememberMe" type="checkbox" checked style="margin-left:0px;-webkit-appearance:checkbox;-moz-appearance:checkbox;">
+                    <? } else { ?>
+                        <input id="rememberMe" type="checkbox" style="margin-left:0px;-webkit-appearance:checkbox;-moz-appearance:checkbox;">
+                    <?}	?>                    
+                    <span id="rememberSpam" data-i18n="[html]translation:login.form.rememberMeCheck">Remember me!</span>
+                  </label>
+                    <div class="forgotpw">
+                      <a href="#" class="forgot js-forgot" data-i18n="[html]translation:login.form.forgotPasswordLink">Forgot Password?</a>
+                      <a href="#" id="link-cancelForgot" class="forgot js-cancel hide" data-i18n="[html]translation:login.form.cancelForgotPasswordButton">Cancel</a> 
+                    </div>                    
+    		    </div>
+              <? } ?>
+    		<button id="btn-submit" type="submit" class="btn-login" data-i18n="[html]translation:login.form.loginButton">Login</button>	
+          </div>
+        </form>
+      </div>
+      <!--<div class="modal-footer">
+        
+      </div>-->
+    </div>
+  </div>
+</div>

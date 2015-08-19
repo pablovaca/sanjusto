@@ -1,0 +1,23 @@
+<h4 style="color:#FFF" data-i18n="[html]translation:home.giveStarToggle.selectStarToGive">Select a Star to Give</h4>
+<ul class="category-star <?=model.category?>">
+<? if (model != null && model.stars != null) {
+	_.each(model.stars,function(opt){
+		if(opt.enabled){?>
+	<li>
+		<div data-id='toggleStar<?=opt.id?>' class="js-starInToggle">
+			<a href="#" ><img class="circle" src="<?=opt.imageUrl?>" alt="" onmousedown="return false"/></a>
+		</div>
+		<a href="#" data-id='toggleStar<?=opt.id?>' class="give-star-link js-starInToggle"><?=opt.nameShowed?></a>
+	</li>	
+	<?
+	}});
+} //fin each
+if (model.talentModule){?>
+		<li>
+			<div data-id='toggleStar0' class="js-skillInToggle">
+				<a href="#" ><img class="circle" src="assets/content/starmeup/img/generic-skill-star.jpg" alt=""/></a>
+			</div><!-- circle -->
+			<a href="#" data-id='toggleStar0' class="give-star-link js-skillInToggle"><?=$.t("translation:home.giveStarModal.talentStar")?></a>
+		</li>
+	<?}?>	
+</ul>

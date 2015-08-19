@@ -1,0 +1,15 @@
+<? if(model != null && model.usersLikes != null){?>
+	<?_.each(model.usersLikes, function(opt){?>
+	   <div class="media">
+		  <div class="media-left">
+		    <a href="#" data-id="<?=opt.id?>" class="pic-user js-img-activity">
+		      <img style="height:30px" class="img-circle" src="<?=opt.profileImageId?>" alt="">
+		    </a>
+		  </div>
+		  <div class="media-body">
+		    <h4 class="media-heading"><?=opt.firstName?> <?=opt.lastName?></h4>
+		    <p><?=opt.job?></p>
+		</div>
+	</div><!-- /.media -->
+	<?});?>
+<?}?>

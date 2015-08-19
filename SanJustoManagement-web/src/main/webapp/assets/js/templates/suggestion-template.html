@@ -1,0 +1,20 @@
+<?if (model.suggestedUsers != null) {?>
+<h4 class="feed-newsTitle"   data-i18n="[html]translation:home.suggestion-template.youCanAlsoReward">YOU CAN ALSO REWARD...</h4>
+    <?_.each(model.suggestedUsers.element, function(opt){?>
+    <div class="media new">
+        <a class="media-left" data-id="<?=opt.id?>" href="#">
+            <img class="img-circle" src="<?=opt.profileImageId?>" style="width: 30px; height: 30px;"/>
+        </a>
+        <div class="media-body">
+            <h4 class="media-heading truncate" style="width: 160px;" title="<?=opt.firstName?> <?=opt.lastName?>"><?=opt.firstName?> <?=opt.lastName?></h4>
+            <p class="truncate" style="width: 160px;" title="<?=opt.job?>"><?=opt.job?></p>
+            <a data-id="<?=opt.id?>" class="reward-wstar js-giveStarFromSuggestion" href="#" title="Give a Star" data-i18n="[html]translation:home.suggestion-template.giveAStar">Give a Star</a>
+        </div>
+    </div><!-- new -->
+<?});
+}else{?>
+<p>
+    <!-- Here goes placeHolder for no suggestions! -->
+</p>
+<?}?>
+<div id="giveStarFromSuggestion" class="give-star" style="padding: 0;"></div>

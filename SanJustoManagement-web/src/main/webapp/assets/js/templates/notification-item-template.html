@@ -1,0 +1,12 @@
+<li id="notification-<?=model.notification.id?>">
+		<div class="media">
+		  	<a class="media-left">
+				<img class="img-circle" style="width:30px" src="<?=  model.notification.from.profileImageId ?>" alt=""/>
+		  	</a>
+		  	<div class="media-body">
+		  		<p style="cursor: pointer;" class="js-activity-navigate"><?=model.notification.message?>				
+				<!--<a href="#" id="btn-notification-<?=model.notification.id?>" class="trash js-remove-notification" data-id="<?=model.notification.id?>"><i class="fa fa-trash"></i></a>-->
+				</p>				
+		  	</div>
+		</div><!-- media -->			
+</li>

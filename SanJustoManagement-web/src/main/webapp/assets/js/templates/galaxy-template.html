@@ -1,0 +1,26 @@
+<style type="text/css"> 
+@keyframes float {
+    0% {transform: translate(0,0) scale(1,1);}
+    50% {transform: translate(0px,10px) scale(1.05,1);}
+    100% {transform: translate(0,0) scale(1,1);}
+}
+</style>
+<?if(model.users.length > 0){?>
+	<h2 class="title">¿Quieres calificar a alguno de ellos?</h2>
+	<?var index=0;
+	var total = model.users.length;	
+	_.each (model.users,function(user){
+		if (index%10===0){?>
+			<ul class="user-globes">
+		<?}?>
+		<li class="five">
+			<div class="contenido">				
+				<a href="#" class="js-users" data-id="<?=user.id?>"><img src="<?=user.profileImage?>" alt="Person" ></a>
+				<p class="name"><?=user.firstName?> <?=user.lastName?></p>				
+			</div>
+		</li>
+		<?index++;
+		if (index%10===0 || index===total){?>			
+			</ul>		
+		<?}})?>
+<?}?>

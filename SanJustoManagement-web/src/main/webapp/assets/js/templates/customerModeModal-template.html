@@ -1,0 +1,37 @@
+<style type="text/css">
+span.tt-dropdown-menu {
+    overflow-y: scroll;
+    max-height: 100px; 
+  }
+</style>
+<div class="modal bs-example-modal-lg fade message-app" id="customerMode-Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+   <div class="modal-content">        
+    <div class="modal-body">             
+        <div class="col-lg-12 text" style="height: 250px;">
+         <h3 class="title" style="padding-bottom: 10px;">Change to Customer Mode</h3>
+         <div class="col-lg-12">         
+           <p>Select a user to switch to customer mode</p>
+           <div class="col-lg-12" style="height:80px">
+            <input id="customerUser" placeholder="<?= $.t('translation:home.searchSection.searchForPeople') ?>" class="typeahead" type="text" autocomplete="off" data-provide="typeahead" style="width: 100%;margin-left: 0px;margin-right: 0px;"/>
+           </div>
+           <div id="selectedUserSection" class="form-group" style="display: none;">
+            <label id="changeSelectedUser"  class="control-label">
+              <a class="media-left pic-small" href="#">
+                <img id="modalSelectedUserImage" class="img-circle" alt=""  onmousedown="return false" style="width:35px; height:35px ">
+              </a>
+              <div class="media-body name-comment" style="padding-top: 5px;">
+                <p> <?= $.t("translation:home.giveStarModal.to") ?> <span id="modalSelectedUserNameLabel" class="bold" data-i18n="[html]translation:home.giveStarModal.name">Name</span> | <span id="modalSelectedUserSeniorityLabel"  data-i18n="[html]translation:home.giveStarModal.seniority">Job</span></p>
+              </div>
+            </label>    
+          </div>
+        </div>           
+      </div>     
+  </div> 
+    <div class="modal-footer" style="padding-top: 0px;">        
+      <button type="button" class="btn btn-default btn-save disabled js-accept" data-i18n="[html]translation:eula.modal.accept">Aceptar</button>
+      <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="[html]translation:eula.modal.cancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+</div><!-- select-message-app -->
