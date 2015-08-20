@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface TreatmentService {
 
-    public Iterable<Customer> getAllCustomers() throws Exception;
+    public Iterable<Customer> getAllCustomers(boolean onlyEnabled) throws Exception;
 }

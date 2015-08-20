@@ -22,8 +22,8 @@ public class TreatmentsController extends BaseController{
     protected static final Logger log = LogManager.getLogger(TreatmentsController.class);
 
     @RequestMapping(value = "/customers", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
-    public @ResponseBody String getAllCustomers() throws Exception{
-        String[] params = new String[]{"getAllCustomers"};
+    public @ResponseBody String getAllCustomers(@RequestParam(value="onlyEnabled",required = false, defaultValue = "true") Boolean onlyEnabled) throws Exception{
+        String[] params = new String[]{"getAllCustomers",onlyEnabled.toString()};
         String param = this.makeJsonParam(params);
         return this.methodController(param);
     }

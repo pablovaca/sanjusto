@@ -20,8 +20,8 @@
         <property name="phone" type="text">
             <column name="PHONE" length="20" not-null="true" />
         </property>
-        <property name="enable" type="boolean">
-            <column name="ENABLE" not-null="true" />
+        <property name="enabled" type="boolean">
+            <column name="ENABLED" not-null="true" />
         </property>           
         <property name="email" type="text">
             <column name="EMAIL" length="100"/>

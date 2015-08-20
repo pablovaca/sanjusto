@@ -25,15 +25,12 @@ import java.text.ParseException;
  */
 public abstract class BaseController {
     private static final Logger log = LogManager.getLogger(BaseController.class);
-    private static final Logger requestsLog = LogManager.getLogger("RequestsLogger");
-    private static final Logger actionsLog = LogManager.getLogger("ActionsLogger");
     protected static final JSONConverter converter = new JSONConverter();
 
     @Autowired
     protected ServiceFactory serviceFactory;
 
     protected String FAIL_MSG_NO_RIGHTS="NO_RIGHTS";
-    protected String FAIL_MSG_NO_TALENT_ENABLED="TALENT MODULE IS NOT ENABLED FOR YOUR ORGANIZATION";
 
     void setServiceFactory(ServiceFactory sf){serviceFactory=sf;}
 
@@ -168,8 +165,8 @@ public abstract class BaseController {
     protected String makeJsonParam(String[] params) throws Exception {
         String jsonParam = "{action:\""+params[0]+"\"";
 
-        for (int i=2;i<params.length;i++){
-            jsonParam += ";p"+(i-1)+":"+params[i]+"";
+        for (int i=1;i<params.length;i++){
+            jsonParam += ";p"+(i)+":"+params[i]+"";
         }
 
         jsonParam += "}";

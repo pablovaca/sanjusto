@@ -13,8 +13,13 @@ public class TreatmentServiceImpl implements TreatmentService {
     @Autowired
     private CustomersRepository customerRepository;
 
-    public Iterable<Customer> getAllCustomers() throws Exception {
-        Iterable<Customer> result = customerRepository.findAll();
+    public Iterable<Customer> getAllCustomers(boolean onlyEnabled) throws Exception {
+        Iterable<Customer> result;
+        if (onlyEnabled) {
+            result = customerRepository.findAll();
+        } else {
+            result = customerRepository.findByEnabledIsTrue();
+        }
         return result;
     }
 }

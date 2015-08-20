@@ -10,18 +10,18 @@ public class Customer {
     private String address;
     private String phone;
     private Date startDate;
-    private boolean enable;
+    private boolean enabled;
     private String email;
 
     public Customer(){
     }
 
-    public Customer(String name, String address, String phone, Date startDate, boolean enable, String email){
+    public Customer(String name, String address, String phone, Date startDate, boolean enabled, String email){
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.startDate = startDate;
-        this.enable = enable;
+        this.enabled = enabled;
         this.email = email;
     }
 
@@ -65,12 +65,12 @@ public class Customer {
         this.startDate = startDate;
     }
 
-    public boolean getEnable(){
-        return enable;
+    public boolean getEnabled(){
+        return enabled;
     }
 
-    public void setEnable(boolean enable){
-        this.enable = enable;
+    public void setEnabled(boolean enabled){
+        this.enabled = enabled;
     }
 
     public String getEmail(){

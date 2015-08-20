@@ -21,7 +21,7 @@ public class TreatmentServiceTest extends TransactionalSupportTest {
         log.info("testGetAllCustomers");
         ServiceFactory serviceFactory = getServiceFactory();
         TreatmentService customerService = serviceFactory.getTreatmentService();
-        Iterable<Customer> result = customerService.getAllCustomers();
+        Iterable<Customer> result = customerService.getAllCustomers(true);
         assertNotNull(result);
         int counter = 0;
         for (Customer customer:result) {
