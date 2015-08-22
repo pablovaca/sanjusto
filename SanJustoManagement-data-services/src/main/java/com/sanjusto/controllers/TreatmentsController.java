@@ -19,7 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 public class TreatmentsController extends BaseController{
 
-    protected static final Logger log = LogManager.getLogger(TreatmentsController.class);
+    protected static final Logger LOGGER = LogManager.getLogger(TreatmentsController.class);
 
     @RequestMapping(value = "/customers", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
     public @ResponseBody String getAllCustomers(@RequestParam(value="onlyEnabled",required = false, defaultValue = "true") Boolean onlyEnabled) throws Exception{
@@ -42,15 +42,15 @@ public class TreatmentsController extends BaseController{
             {
                 return returnFail(target.getMessage());
             }
-            log.error("Error in "+this.getClass(),e);
+            LOGGER.error("Error in " + this.getClass(), e);
             return returnFail(e.getMessage());
         }catch (JSONException jsone) {
-            log.error("Error in "+this.getClass(),jsone);
-            log.error("Param="+param);
+            LOGGER.error("Error in " + this.getClass(), jsone);
+            LOGGER.error("Param=" + param);
             return returnFail(jsone.getMessage());
         }
         catch (Exception e) {
-            log.error("Error in "+this.getClass(),e);
+            LOGGER.error("Error in " + this.getClass(), e);
             return returnFail(e.getMessage());
         }
     }

@@ -43,7 +43,7 @@ public class JSONConverter {
         public boolean shouldSkipField(FieldAttributes f) {
             Annotation a=f.getAnnotation( ExcludeFieldFromJSON.class);
             if (a!=null) {
-                //log.debug("excluding field:"+f.getName());
+                //LOGGER.debug("excluding field:"+f.getName());
                 return true;
             }
             return  false;

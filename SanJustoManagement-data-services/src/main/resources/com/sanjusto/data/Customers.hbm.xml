@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 12, 2014 6:00:25 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="com.sanjusto.data.model.Customer" table="SJ_CUSTOMERS" catalog="sanjusto">
         <id name="id" type="long">
@@ -22,7 +21,7 @@
         </property>
         <property name="enabled" type="boolean">
             <column name="ENABLED" not-null="true" />
-        </property>           
+        </property>
         <property name="email" type="text">
             <column name="EMAIL" length="100"/>
         </property>

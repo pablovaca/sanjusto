@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class TreatmentServiceImpl implements TreatmentService {
-    private static final Logger log = LogManager.getLogger(TreatmentServiceImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(TreatmentServiceImpl.class);
 
     @Autowired
     private CustomersRepository customerRepository;

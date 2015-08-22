@@ -14,22 +14,22 @@ import static org.junit.Assert.assertNull;
  * Created by pvaca on 8/17/15.
  */
 public class TreatmentServiceTest extends TransactionalSupportTest {
-    private static final Logger log = LoggerFactory.getLogger(TreatmentServiceTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TreatmentServiceTest.class);
 
     @Test
     public void testGetAllCustomers() throws Exception {
-        log.info("testGetAllCustomers");
+        LOGGER.info("testGetAllCustomers");
         ServiceFactory serviceFactory = getServiceFactory();
         TreatmentService customerService = serviceFactory.getTreatmentService();
         Iterable<Customer> result = customerService.getAllCustomers(true);
-        assertNotNull(result);
+        assertNotNull("Result should not be null",result);
         int counter = 0;
         for (Customer customer:result) {
-            assertNotNull(customer);
+            assertNotNull("Customer should not be null",customer);
             counter++;
         }
-        log.info("counter " + counter);
+        LOGGER.info("counter " + counter);
         assertEquals("Should be equals to 1",1,counter);
-        log.info("testGetAllCustomers");
+        LOGGER.info("testGetAllCustomers");
     }
 }
