@@ -1,5 +1,7 @@
 package com.sanjusto.utils;
 
+import com.sanjusto.data.model.User;
+import com.sanjusto.services.SecurityService;
 import com.sanjusto.services.impl.ServiceFactory;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +35,14 @@ public abstract class TransactionalSupportTest extends AbstractTransactionalJUni
 
     protected ServiceFactory getServiceFactory() {
         return serviceFactory;
+    }
+
+    protected User getTestUser() {
+        SecurityService securityService = serviceFactory.getSecurityService();
+        try {
+            return securityService.authenticateUser("pvaca", "123456");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

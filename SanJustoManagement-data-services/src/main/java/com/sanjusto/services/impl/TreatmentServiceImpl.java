@@ -7,18 +7,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class TreatmentServiceImpl implements TreatmentService {
+public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentService {
     private static final Logger LOGGER = LogManager.getLogger(TreatmentServiceImpl.class);
 
     @Autowired
-    private CustomersRepository customerRepository;
+    private CustomersRepository customersRepository;
 
     public Iterable<Customer> getAllCustomers(boolean onlyEnabled) throws Exception {
         Iterable<Customer> result;
         if (onlyEnabled) {
-            result = customerRepository.findAll();
+            result = customersRepository.findAll();
         } else {
-            result = customerRepository.findByEnabledIsTrue();
+            result = customersRepository.findByEnabledIsTrue();
         }
         return result;
     }

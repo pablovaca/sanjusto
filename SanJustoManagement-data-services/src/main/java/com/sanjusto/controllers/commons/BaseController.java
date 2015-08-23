@@ -1,5 +1,7 @@
 package com.sanjusto.controllers.commons;
 
+import com.sanjusto.data.model.User;
+import com.sanjusto.services.SecurityService;
 import com.sanjusto.services.impl.ServiceFactory;
 import com.sanjusto.utils.DateUtils;
 import com.sanjusto.utils.JSONConverter;
@@ -33,6 +35,19 @@ public abstract class BaseController {
     protected String FAIL_MSG_NO_RIGHTS="NO_RIGHTS";
 
     void setServiceFactory(ServiceFactory sf){serviceFactory=sf;}
+
+    protected User getCurrentUser(JSONObject jsonParam) throws JSONException
+    {
+        String token=jsonParam.getString("token");
+
+        if (token==null || token.isEmpty()) {
+            return null;
+        }
+
+        SecurityService securityService = serviceFactory.getSecurityService();
+        return  securityService.getUserByToken(token);
+
+    }
 
     protected String callService(Object serviceToCall,Class serviceInterface,JSONObject jsonParam) throws JSONException, InvocationTargetException, IllegalAccessException, ParseException, Exception {
         try
@@ -174,10 +189,10 @@ public abstract class BaseController {
     }
 
     protected String makeJsonParam(String[] params) throws Exception {
-        String jsonParam = "{action:\""+params[0]+"\"";
+        String jsonParam = "{action:\""+params[0]+"\";token:\""+params[1]+"\"";
 
-        for (int i=1;i<params.length;i++){
-            jsonParam += ";p"+(i)+":"+params[i]+"";
+        for (int i=2;i<params.length;i++){
+            jsonParam += ";p"+(i-1)+":"+params[i]+"";
         }
 
         jsonParam += "}";

@@ -1,6 +1,7 @@
 package com.sanjusto.controllers;
 
 import com.sanjusto.controllers.commons.BaseController;
+import com.sanjusto.data.model.User;
 import com.sanjusto.services.TreatmentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,8 +23,9 @@ public class TreatmentsController extends BaseController{
     protected static final Logger LOGGER = LogManager.getLogger(TreatmentsController.class);
 
     @RequestMapping(value = "/customers", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
-    public @ResponseBody String getAllCustomers(@RequestParam(value="onlyEnabled",required = false, defaultValue = "true") Boolean onlyEnabled) throws Exception{
-        String[] params = new String[]{"getAllCustomers",onlyEnabled.toString()};
+    public @ResponseBody String getAllCustomers(@RequestHeader("token") String token,
+                                                @RequestParam(value="onlyEnabled",required = false, defaultValue = "true") Boolean onlyEnabled) throws Exception{
+        String[] params = new String[]{"getAllCustomers",token,onlyEnabled.toString()};
         String param = this.makeJsonParam(params);
         return this.methodController(param);
     }
@@ -31,12 +33,14 @@ public class TreatmentsController extends BaseController{
     private String methodController(String param) {
         try {
             JSONObject jsonParam = new JSONObject(param);
-
-            TreatmentService treatmentService = serviceFactory.getTreatmentService();
+            User user = getCurrentUser(jsonParam);
+            if (user == null) {
+                return returnFail(FAIL_MSG_NO_RIGHTS);
+            }
+            TreatmentService treatmentService = serviceFactory.getTreatmentService(user);
             String actionResult =  callService(treatmentService, TreatmentService.class, jsonParam);
             return actionResult;
-
-        }catch (InvocationTargetException e) {
+        } catch (InvocationTargetException e) {
             Throwable target=e.getTargetException();
             if (target!=null)
             {

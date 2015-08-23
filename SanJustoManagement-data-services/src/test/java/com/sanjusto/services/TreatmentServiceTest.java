@@ -1,6 +1,7 @@
 package com.sanjusto.services;
 
 import com.sanjusto.data.model.Customer;
+import com.sanjusto.data.model.User;
 import com.sanjusto.services.impl.ServiceFactory;
 import com.sanjusto.utils.TransactionalSupportTest;
 import org.junit.Test;
@@ -19,8 +20,9 @@ public class TreatmentServiceTest extends TransactionalSupportTest {
     @Test
     public void testGetAllCustomers() throws Exception {
         LOGGER.info("testGetAllCustomers");
+        User user = getTestUser();
         ServiceFactory serviceFactory = getServiceFactory();
-        TreatmentService customerService = serviceFactory.getTreatmentService();
+        TreatmentService customerService = serviceFactory.getTreatmentService(user);
         Iterable<Customer> result = customerService.getAllCustomers(true);
         assertNotNull("Result should not be null",result);
         int counter = 0;

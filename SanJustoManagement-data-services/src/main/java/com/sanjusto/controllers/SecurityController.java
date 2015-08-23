@@ -54,4 +54,23 @@ public class SecurityController extends BaseController {
             return returnFail(ex.getMessage());
         }
     }
+
+    @RequestMapping(value = "/credentials/change", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    public @ResponseBody String changePassword(@RequestHeader("token") String token,
+                                               @RequestParam("oldPass") String oldPass,
+                                               @RequestParam("newPass") String newPass) throws Exception {
+        try {
+            SecurityService securityService = serviceFactory.getSecurityService();
+            User user = securityService.getUserByToken(token);
+            if (user==null) {
+                return returnFail("INVALID_CREDENTIALS");
+            }
+            securityService.changePassword(oldPass,newPass,user.getId());
+            String newToken = securityService.createTokenForUser(user);
+            return returnOK(user,newToken);
+        } catch (Exception ex) {
+            LOGGER.debug(ex);
+            return returnFail(ex.getMessage());
+        }
+    }
 }
