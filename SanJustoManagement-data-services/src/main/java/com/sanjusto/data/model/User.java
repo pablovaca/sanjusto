@@ -1,8 +1,5 @@
 package com.sanjusto.data.model;
 
-
-import java.util.Date;
-
 public class User {
 
     private Long id;
@@ -11,7 +8,7 @@ public class User {
     private String lastName;
     private String email;
     private String username;
-    private String password;
+    @ExcludeFieldFromJSON private String password;
     private boolean enabled;
 
     public User(){

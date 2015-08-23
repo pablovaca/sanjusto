@@ -1,6 +1,5 @@
 package com.sanjusto.controllers.commons;
 
-import com.sanjusto.data.model.BaseModel;
 import com.sanjusto.services.impl.ServiceFactory;
 import com.sanjusto.utils.DateUtils;
 import com.sanjusto.utils.JSONConverter;
@@ -18,13 +17,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
+import java.util.Map;
 
 /**
  *
  * Created by drobak on 26/11/14.
  */
 public abstract class BaseController {
-    private static final Logger log = LogManager.getLogger(BaseController.class);
+    private static final Logger LOGGER = LogManager.getLogger(BaseController.class);
     protected static final JSONConverter converter = new JSONConverter();
 
     @Autowired
@@ -108,7 +108,7 @@ public abstract class BaseController {
                                 methodParams[pos]=file.getBytes();
                             }
                         } catch (Exception e) {
-                            log.error("Error in "+this.getClass(),e);
+                            LOGGER.error("Error in " + this.getClass(), e);
                             throw new Exception("Invalid multipart file");
                         }
                     }
@@ -158,7 +158,18 @@ public abstract class BaseController {
     }
 
     protected String returnOK(Object resultObj) throws JSONException {
+        return returnOK(resultObj, "");
+    }
+
+    protected String returnOK(Object resultObj,String token) throws JSONException {
+        return returnOK(resultObj,token,null);
+    }
+
+    protected String returnOK(Object resultObj,String token,Map additionalInfo) throws JSONException {
+        LOGGER.info("return ok " + token);
         ControllerResponse result = new ControllerResponse("OK","",resultObj);
+        result.setToken(token);
+        result.setAdditionalInfo(additionalInfo);
         return result.toJSONString();
     }
 
