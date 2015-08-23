@@ -295,7 +295,8 @@ define([], function () {
             var request=getBasicRequest();
             request.onlyEnabled = onlyEnabled;
             callTreatmentsService("GET","/customers",request,functionToCall,handleErrors);
-        },
+        }
 
-        return APIServices.getInstance();
+    };
+    return APIServices.getInstance();
 });

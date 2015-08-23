@@ -82,7 +82,7 @@ require.config({
             deps:['d3']
         }
     },
-        baseUrl: 'assets/js/starmeup',
+        baseUrl: 'assets/js',
     paths: {
         jquery: './libs/jquery-1.11.1.min',
         underscore: './libs/underscore',
