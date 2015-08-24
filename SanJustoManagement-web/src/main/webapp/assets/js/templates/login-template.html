@@ -1,23 +1,34 @@
 <div>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <form class="login js-login-form" method="POST" action="#">
-                <div id="login">
-                    <ul>
-                        <li><input id="username" type="email" name="username" placeholder="Usuario" class="form control"/></li>
-                        <li><input id="password" type="password" name="password" placeholder="Contraseña"></li>
-                        <li><div id="loginError" class="show-error"></div></li>
-                        <li class="loading" style="display:none;">
-                            <div class="sk-spinner sk-spinner-double-bounce">
-                                <span">Autenticando...</span>
-                                <div class="sk-double-bounce1"></div>
-                                <div class="sk-double-bounce2"></div>
-                            </div>
-                        </li>
-                        <li><input id="btn-submit" type="submit" class="btn btn-warning btn-login" value="Entrar"></li>
-                    </ul>
-                </div>
-            </form>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"></div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <form class="js-login-form" method="POST" action="#">
+                    <div id="login">
+                        <div>
+                            <input id="username" type="text" name="username" placeholder="Usuario"/>
+                        </div>
+                        <div>
+                            <input id="password" type="password" name="password" placeholder="Contraseña">
+                        </div>
+                        <div id="loginError" class="show-error"></div>
+                        <div>
+                            <input id="btn-submit" type="submit" class="btn btn-warning btn-login" value="Entrar">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"></div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
         </div>
     </div>
 </div> 

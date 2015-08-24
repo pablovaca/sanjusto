@@ -22,7 +22,7 @@ public class SecurityController extends BaseController {
     @Autowired
     ServiceFactory serviceFactory;
 
-    @RequestMapping(value = "/authenticate", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    @RequestMapping(value = "/authenticate", produces = "application/json; charset=UTF-8", method = {RequestMethod.POST})
     public @ResponseBody String authenticate(@RequestParam("username") String username
                                                 ,@RequestParam("password") String password) throws Exception {
         try {

@@ -1,4 +1,4 @@
 var appSettings = {
         environment : 'dev',
-        apiUrl : '/sanjusto-api'
+        apiUrl : 'http://localhost:8080/sanjusto-api'
 };
