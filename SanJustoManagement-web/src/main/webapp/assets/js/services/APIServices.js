@@ -164,13 +164,10 @@ define([], function () {
             setCookie(COOKIE_TOKEN_KEY, '', '');
         },
 
-        login:function (functionToCall, email,password,rememberMe) {
+        login:function (functionToCall, username,password) {
             var request={};
-            request.email=email;
+            request.username=username;
             request.password=password;
-            request.v=appVersion;
-            request.o=origin;
-            request.rememberMe=rememberMe;
 
             $.ajax({
                 url:settings.apiUrl + "/api/v1/sec/authenticate",
