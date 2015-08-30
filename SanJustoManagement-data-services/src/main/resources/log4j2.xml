@@ -7,7 +7,7 @@
         </Console>
     </appenders>
     <loggers>
-        <logger name="com.sanjusto" level="INFO" additivity="false">
+        <logger name="com.crm" level="INFO" additivity="false">
             <appender-ref ref="Console" />
         </logger>
         <root level="INFO">

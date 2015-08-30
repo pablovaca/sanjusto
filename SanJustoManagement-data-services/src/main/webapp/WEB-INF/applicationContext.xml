@@ -16,7 +16,7 @@
     http://www.springframework.org/schema/data/jpa
     http://www.springframework.org/schema/data/jpa/spring-jpa.xsd" >
 
-    <context:component-scan base-package="com.sanjusto.controllers" />
+    <context:component-scan base-package="com.crm.controllers" />
 
     <bean id="external-configurer"
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -24,7 +24,7 @@
         <property name="ignoreUnresolvablePlaceholders" value="true" />
         <property name="ignoreResourceNotFound" value="true" />
         <property name="location"
-            value="file:/usr/share/tomcat7/conf/sanjusto.properties" />
+            value="file:/usr/share/tomcat7/conf/crm.properties" />
     </bean>
 
     <bean id="classpath-configurer"
@@ -36,7 +36,7 @@
     <mvc:annotation-driven />
     <context:annotation-config />
 
-    <bean name="tokenEncoder" class="com.sanjusto.services.impl.TokenEncoder">
+    <bean name="tokenEncoder" class="com.crm.services.impl.TokenEncoder">
         <property name="signingKey">
             <bean class="java.lang.String">
                 <constructor-arg>
@@ -63,7 +63,7 @@
         </property>
     </bean>
 
-    <bean id="dataSourceSanJusto" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+    <bean id="dataSourceCrm" class="com.mchange.v2.c3p0.ComboPooledDataSource"
         destroy-method="close">
         <property name="driverClass" value="${db.con.driver}" />
         <property name="jdbcUrl" value="${db.con.url}" />
@@ -73,7 +73,7 @@
         <property name="maxPoolSize" value="200" />
     </bean>
 
-    <jpa:repositories base-package="com.sanjusto.data.repositories"
+    <jpa:repositories base-package="com.crm.data.repositories"
         transaction-manager-ref="sjTransactionManager" />
 
     <bean id="hibernateJpaAdapter"
@@ -85,14 +85,14 @@
 
     <bean id="entityManagerFactory"
         class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSourceSanJusto" />
+        <property name="dataSource" ref="dataSourceCrm" />
         <property name="jpaVendorAdapter" ref="hibernateJpaAdapter"/>
         <property name="persistenceUnitPostProcessors">
             <list>
                 <bean
                     class="org.springframework.data.jpa.support.ClasspathScanningPersistenceUnitPostProcessor">
-                    <constructor-arg value="com.sanjusto.data.model" />
-                    <property name="mappingFileNamePattern" value="com/sanjusto/data/*.hbm.xml" />
+                    <constructor-arg value="com.crm.data.model" />
+                    <property name="mappingFileNamePattern" value="com/crm/data/*.hbm.xml" />
                 </bean>
             </list>
         </property>
@@ -104,13 +104,13 @@
 
     <tx:annotation-driven transaction-manager="sjTransactionManager" />
 
-    <bean id="serviceFactory" class="com.sanjusto.services.impl.ServiceFactory">
+    <bean id="serviceFactory" class="com.crm.services.impl.ServiceFactory">
         <lookup-method name="getSecurityService" bean="securityService" />
         <lookup-method name="getTreatmentService" bean="treatmentService" />
     </bean>
 
-    <bean id="securityService" class="com.sanjusto.services.impl.SecurityServiceImpl" scope="prototype" />
+    <bean id="securityService" class="com.crm.services.impl.SecurityServiceImpl" scope="prototype" />
 
-    <bean id="treatmentService" class="com.sanjusto.services.impl.TreatmentServiceImpl" scope="prototype" />
+    <bean id="treatmentService" class="com.crm.services.impl.TreatmentServiceImpl" scope="prototype" />
 
 </beans>

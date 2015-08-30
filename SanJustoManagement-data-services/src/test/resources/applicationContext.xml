@@ -17,20 +17,20 @@
     http://www.springframework.org/schema/jdbc
     http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd">
 
-    <context:component-scan base-package="com.sanjusto.controllers" />
+    <context:component-scan base-package="com.crm.controllers" />
 
     <mvc:annotation-driven />
     <context:annotation-config />
 
     <!-- ************************** Security Configuration ************************************ -->
-    <bean name="tokenEncoder" class="com.sanjusto.services.impl.TokenEncoder">
+    <bean name="tokenEncoder" class="com.crm.services.impl.TokenEncoder">
         <property name="signingKey">
             <bean class="java.lang.String">
                 <constructor-arg>
                     <bean class="org.springframework.util.FileCopyUtils"
                         factory-method="copyToByteArray">
                         <constructor-arg
-                            value="classpath:com/sanjusto/security/certificates/id_rsa"
+                            value="classpath:com/crm/security/certificates/id_rsa"
                             type="java.io.InputStream" />
                     </bean>
                 </constructor-arg>
@@ -42,7 +42,7 @@
                     <bean class="org.springframework.util.FileCopyUtils"
                         factory-method="copyToByteArray">
                         <constructor-arg
-                            value="classpath:com/sanjusto/security/certificates/id_rsa.pub"
+                            value="classpath:com/crm/security/certificates/id_rsa.pub"
                             type="java.io.InputStream" />
                     </bean>
                 </constructor-arg>
@@ -51,13 +51,13 @@
     </bean>
 
     <!-- ************************** Spring Data Configuration ************************************ -->
-    <bean id="dataSourceSanJusto" class="com.mchange.v2.c3p0.ComboPooledDataSource" >
+    <bean id="dataSourceCrm" class="com.mchange.v2.c3p0.ComboPooledDataSource" >
       <property name="driverClass" value="org.h2.Driver"/>
-      <property name="jdbcUrl" value="jdbc:h2:mem:SANJUSTO;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;INIT=DROP SCHEMA IF EXISTS SANJUSTO\; CREATE SCHEMA SANJUSTO\;SET SCHEMA SANJUSTO\;runscript from 'classpath:testDb.sql'" />
+      <property name="jdbcUrl" value="jdbc:h2:mem:CRM;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;INIT=DROP SCHEMA IF EXISTS CRM\; CREATE SCHEMA CRM\;SET SCHEMA CRM\;runscript from 'classpath:testDb.sql'" />
     </bean>
 
     <!-- Directory to scan for repository classes -->
-    <jpa:repositories base-package="com.sanjusto.data.repositories"
+    <jpa:repositories base-package="com.crm.data.repositories"
         transaction-manager-ref="sjTransactionManager" />
 
 
@@ -71,14 +71,14 @@
 
     <bean id="entityManagerFactory"
         class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSourceSanJusto" />
+        <property name="dataSource" ref="dataSourceCrm" />
         <property name="jpaVendorAdapter" ref="hibernateJpaAdapter"/>
         <property name="persistenceUnitPostProcessors">
             <list>
                 <bean
                     class="org.springframework.data.jpa.support.ClasspathScanningPersistenceUnitPostProcessor">
-                    <constructor-arg value="com.sanusto.data.model" />
-                    <property name="mappingFileNamePattern" value="com/sanjusto/data/*.hbm.xml" />
+                    <constructor-arg value="com.crm.data.model" />
+                    <property name="mappingFileNamePattern" value="com/crm/data/*.hbm.xml" />
                 </bean>
             </list>
         </property>
@@ -91,15 +91,15 @@
 
     <tx:annotation-driven transaction-manager="sjTransactionManager" />
 
-    <bean id="serviceFactory" class="com.sanjusto.services.impl.ServiceFactory">
+    <bean id="serviceFactory" class="com.crm.services.impl.ServiceFactory">
         <lookup-method name="getSecurityService" bean="securityService" />
         <lookup-method name="getTreatmentService" bean="treatmentService" />
     </bean>
 
-    <bean id="securityService" class="com.sanjusto.services.impl.SecurityServiceImpl"
+    <bean id="securityService" class="com.crm.services.impl.SecurityServiceImpl"
         scope="prototype" />
 
-    <bean id="treatmentService" class="com.sanjusto.services.impl.TreatmentServiceImpl"
+    <bean id="treatmentService" class="com.crm.services.impl.TreatmentServiceImpl"
         scope="prototype" />
 
 </beans>

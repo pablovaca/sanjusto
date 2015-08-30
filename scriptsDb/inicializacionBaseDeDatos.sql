@@ -1,5 +1,5 @@
-drop database sanjusto;
+drop database crm;
 
-create database sanjusto;
+create database crm;
 
-use sanjusto;
+use crm;

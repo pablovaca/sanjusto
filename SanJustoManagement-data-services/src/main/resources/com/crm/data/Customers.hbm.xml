@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.crm.data.model.Customer" table="CUSTOMERS" catalog="crm">
+        <id name="id" type="long">
+            <column name="Id" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="text">
+            <column name="CUSTOMER_NAME" length="200" not-null="true"/>
+        </property>
+        <property name="startDate" type="date">
+            <column name="START_DATE" length="10" />
+        </property>
+        <property name="address" type="text">
+            <column name="ADDRESS" length="500" not-null="true" />
+        </property>
+        <property name="neighborhood" type="text">
+            <column name="NEIGHBORHOOD" length="100" not-null="true" />
+        </property>
+        <property name="city" type="text">
+            <column name="CITY" length="100" not-null="true" />
+        </property>
+        <property name="phone" type="text">
+            <column name="PHONE" length="20" not-null="true" />
+        </property>
+        <property name="enabled" type="boolean">
+            <column name="ENABLED" not-null="true" />
+        </property>
+        <property name="email" type="text">
+            <column name="EMAIL" length="100"/>
+        </property>
+        <many-to-one name="type" class="com.crm.data.model.Type" fetch="select">
+            <column name="CUSTOMER_TYPE" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="organization" class="com.crm.data.model.Organization" fetch="select">
+            <column name="ORG_ID" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

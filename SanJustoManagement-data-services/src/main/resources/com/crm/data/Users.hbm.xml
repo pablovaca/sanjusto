@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.crm.data.model.User" table="USERS" catalog="crm">
+        <id name="id" type="long">
+            <column name="Id" />
+            <generator class="identity" />
+        </id>
+        <property name="firstName" type="text">
+            <column name="FIRST_NAME" length="30" not-null="true"/>
+        </property>
+        <property name="middleName" type="text">
+            <column name="MIDDLE_NAME" length="30"/>
+        </property>
+        <property name="lastName" type="text">
+            <column name="LAST_NAME" length="30" not-null="true"/>
+        </property>
+        <property name="email" type="text">
+            <column name="EMAIL" length="100" not-null="true" unique-key="UK_USERS_EMAIL"/>
+        </property>
+        <property name="username" type="text">
+            <column name="USERNAME" length="50" not-null="true" unique-key="UK_USERS_USERNAME"/>
+        </property>
+        <property name="password" type="text">
+            <column name="PASSWORD" length="50"/>
+        </property>
+        <property name="enabled" type="boolean">
+            <column name="ENABLED" not-null="true" />
+        </property>
+        <many-to-one name="organization" class="com.crm.data.model.Organization" fetch="select">
+            <column name="ORG_ID" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

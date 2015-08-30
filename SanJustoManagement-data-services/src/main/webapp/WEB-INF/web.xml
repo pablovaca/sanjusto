@@ -13,7 +13,7 @@
 
     <filter>
         <filter-name>SimpleCorsFilter</filter-name>
-        <filter-class>com.sanjusto.filters.SimpleCORSFilter</filter-class>
+        <filter-class>com.crm.filters.SimpleCORSFilter</filter-class>
     </filter>
 
     <filter>

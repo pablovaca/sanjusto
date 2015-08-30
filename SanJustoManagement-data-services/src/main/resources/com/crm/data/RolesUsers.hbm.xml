@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.crm.data.model.RoleUser" table="ROLES_USERS" catalog="crm">
+        <id name="id" type="long">
+            <column name="Id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="user" class="com.crm.data.model.User" fetch="select">
+            <column name="USER_ID" not-null="true" unique-key="UK_ROL_USER"/>
+        </many-to-one>
+        <property name="role" type="text">
+            <column name="ROLE" length="20" not-null="true" unique-key="UK_ROL_USER"/>
+        </property>
+    </class>
+</hibernate-mapping>
