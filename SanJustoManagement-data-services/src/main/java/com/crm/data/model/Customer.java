@@ -3,7 +3,7 @@ package com.crm.data.model;
 
 import java.util.Date;
 
-public class Customer {
+public class Customer extends BaseModel {
 
     private Long id;
     private String name;
@@ -15,7 +15,7 @@ public class Customer {
     private boolean enabled;
     private String email;
     private Type type;
-    private Organization organization;
+    @ExcludeFieldFromJSON private Organization organization;
 
     public Customer(){
     }

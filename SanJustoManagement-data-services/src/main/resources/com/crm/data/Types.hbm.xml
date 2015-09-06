@@ -22,5 +22,11 @@
         <many-to-one name="organization" class="com.crm.data.model.Organization" fetch="select">
             <column name="ORG_ID" not-null="true"/>
         </many-to-one>
+        <set name="subTypes" table="TYPES" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="PARENT_TYPE" not-null="false" />
+            </key>
+            <one-to-many class="com.crm.data.model.Type" />
+        </set>
     </class>
 </hibernate-mapping>

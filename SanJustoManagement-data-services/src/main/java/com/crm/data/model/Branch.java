@@ -3,7 +3,7 @@ package com.crm.data.model;
 
 import java.util.Date;
 
-public class Branch {
+public class Branch extends BaseModel {
 
     private Long id;
     private String name;
@@ -15,7 +15,7 @@ public class Branch {
     private boolean enabled;
     private Customer customer;
     private Type type;
-    private Organization organization;
+    @ExcludeFieldFromJSON private Organization organization;
 
     public Branch(){
     }

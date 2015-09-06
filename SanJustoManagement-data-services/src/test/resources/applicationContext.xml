@@ -58,7 +58,7 @@
 
     <!-- Directory to scan for repository classes -->
     <jpa:repositories base-package="com.crm.data.repositories"
-        transaction-manager-ref="sjTransactionManager" />
+        transaction-manager-ref="crmTransactionManager" />
 
 
 
@@ -85,11 +85,11 @@
     </bean>
 
 
-    <bean id="sjTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <bean id="crmTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
-    <tx:annotation-driven transaction-manager="sjTransactionManager" />
+    <tx:annotation-driven transaction-manager="crmTransactionManager" />
 
     <bean id="serviceFactory" class="com.crm.services.impl.ServiceFactory">
         <lookup-method name="getSecurityService" bean="securityService" />

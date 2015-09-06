@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.crm.data.model.TreatmentProduct" table="TREATMENTS_PRODUCTS" catalog="crm">
+        <id name="id" type="long">
+            <column name="Id" />
+            <generator class="identity" />
+        </id>
+        <property name="quantity" type="double">
+            <column name="QUANTITY" not-null="true" />
+        </property>
+        <many-to-one name="treatment" class="com.crm.data.model.Treatment" fetch="select">
+            <column name="TREATMENT_ID" not-null="true" unique-key="UK_TP"/>
+        </many-to-one>
+        <many-to-one name="product" class="com.crm.data.model.Product" fetch="select">
+            <column name="PRODUCT_ID" not-null="true" unique-key="UK_TP"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

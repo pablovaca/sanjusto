@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.crm.data.model.Treatment" table="TREATMENTS" catalog="crm">
+        <id name="id" type="long">
+            <column name="Id" />
+            <generator class="identity" />
+        </id>
+        <property name="treatmentDate" type="timestamp">
+            <column name="TREATMENT_DATE" length="10" not-null="true"/>
+        </property>
+        <property name="coordinated" type="boolean">
+            <column name="COORDINATED" not-null="true" />
+        </property>
+        <property name="finished" type="boolean">
+            <column name="FINISHED" not-null="true" />
+        </property>
+        <property name="certified" type="boolean">
+            <column name="CERTIFIED" not-null="true" />
+        </property>
+        <property name="comments" type="text">
+            <column name="COMMENTS" length="4000" />
+        </property>
+        <many-to-one name="branch" class="com.crm.data.model.Branch" fetch="select">
+            <column name="BRANCH_ID" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="user" class="com.crm.data.model.User" fetch="select">
+            <column name="USER_ID" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="motive" class="com.crm.data.model.Type" fetch="select">
+            <column name="MOTIVE_TYPE" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

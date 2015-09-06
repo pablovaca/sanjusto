@@ -1,6 +1,6 @@
 package com.crm.data.model;
 
-public class Contact {
+public class Contact extends BaseModel {
 
     private Long id;
     private String firstName;
@@ -9,7 +9,7 @@ public class Contact {
     private String phone;
     private String email;
     private boolean enabled;
-    private Organization organization;
+    @ExcludeFieldFromJSON private Organization organization;
 
     public Contact(){
     }

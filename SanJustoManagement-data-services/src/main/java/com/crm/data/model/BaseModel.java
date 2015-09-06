@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public abstract class BaseModel {
-    protected static final Logger log = LogManager.getLogger(BaseModel.class);
+    protected static final Logger LOGGER = LogManager.getLogger(BaseModel.class);
 
     @Override
     public String toString(){

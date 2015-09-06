@@ -1,13 +1,16 @@
 package com.crm.data.model;
 
-public class Type {
+import java.util.Set;
+
+public class Type extends BaseModel {
 
     private Long id;
     private String type;
     private String shortName;
     private String description;
     private boolean enabled;
-    private Organization organization;
+    private Set subTypes;
+    @ExcludeFieldFromJSON private Organization organization;
 
     public Type(){
     }
@@ -67,5 +70,13 @@ public class Type {
 
     public void setOrganization(Organization organization){
         this.organization = organization;
+    }
+
+    public Set getSubTypes(){
+        return subTypes;
+    }
+
+    public void setSubTypes(Set subTypes){
+        this.subTypes = subTypes;
     }
 }

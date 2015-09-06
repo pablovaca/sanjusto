@@ -10,7 +10,7 @@
         <property name="name" type="text">
             <column name="CUSTOMER_NAME" length="200" not-null="true"/>
         </property>
-        <property name="startDate" type="date">
+        <property name="startDate" type="timestamp">
             <column name="START_DATE" length="10" />
         </property>
         <property name="address" type="text">

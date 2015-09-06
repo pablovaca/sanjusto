@@ -1,6 +1,6 @@
 package com.crm.data.model;
 
-public class Organization {
+public class Organization extends BaseModel {
 
     private Long id;
     private String name;

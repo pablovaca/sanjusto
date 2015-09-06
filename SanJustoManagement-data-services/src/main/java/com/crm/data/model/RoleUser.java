@@ -1,6 +1,6 @@
 package com.crm.data.model;
 
-public class RoleUser {
+public class RoleUser extends BaseModel {
 
     private Long id;
     private User user;

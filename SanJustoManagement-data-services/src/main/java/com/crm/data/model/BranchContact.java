@@ -1,7 +1,7 @@
 package com.crm.data.model;
 
 
-public class BranchContact {
+public class BranchContact extends BaseModel {
 
     private Long id;
     private Integer priority;

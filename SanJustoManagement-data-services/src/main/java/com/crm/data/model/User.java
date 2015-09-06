@@ -1,6 +1,6 @@
 package com.crm.data.model;
 
-public class User {
+public class User extends BaseModel {
 
     private Long id;
     private String firstName;
@@ -9,8 +9,8 @@ public class User {
     private String email;
     private String username;
     @ExcludeFieldFromJSON private String password;
-    private boolean enabled;
-    private Organization organization;
+    @ExcludeFieldFromJSON private boolean enabled;
+    @ExcludeFieldFromJSON private Organization organization;
 
     public User(){
     }

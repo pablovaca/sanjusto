@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.crm.data.model.TreatmentWorkDetail" table="TREATMENTS_WORKS_DETAILS" catalog="crm">
+        <id name="id" type="long">
+            <column name="Id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="treatmentWork" class="com.crm.data.model.TreatmentWork" fetch="select">
+            <column name="WORKS_ID" not-null="true" unique-key="UK_TWS"/>
+        </many-to-one>
+        <many-to-one name="typeWorkDetail" class="com.crm.data.model.Type" fetch="select">
+            <column name="TYPE_WD" not-null="true" unique-key="UK_TWS"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

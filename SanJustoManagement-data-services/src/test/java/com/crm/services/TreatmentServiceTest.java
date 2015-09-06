@@ -1,6 +1,8 @@
 package com.crm.services;
 
 import com.crm.data.model.Customer;
+import com.crm.data.model.Organization;
+import com.crm.data.model.Type;
 import com.crm.data.model.User;
 import com.crm.services.impl.ServiceFactory;
 import com.crm.utils.TransactionalSupportTest;
@@ -33,5 +35,38 @@ public class TreatmentServiceTest extends TransactionalSupportTest {
         LOGGER.info("counter " + counter);
         assertEquals("Should be equals to 1",1,counter);
         LOGGER.info("testGetAllCustomers");
+    }
+
+    @Test
+    public void testCrudCustomers() throws Exception {
+        LOGGER.info("testCrudCustomers");
+        User user = getTestUser();
+        ServiceFactory serviceFactory = getServiceFactory();
+        TreatmentService customerService = serviceFactory.getTreatmentService(user);
+
+        Organization organization = customerService.getOneOrganization(1L, true);
+        Type type = customerService.getOneType(1l);
+
+        Customer customer = new Customer();
+        customer.setName("Test Uno");
+        customer.setAddress("Test Address");
+        customer.setCity("Test City");
+        customer.setEmail("test@email.com");
+        customer.setNeighborhood("Test neighborhood");
+        customer.setOrganization(organization);
+        customer.setPhone("Test phone 1234");
+        customer.setType(type);
+        customer.setEnabled(true);
+
+        Customer newCustomer = customerService.saveCustomer(customer);
+        assertEquals("Id should be 2", 2, newCustomer.getId().longValue());
+
+        newCustomer.setPhone("123");
+        Customer modifyCustomer = customerService.saveCustomer(newCustomer);
+        assertEquals("Phone should be 123", "123", modifyCustomer.getPhone());
+
+        customerService.removeCustomer(modifyCustomer);
+        Customer customerRemoved = customerService.getOneCustomer(2L,true);
+        assertNull("Customer should be null",customerRemoved);
     }
 }
