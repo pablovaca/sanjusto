@@ -106,10 +106,13 @@
 
     <bean id="serviceFactory" class="com.crm.services.impl.ServiceFactory">
         <lookup-method name="getSecurityService" bean="securityService" />
+        <lookup-method name="getAdminService" bean="adminService" />
         <lookup-method name="getTreatmentService" bean="treatmentService" />
     </bean>
 
     <bean id="securityService" class="com.crm.services.impl.SecurityServiceImpl" scope="prototype" />
+
+    <bean id="adminService" class="com.crm.services.impl.AdminServiceImpl" scope="prototype" />
 
     <bean id="treatmentService" class="com.crm.services.impl.TreatmentServiceImpl" scope="prototype" />
 

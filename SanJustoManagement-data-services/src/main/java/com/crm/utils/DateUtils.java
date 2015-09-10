@@ -11,16 +11,9 @@ import java.util.TimeZone;
 public class DateUtils {
 
     public static Date getCurrentDate() {
-        //Current date
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        Date currentDate = calendar.getTime();
-
-        //Date converted to UTC
-        TimeZone currentTimezone = TimeZone.getDefault();
-        Date currentDateUTC = new Date(currentDate.getTime() - currentTimezone.getRawOffset());
-
-        return currentDateUTC;
+        return calendar.getTime();
     }
 
     public static Date getUTCDate(Long milliseconds){

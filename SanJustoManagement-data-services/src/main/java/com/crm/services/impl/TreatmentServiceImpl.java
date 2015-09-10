@@ -1,69 +1,53 @@
 package com.crm.services.impl;
 
-import com.crm.data.model.Customer;
-import com.crm.data.model.Organization;
+import com.crm.data.model.Branch;
+import com.crm.data.model.Treatment;
 import com.crm.data.model.Type;
-import com.crm.data.repositories.CustomersRepository;
-import com.crm.data.repositories.OrganizationsRepository;
-import com.crm.data.repositories.TypesRepository;
+import com.crm.data.model.User;
 import com.crm.services.TreatmentService;
+import com.crm.utils.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+
+import java.util.Date;
+import java.util.List;
 
 public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentService {
     private static final Logger LOGGER = LogManager.getLogger(TreatmentServiceImpl.class);
 
-    @Autowired
-    private CustomersRepository customersRepository;
+    public Iterable<Treatment> getAllTreatments() throws Exception {
+        return treatmentsRepository.findByOrganization(user.getOrganization());
+    }
 
-    @Autowired
-    private OrganizationsRepository organizationsRepository;
+    public Treatment getOneTreatment(Long treatmentId) throws  Exception {
+        return treatmentsRepository.findByIdAndOrganization(treatmentId, user.getOrganization());
+    }
 
-    @Autowired
-    private TypesRepository typesRepository;
-
-    public Iterable<Customer> getAllCustomers(boolean onlyEnabled) throws Exception {
-        Iterable<Customer> result;
-        if (onlyEnabled) {
-            result = customersRepository.findByOrganization(user.getOrganization());
-        } else {
-            result = customersRepository.findByEnabledIsTrueAndOrganization(user.getOrganization());
+    public Treatment saveTreatment(Long treatmentId, Long branchId,boolean coordinated, boolean finished, Long typeId,
+                                   boolean certificate, String comments, Long userTreatmentId, Date treatmentDate) throws  Exception, DataIntegrityViolationException{
+        Treatment treatment = new Treatment();
+        if (treatmentId!=null) {
+            treatment = treatmentsRepository.findOne(treatmentId);
         }
-        return result;
-    }
-
-    public Customer getOneCustomer(Long custId, boolean onlyEnabled) throws Exception {
-        Customer customer = customersRepository.findByIdAndOrganization(custId, user.getOrganization());
-        if (onlyEnabled && customer != null && customer.getEnabled()) {
-            return customer;
-        } else if (onlyEnabled) {
-            return null;
-        } else {
-            return customer;
+        Branch branch = branchesRepository.findOne(branchId);
+        User userTreatment = usersRepository.findOne(userTreatmentId);
+        Type type = null;
+        if (typeId != null) {
+            type = typesRepository.findOne(typeId);
         }
-    }
-
-    public Customer saveCustomer(Customer customer) throws Exception {
-        return customersRepository.save(customer);
-    }
-
-    public void removeCustomer(Customer customer) {
-            customersRepository.delete(customer);
-    }
-
-    public Organization getOneOrganization(Long orgId, boolean onlyEnabled) throws Exception {
-        Organization organization = organizationsRepository.findOne(orgId);
-        if (onlyEnabled && organization != null && organization.getEnabled()) {
-            return organization;
-        } else if (onlyEnabled) {
-            return null;
-        } else {
-            return organization;
+        treatment.setBranch(branch);
+        treatment.setCertificate(certificate);
+        treatment.setCoordinated(coordinated);
+        treatment.setFinished(finished);
+        treatment.setComments(comments);
+        treatment.setMotive(type);
+        treatment.setUser(userTreatment);
+        treatment.setOrganization(user.getOrganization());
+        if (treatmentDate!=null) {
+            treatment.setTreatmentDate(treatmentDate);
         }
-    }
-
-    public Type getOneType(Long typeId) throws Exception {
-        return typesRepository.findByIdAndOrganizationAndEnabledIsTrue(typeId, user.getOrganization());
+        treatmentsRepository.save(treatment);
+        return treatment;
     }
 }

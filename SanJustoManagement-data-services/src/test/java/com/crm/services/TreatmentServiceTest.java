@@ -1,17 +1,15 @@
 package com.crm.services;
 
-import com.crm.data.model.Customer;
-import com.crm.data.model.Organization;
-import com.crm.data.model.Type;
-import com.crm.data.model.User;
+import com.crm.data.model.*;
 import com.crm.services.impl.ServiceFactory;
+import com.crm.utils.DateUtils;
 import com.crm.utils.TransactionalSupportTest;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import org.springframework.dao.DataIntegrityViolationException;
+
+import static org.junit.Assert.*;
 
 /**
  * Created by pvaca on 8/17/15.
@@ -20,53 +18,66 @@ public class TreatmentServiceTest extends TransactionalSupportTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(TreatmentServiceTest.class);
 
     @Test
-    public void testGetAllCustomers() throws Exception {
-        LOGGER.info("testGetAllCustomers");
+    public void testGetAllTreatments() throws Exception {
+        LOGGER.info("testGetAllTreatments");
         User user = getTestUser();
         ServiceFactory serviceFactory = getServiceFactory();
-        TreatmentService customerService = serviceFactory.getTreatmentService(user);
-        Iterable<Customer> result = customerService.getAllCustomers(true);
+        TreatmentService treatmentService = serviceFactory.getTreatmentService(user);
+        Iterable<Treatment> result = treatmentService.getAllTreatments();
         assertNotNull("Result should not be null",result);
         int counter = 0;
-        for (Customer customer:result) {
-            assertNotNull("Customer should not be null",customer);
+        for (Treatment treatment:result) {
+            assertNotNull("Customer should not be null",treatment);
+            LOGGER.info(treatment.getId() + "-" + treatment.getBranch().getName() + "-" + treatment.getBranch().getCustomer().getName());
             counter++;
         }
         LOGGER.info("counter " + counter);
         assertEquals("Should be equals to 1",1,counter);
-        LOGGER.info("testGetAllCustomers");
+        LOGGER.info("testGetAllTreatments");
     }
 
     @Test
-    public void testCrudCustomers() throws Exception {
-        LOGGER.info("testCrudCustomers");
+    public void testGetOneTreatment() throws Exception {
+        LOGGER.info("testGetOneTreatment");
         User user = getTestUser();
         ServiceFactory serviceFactory = getServiceFactory();
-        TreatmentService customerService = serviceFactory.getTreatmentService(user);
+        TreatmentService treatmentService = serviceFactory.getTreatmentService(user);
+        Treatment treatment = treatmentService.getOneTreatment(1L);
+        assertNotNull("Treatment should not be null", treatment);
+        assertEquals("Branch Name should be Branch 1","Branch 1",treatment.getBranch().getName());
+        LOGGER.info("testGetOneTreatment");
+    }
 
-        Organization organization = customerService.getOneOrganization(1L, true);
-        Type type = customerService.getOneType(1l);
+    @Test
+    public void testSaveTreatment() throws Exception {
+        LOGGER.info("testInsertTreatment");
+        User user = getTestUser();
+        ServiceFactory serviceFactory = getServiceFactory();
+        TreatmentService treatmentService = serviceFactory.getTreatmentService(user);
 
-        Customer customer = new Customer();
-        customer.setName("Test Uno");
-        customer.setAddress("Test Address");
-        customer.setCity("Test City");
-        customer.setEmail("test@email.com");
-        customer.setNeighborhood("Test neighborhood");
-        customer.setOrganization(organization);
-        customer.setPhone("Test phone 1234");
-        customer.setType(type);
-        customer.setEnabled(true);
-
-        Customer newCustomer = customerService.saveCustomer(customer);
-        assertEquals("Id should be 2", 2, newCustomer.getId().longValue());
-
-        newCustomer.setPhone("123");
-        Customer modifyCustomer = customerService.saveCustomer(newCustomer);
-        assertEquals("Phone should be 123", "123", modifyCustomer.getPhone());
-
-        customerService.removeCustomer(modifyCustomer);
-        Customer customerRemoved = customerService.getOneCustomer(2L,true);
-        assertNull("Customer should be null",customerRemoved);
+        Long branchId = 2L;
+        boolean coordinated = true;
+        boolean finished = false;
+        boolean certificate = true;
+        String comments = "Treatment comments";
+        Treatment treatment = treatmentService.saveTreatment(null,branchId, coordinated, finished, null, certificate, comments, 1L, DateUtils.getCurrentDate());
+        assertNotNull("Treatment id should not be null", treatment.getId());
+        assertFalse("Finished should be false", treatment.getFinished());
+        LOGGER.info("Treatment id " + treatment.getId());
+        assertEquals("Treatment id should be 2", 2L, treatment.getId().longValue());
+        finished = true;
+        treatment = treatmentService.saveTreatment(treatment.getId(),branchId, coordinated, finished, null, certificate, comments, 1L, null);
+        assertNotNull("Treatment should not be null", treatment);
+        assertEquals("Treatment id should be 2", 2L, treatment.getId().longValue());
+        assertTrue("Finished should be true", treatment.getFinished());
+        LOGGER.info("testInsertTreatment");
+        try {
+            treatment = treatmentService.saveTreatment(null, branchId, coordinated, finished, null, certificate, comments, 1L, null);
+        } catch (DataIntegrityViolationException die) {
+            LOGGER.info(die.getMessage());
+            assertTrue("Should be true", die.getMessage().contains("not-null property references a null"));
+            LOGGER.info(die.getClass().getName());
+            assertEquals("Should be equals","org.springframework.dao.DataIntegrityViolationException",die.getClass().getName());
+        }
     }
 }

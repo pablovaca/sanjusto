@@ -2,6 +2,7 @@ package com.crm.controllers.commons;
 
 import com.crm.data.model.User;
 import com.crm.services.SecurityService;
+import com.crm.services.TreatmentService;
 import com.crm.services.impl.ServiceFactory;
 import com.crm.utils.DateUtils;
 import com.crm.utils.JSONConverter;

@@ -2,6 +2,7 @@ package com.crm.controllers;
 
 import com.crm.controllers.commons.BaseController;
 import com.crm.data.model.User;
+import com.crm.services.AdminService;
 import com.crm.services.TreatmentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,14 +19,13 @@ import java.lang.reflect.InvocationTargetException;
 @Controller
 @RequestMapping(value = "/api/v1/treatments")
 @Transactional(propagation = Propagation.REQUIRES_NEW)
-public class TreatmentsController extends BaseController{
+public class TreatmentController extends BaseController{
 
-    protected static final Logger LOGGER = LogManager.getLogger(TreatmentsController.class);
+    protected static final Logger LOGGER = LogManager.getLogger(TreatmentController.class);
 
-    @RequestMapping(value = "/customers", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
-    public @ResponseBody String getAllCustomers(@RequestHeader("token") String token,
-                                                @RequestParam(value="onlyEnabled",required = false, defaultValue = "true") Boolean onlyEnabled) throws Exception{
-        String[] params = new String[]{"getAllCustomers",token,onlyEnabled.toString()};
+    @RequestMapping(value = "/all", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    public @ResponseBody String getAllCustomers(@RequestHeader("token") String token) throws Exception{
+        String[] params = new String[]{"getAllTreatments",};
         String param = this.makeJsonParam(params);
         return this.methodController(param);
     }

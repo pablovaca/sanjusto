@@ -16,8 +16,8 @@
         <property name="finished" type="boolean">
             <column name="FINISHED" not-null="true" />
         </property>
-        <property name="certified" type="boolean">
-            <column name="CERTIFIED" not-null="true" />
+        <property name="certificate" type="boolean">
+            <column name="CERTIFICATE" not-null="true" />
         </property>
         <property name="comments" type="text">
             <column name="COMMENTS" length="4000" />
@@ -29,7 +29,10 @@
             <column name="USER_ID" not-null="true"/>
         </many-to-one>
         <many-to-one name="motive" class="com.crm.data.model.Type" fetch="select">
-            <column name="MOTIVE_TYPE" not-null="true"/>
+            <column name="MOTIVE_TYPE" not-null="false"/>
+        </many-to-one>
+        <many-to-one name="organization" class="com.crm.data.model.Organization" fetch="select">
+            <column name="ORG_ID" not-null="true"/>
         </many-to-one>
     </class>
 </hibernate-mapping>

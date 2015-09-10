@@ -1,9 +1,10 @@
 package com.crm.services;
 
-import com.crm.data.model.Customer;
-import com.crm.data.model.Organization;
-import com.crm.data.model.Type;
-import com.crm.data.model.User;
+import com.crm.data.model.*;
+import org.springframework.dao.DataIntegrityViolationException;
+
+import java.util.Date;
+import java.util.List;
 
 public interface TreatmentService {
 
@@ -11,15 +12,10 @@ public interface TreatmentService {
 
     User getUser();
 
-    Iterable<Customer> getAllCustomers(boolean onlyEnabled) throws Exception;
+    Iterable<Treatment> getAllTreatments() throws Exception;
 
-    Customer getOneCustomer(Long custId, boolean onlyEnabled) throws Exception;
+    Treatment getOneTreatment(Long treatmentId) throws  Exception;
 
-    Customer saveCustomer(Customer customer) throws Exception;
-
-    void removeCustomer(Customer customer);
-
-    Organization getOneOrganization(Long orgId, boolean onlyEnabled) throws Exception;
-
-    Type getOneType(Long typeId) throws Exception;
+    Treatment saveTreatment(Long treatmentId, Long branchId,boolean coordinated, boolean finished, Long typeId,
+                            boolean certificate, String comments, Long userTreatmentId, Date treatmentDate) throws Exception, DataIntegrityViolationException;
 }

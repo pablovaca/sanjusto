@@ -9,23 +9,24 @@ public class Treatment extends BaseModel {
     private Date treatmentDate;
     private boolean coordinated;
     private boolean finished;
-    private boolean certified;
+    private boolean certificate;
     private String comments;
     private Branch branch;
     private User user;
     private Type motive;
+    @ExcludeFieldFromJSON private Organization organization;
 
 
     public Treatment(){
     }
 
     public Treatment(Long id, Date treatmentDate, boolean coordinated, boolean finished,
-                     boolean certified, String comments, Branch branch, User user, Type motive){
+                     boolean certificate, String comments, Branch branch, User user, Type motive){
         this.id = id;
         this.treatmentDate = treatmentDate;
         this.coordinated = coordinated;
         this.finished = finished;
-        this.certified = certified;
+        this.certificate = certificate;
         this.comments = comments;
         this.branch = branch;
         this.user = user;
@@ -64,12 +65,12 @@ public class Treatment extends BaseModel {
         this.finished = finished;
     }
 
-    public boolean getCertified(){
-        return certified;
+    public boolean getCertificate(){
+        return certificate;
     }
 
-    public void setCertified(boolean certified){
-        this.certified = certified;
+    public void setCertificate(boolean certificate){
+        this.certificate = certificate;
     }
 
     public String getComments(){
@@ -102,5 +103,13 @@ public class Treatment extends BaseModel {
 
     public void setMotive(Type motive){
         this.motive = motive;
+    }
+
+    public Organization getOrganization(){
+        return organization;
+    }
+
+    public void setOrganization(Organization organization){
+        this.organization = organization;
     }
 }

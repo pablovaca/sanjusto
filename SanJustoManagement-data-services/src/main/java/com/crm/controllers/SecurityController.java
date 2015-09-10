@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 public class SecurityController extends BaseController {
 
-    protected static final Logger LOGGER = LogManager.getLogger(TreatmentsController.class);
+    protected static final Logger LOGGER = LogManager.getLogger(AdminController.class);
 
     @Autowired
     ServiceFactory serviceFactory;
