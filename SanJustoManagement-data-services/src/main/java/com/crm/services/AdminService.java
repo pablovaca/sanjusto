@@ -1,9 +1,6 @@
 package com.crm.services;
 
-import com.crm.data.model.Customer;
-import com.crm.data.model.Organization;
-import com.crm.data.model.Type;
-import com.crm.data.model.User;
+import com.crm.data.model.*;
 
 public interface AdminService {
 
@@ -15,11 +12,21 @@ public interface AdminService {
 
     Customer getOneCustomer(Long custId, boolean onlyEnabled) throws Exception;
 
-    Customer saveCustomer(Customer customer) throws Exception;
+    Customer saveCustomer(Long customerId, String name, String address, String neighborhood, String city, String phone,
+                          String email, Long typeId, boolean enabled) throws Exception;
 
-    void removeCustomer(Customer customer);
+    void removeCustomer(Long customerId) throws Exception;
 
     Organization getOneOrganization(Long orgId, boolean onlyEnabled) throws Exception;
 
     Type getOneType(Long typeId) throws Exception;
+
+    Iterable<Branch> getAllBranches(Long customerId, boolean onlyEnabled) throws Exception;
+
+    Branch getOneBranch(Long branchId, boolean onlyEnabled) throws Exception;
+
+    Branch saveBranch(Long branchId, String name, String address, String neighborhood, String city, String phone,
+                      Long customerId, Long typeId, boolean enabled) throws Exception;
+
+    void removeBranch(Long branchId) throws Exception;
 }

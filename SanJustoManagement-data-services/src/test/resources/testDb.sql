@@ -173,6 +173,13 @@ insert into TYPES (ID,TYPE,SHORT_NAME,DESCRIPTION,ORG_ID)
 values (3,'CUSTOMER_TYPE','CRITICO','Cliente critico',1);
 
 insert into TYPES (ID,TYPE,SHORT_NAME,DESCRIPTION,ORG_ID)
+values (26,'BRANCH_TYPE','NORMAL','Branch normal',1);
+insert into TYPES (ID,TYPE,SHORT_NAME,DESCRIPTION,ORG_ID)
+values (27,'BRANCH_TYPE','REGULAR','Branch regular',1);
+insert into TYPES (ID,TYPE,SHORT_NAME,DESCRIPTION,ORG_ID)
+values (28,'BRANCH_TYPE','CRITICO','Branch critico',1);
+
+insert into TYPES (ID,TYPE,SHORT_NAME,DESCRIPTION,ORG_ID)
 values (4,'JOB TYPE','DESINSECTACION','Desinsectación',1);
 insert into TYPES (ID,TYPE,SHORT_NAME,DESCRIPTION,ORG_ID,PARENT_TYPE)
 values (5,'JOB DETAIL TYPE','GEL','Gel',1,4);
