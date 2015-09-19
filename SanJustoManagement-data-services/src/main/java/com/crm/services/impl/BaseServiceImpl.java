@@ -32,6 +32,9 @@ public abstract class BaseServiceImpl {
     @Autowired
     protected UsersRepository usersRepository;
 
+    @Autowired
+    protected TreatmentsWorksRepository treatmentsWorksRepository;
+
     protected User user;
 
     public void setUser(User user) {

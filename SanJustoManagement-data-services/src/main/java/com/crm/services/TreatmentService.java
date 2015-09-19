@@ -18,4 +18,14 @@ public interface TreatmentService {
 
     Treatment saveTreatment(Long treatmentId, Long branchId,boolean coordinated, boolean finished, Long typeId,
                             boolean certificate, String comments, Long userTreatmentId, Date treatmentDate) throws Exception, DataIntegrityViolationException;
+
+    void removeTreatment(Long treatmentId) throws Exception, DataIntegrityViolationException;
+
+    Iterable<TreatmentWork> getAllWorksByTreatment(Long treatmentId) throws Exception;
+
+    TreatmentWork getOneWork(Long treatmentWorkId) throws Exception;
+
+    TreatmentWork saveTreatmentWork(Long treatmentId, Long typeId) throws Exception, DataIntegrityViolationException;
+
+    void removeTreatmentWork(Long treatmentWorkId) throws Exception, DataIntegrityViolationException;
 }

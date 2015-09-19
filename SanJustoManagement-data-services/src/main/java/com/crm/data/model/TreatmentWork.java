@@ -12,8 +12,7 @@ public class TreatmentWork extends BaseModel {
     public TreatmentWork(){
     }
 
-    public TreatmentWork(Long id, Treatment treatment, Type typeWork){
-        this.id = id;
+    public TreatmentWork(Treatment treatment, Type typeWork){
         this.treatment = treatment;
         this.typeWork = typeWork;
     }

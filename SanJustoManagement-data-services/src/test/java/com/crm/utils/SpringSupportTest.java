@@ -6,7 +6,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 
 @ContextConfiguration("classpath:applicationContext.xml")
-@TransactionConfiguration(defaultRollback = true)
+//@TransactionConfiguration(defaultRollback = true)
 public abstract class SpringSupportTest extends AbstractJUnit4SpringContextTests {
 
     public static void setupEnvironment() {
