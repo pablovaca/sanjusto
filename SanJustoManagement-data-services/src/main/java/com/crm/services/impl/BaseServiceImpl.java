@@ -24,6 +24,12 @@ public abstract class BaseServiceImpl {
     protected BranchesRepository branchesRepository;
 
     @Autowired
+    protected ContactsRepository contactsRepository;
+
+    @Autowired
+    protected  BranchesContactsRepository branchesContactsRepository;
+
+    @Autowired
     protected UsersRepository usersRepository;
 
     protected User user;

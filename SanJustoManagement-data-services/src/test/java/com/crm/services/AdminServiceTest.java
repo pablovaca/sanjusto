@@ -6,6 +6,9 @@ import com.crm.utils.TransactionalSupportTest;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -40,7 +43,7 @@ public class AdminServiceTest extends TransactionalSupportTest {
         AdminService adminService = getAdminService(user);
 
         Customer newCustomer = adminService.saveCustomer(null, "Test Customer", "Test Customer Address", "Test Neighborhood", "Test City",
-                                                        "123 Test", "emailCustomer@email.com", 1L, true);
+                "123 Test", "emailCustomer@email.com", 1L, true);
         assertEquals("Id should be 2", 2, newCustomer.getId().longValue());
 
         Customer modifyCustomer = adminService.saveCustomer(newCustomer.getId(), "Test Customer", "Test Customer Address", "Test Neighborhood", "Test City",
@@ -48,8 +51,8 @@ public class AdminServiceTest extends TransactionalSupportTest {
         assertEquals("Phone should be 123", "123", modifyCustomer.getPhone());
 
         adminService.removeCustomer(modifyCustomer.getId());
-        Customer customerRemoved = adminService.getOneCustomer(2L,true);
-        assertNull("Customer should be null",customerRemoved);
+        Customer customerRemoved = adminService.getOneCustomer(2L);
+        assertNull("Customer should be null", customerRemoved);
     }
 
     @Test
@@ -58,15 +61,15 @@ public class AdminServiceTest extends TransactionalSupportTest {
         User user = getTestUser();
         AdminService adminService = getAdminService(user);
 
-        Iterable<Branch> branches = adminService.getAllBranches(1L,true);
-        assertNotNull("Branches should not be null",branches);
+        Iterable<Branch> branches = adminService.getAllBranchesByCustomer(1L, true);
+        assertNotNull("Branches should not be null", branches);
         int counter=0;
         for (Branch branch:branches) {
             assertNotNull(branch);
             LOGGER.info("Branch " + branch.getName() + " - " + branch.getCustomer().getName());
             counter++;
         }
-        assertEquals("Quantity of branches should be 2",2,counter);
+        assertEquals("Quantity of branches should be 2", 2, counter);
     }
 
     @Test
@@ -75,16 +78,66 @@ public class AdminServiceTest extends TransactionalSupportTest {
         User user = getTestUser();
         AdminService adminService = getAdminService(user);
 
-        Branch newBranch = adminService.saveBranch(null,"Test Branch","Test Branch Address","Test Branch Neighborhood", "Test Branch City", "123 Branch",
-                                                    1L, 26L,true);
+        Branch newBranch = adminService.saveBranch(null, "Test Branch", "Test Branch Address", "Test Branch Neighborhood", "Test Branch City", "123 Branch",
+                1L, 26L, true);
         assertEquals("Branch should have id 3",3L,newBranch.getId().longValue());
-        Branch modifyBranch = adminService.saveBranch(null,"Test Branch","Test Branch Address","Test Branch Neighborhood", "Test Branch City", "123",
-                1L, 26L,true);
+        Branch modifyBranch = adminService.saveBranch(null, "Test Branch", "Test Branch Address", "Test Branch Neighborhood", "Test Branch City", "123",
+                1L, 26L, true);
         assertEquals("Branch new phone number should be 123","123",modifyBranch.getPhone());
 
         adminService.removeBranch(modifyBranch.getId());
-        Branch removedBranch = adminService.getOneBranch(modifyBranch.getId(),true);
-        assertNull("Branch should be null",removedBranch);
+        Branch removedBranch = adminService.getOneBranch(modifyBranch.getId());
+        assertNull("Branch should be null", removedBranch);
+    }
+
+    @Test
+    public void testGetContact() throws Exception {
+        LOGGER.info("testGetBranches");
+        User user = getTestUser();
+        AdminService adminService = getAdminService(user);
+
+        Iterable<Contact> contacts = adminService.getAllContactsByCustomer(1L, true);
+        assertNotNull("Contacts should not be null", contacts);
+        int counter=0;
+        for (Contact contact:contacts) {
+            assertNotNull(contact);
+            LOGGER.info("Contact " + contact.getEmail() + " - " + contact.getCustomer().getName());
+            counter++;
+        }
+        assertEquals("Quantity of Contacts should be 4", 4, counter);
+    }
+
+    @Test
+    public void testCrudContacts() throws Exception {
+        LOGGER.info("testCrudBranches");
+        User user = getTestUser();
+        AdminService adminService = getAdminService(user);
+
+        Contact newContact = adminService.saveContact(null, "firstName", "middleName", "lastName", "123 phone", "email234@contact.com", true, 1L);
+        assertEquals("Contact should have id 5", 5L, newContact.getId().longValue());
+        Contact modifyContact = adminService.saveContact(null, "firstName", "middleName", "lastName", "12345", "emai234l@contact.com", true, 1L);
+        assertEquals("Contact new phone number should be 12345", "12345", modifyContact.getPhone());
+
+        adminService.removeContact(modifyContact.getId());
+        Contact removedContact = adminService.getOneContact(modifyContact.getId());
+        assertNull("Contact should be null", removedContact);
+    }
+
+    @Test
+    public void testGetContactByBranch() throws Exception {
+        LOGGER.info("testGetBranches");
+        User user = getTestUser();
+        AdminService adminService = getAdminService(user);
+
+        List<Contact> contacts = adminService.getContactsByBranch(1L, true);
+        assertNotNull("Contacts should not be null", contacts);
+        int counter=0;
+        for (Contact contact:contacts) {
+            assertNotNull(contact);
+            LOGGER.info("Contact " + contact.getEmail() + " - " + contact.getCustomer().getName());
+            counter++;
+        }
+        assertEquals("Quantity of Contacts should be 2", 2, counter);
     }
 
     private AdminService getAdminService(User user) throws Exception {

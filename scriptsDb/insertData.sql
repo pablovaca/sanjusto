@@ -84,14 +84,14 @@ values (1,'Branch 1','Mza 221 lote 12','La Estanzuela 2','La Calera','402775',1,
 insert into BRANCHES (ID,BRANCH_NAME,ADDRESS,NEIGHBORHOOD,CITY,PHONE,CUSTOMER_ID,BRANCH_TYPE,ORG_ID)
 values (2,'Branch 2','Mza 224 lote 121','La Estanzuela','La Calera','402779',1,1,1);
 
-insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID)
-values (1,'Contacto','Uno','contacto1@email.com','12345678',1);
-insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID)
-values (2,'Contacto','dos','contacto2@email.com','12345678',1);
-insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID)
-values (3,'Contacto','tres','contacto3@email.com','12345678',1);
-insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID)
-values (4,'Contacto','cuatro','contacto4@email.com','12345678',1);
+insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID,CUSTOMER_ID)
+values (1,'Contacto','Uno','contacto1@email.com','12345678',1,1);
+insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID,CUSTOMER_ID)
+values (2,'Contacto','dos','contacto2@email.com','12345678',1,1);
+insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID,CUSTOMER_ID)
+values (3,'Contacto','tres','contacto3@email.com','12345678',1,1);
+insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID,CUSTOMER_ID)
+values (4,'Contacto','cuatro','contacto4@email.com','12345678',1,1);
 
 insert into BRANCHES_CONTACTS (CONTACT_ID,BRANCH_ID)
 values (1,1);

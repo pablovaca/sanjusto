@@ -56,7 +56,9 @@ CREATE TABLE CONTACTS (
     PHONE VARCHAR(20) NOT NULL,
     ENABLED INT NOT NULL DEFAULT 1,
     ORG_ID INT NOT NULL,
+    CUSTOMER_ID INT NOT NULL,
     CONSTRAINT UK_CONTACT_EMAIL UNIQUE(EMAIL),
+    CONSTRAINT FK_CONTACT_CUSTOMER FOREIGN KEY (CUSTOMER_ID) REFERENCES CUSTOMERS(ID),
     CONSTRAINT FK_CONTACTS_ORG FOREIGN KEY (ORG_ID) REFERENCES ORGANIZATIONS (ID));
 
 CREATE TABLE BRANCHES_CONTACTS (
@@ -246,23 +248,23 @@ values (1,'Branch 1','Mza 221 lote 12','La Estanzuela 2','La Calera','402775',1,
 insert into BRANCHES (ID,BRANCH_NAME,ADDRESS,NEIGHBORHOOD,CITY,PHONE,CUSTOMER_ID,BRANCH_TYPE,ORG_ID)
 values (2,'Branch 2','Mza 224 lote 121','La Estanzuela','La Calera','402779',1,1,1);
 
-insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID)
-values (1,'Contacto','Uno','contacto1@email.com','12345678',1);
-insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID)
-values (2,'Contacto','dos','contacto2@email.com','12345678',1);
-insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID)
-values (3,'Contacto','tres','contacto3@email.com','12345678',1);
-insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID)
-values (4,'Contacto','cuatro','contacto4@email.com','12345678',1);
+insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID,CUSTOMER_ID)
+values (1,'Contacto','Uno','contacto1@email.com','12345678',1,1);
+insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID,CUSTOMER_ID)
+values (2,'Contacto','dos','contacto2@email.com','12345678',1,1);
+insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID,CUSTOMER_ID)
+values (3,'Contacto','tres','contacto3@email.com','12345678',1,1);
+insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID,CUSTOMER_ID)
+values (4,'Contacto','cuatro','contacto4@email.com','12345678',1,1);
 
 insert into BRANCHES_CONTACTS (CONTACT_ID,BRANCH_ID)
 values (1,1);
 insert into BRANCHES_CONTACTS (CONTACT_ID,BRANCH_ID)
 values (3,1);
 insert into BRANCHES_CONTACTS (CONTACT_ID,BRANCH_ID)
-values (2,1);
+values (2,2);
 insert into BRANCHES_CONTACTS (CONTACT_ID,BRANCH_ID)
-values (4,1);
+values (4,2);
 
 insert into USERS (ID,FIRST_NAME,LAST_NAME,EMAIL,ORG_ID,USERNAME,PASSWORD)
 values (1,'Pablo','Vaca','vacapablo72@gmail.com',1,'pvaca','1000:4a7a2f5a02edb7b256dd9db4eec7ece1054a3e785d3276fbb4f46b4870837cd964c24a78:53e04ef6893f03a667fd18bc5a9b5fd460b1d4cbe01631e0b8296db12ab68454e48e6a85');

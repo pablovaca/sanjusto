@@ -28,5 +28,8 @@
         <many-to-one name="organization" class="com.crm.data.model.Organization" fetch="select">
             <column name="ORG_ID" not-null="true"/>
         </many-to-one>
+        <many-to-one name="customer" class="com.crm.data.model.Customer" fetch="select">
+            <column name="CUSTOMER_ID" not-null="true"/>
+        </many-to-one>
     </class>
 </hibernate-mapping>

@@ -10,19 +10,9 @@ public class Contact extends BaseModel {
     private String email;
     private boolean enabled;
     @ExcludeFieldFromJSON private Organization organization;
+    private Customer customer;
 
     public Contact(){
-    }
-
-    public Contact(String firstName, String middleName, String lastName, String phone, String email,
-                   boolean enabled, Organization organization){
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.email = email;
-        this.enabled = enabled;
-        this.organization = organization;
     }
 
     public Long getId(){
@@ -87,5 +77,13 @@ public class Contact extends BaseModel {
 
     public void setOrganization(Organization organization){
         this.organization = organization;
+    }
+
+    public Customer getCustomer(){
+        return customer;
+    }
+
+    public void setCustomer(Customer customer){
+        this.customer = customer;
     }
 }
