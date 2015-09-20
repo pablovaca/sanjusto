@@ -13,6 +13,14 @@ import java.util.List;
 public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentService {
     private static final Logger LOGGER = LogManager.getLogger(TreatmentServiceImpl.class);
 
+    private static final String SURVEY_TYPE = "SURVEY";
+    private static final String PLAGUE_TYPE = "PLAGUES";
+    private static final String PLAGUE_CONTROLLED_TYPE = "PLAGUES_CONTROLLED";
+    private static final String WORK_DETAIL_TYPE = "JOB_DETAIL_TYPE";
+    private static final String WORK_TYPE = "JOB_TYPE";
+    private static final String TREATMENT_MOTIVES = "MOTIVES";
+
+
     public Iterable<Treatment> getAllTreatments() throws Exception {
         return treatmentsRepository.findByOrganization(user.getOrganization());
     }
@@ -21,7 +29,7 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
         return treatmentsRepository.findByIdAndOrganization(treatmentId, user.getOrganization());
     }
 
-    public Treatment saveTreatment(Long treatmentId, Long branchId,boolean coordinated, boolean finished, Long typeId,
+    public Treatment saveTreatment(Long treatmentId, Long branchId,boolean coordinated, boolean finished, Long motiveId,
                                    boolean certificate, String comments, Long userTreatmentId, Date treatmentDate) throws  Exception, DataIntegrityViolationException{
         Treatment treatment = new Treatment();
         if (treatmentId!=null) {
@@ -29,16 +37,19 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
         }
         Branch branch = branchesRepository.findOne(branchId);
         User userTreatment = usersRepository.findOne(userTreatmentId);
-        Type type = null;
-        if (typeId != null) {
-            type = typesRepository.findOne(typeId);
+        Type motive = null;
+        if (motiveId != null) {
+            motive = typesRepository.findByIdAndOrganizationAndTypeAndEnabledIsTrue(motiveId, user.getOrganization(), TREATMENT_MOTIVES);
+            if (null==motive) {
+                throw new Exception("INVALID_TREATMENT_MOTIVE");
+            }
         }
         treatment.setBranch(branch);
         treatment.setCertificate(certificate);
         treatment.setCoordinated(coordinated);
         treatment.setFinished(finished);
         treatment.setComments(comments);
-        treatment.setMotive(type);
+        treatment.setMotive(motive);
         treatment.setUser(userTreatment);
         treatment.setOrganization(user.getOrganization());
         if (treatmentDate!=null) {
@@ -51,7 +62,7 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
     public void removeTreatment(Long treatmentId) throws Exception, DataIntegrityViolationException {
         Treatment treatment = treatmentsRepository.findByIdAndOrganization(treatmentId, user.getOrganization());
         if (null==treatment) {
-            throw new Exception("Invalid Treatment");
+            throw new Exception("INVALID_TREATMENT");
         }
         treatmentsRepository.delete(treatment);
     }
@@ -59,13 +70,13 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
     public Iterable<TreatmentWork> getAllWorksByTreatment(Long treatmentId) throws Exception {
         Treatment treatment = treatmentsRepository.findByIdAndOrganization(treatmentId, user.getOrganization());
         if (null==treatment) {
-            throw new Exception("Invalid Treatment");
+            throw new Exception("INVALID_TREATMENT");
         }
         return treatmentsWorksRepository.findByTreatment(treatment);
     }
 
     public TreatmentWork getOneWork(Long treatmentWorkId) throws Exception {
-        TreatmentWork tw = treatmentsWorksRepository.findOne(treatmentWorkId);
+        TreatmentWork tw = treatmentsWorksRepository.findById(treatmentWorkId);
         if (null!=tw && !user.getOrganization().equals(tw.getTreatment().getOrganization())) {
             return null;
         }
@@ -74,28 +85,214 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
 
     public TreatmentWork saveTreatmentWork(Long treatmentId, Long typeId) throws Exception, DataIntegrityViolationException {
         if (null==treatmentId) {
-            throw new Exception("Treatment id cannot be null");
+            throw new Exception("TREATMENT_ID_NULL");
         }
         if (null==typeId) {
-            throw new Exception("Type id cannot be null");
+            throw new Exception("TYPE_ID_NULL");
         }
         Treatment treatment = treatmentsRepository.findByIdAndOrganization(treatmentId, user.getOrganization());
         if (null==treatment) {
-            throw new Exception("Invalid Treatment");
+            throw new Exception("INVALID_TREATMENT");
         }
-        Type type = typesRepository.findByIdAndOrganizationAndEnabledIsTrue(typeId,user.getOrganization());
+        Type type = typesRepository.findByIdAndOrganizationAndTypeAndEnabledIsTrue(typeId,user.getOrganization(), WORK_TYPE);
         if (null==type) {
-            throw new Exception("Invalid Type");
+            throw new Exception("INVALID_WORK_TYPE");
         }
         TreatmentWork tw = new TreatmentWork(treatment,type);
         return treatmentsWorksRepository.save(tw);
     }
 
     public void removeTreatmentWork(Long treatmentWorkId) throws Exception, DataIntegrityViolationException {
-        TreatmentWork tw = treatmentsWorksRepository.findOne(treatmentWorkId);
+        TreatmentWork tw = treatmentsWorksRepository.findById(treatmentWorkId);
         if (null==tw) {
-            throw new Exception("Invalid Treatment Work");
+            throw new Exception("INVALID_WORK");
         }
         treatmentsWorksRepository.delete(tw);
+    }
+
+    public Iterable<TreatmentWorkDetail> getAllDetailsByWork(Long workId) throws Exception {
+        TreatmentWork tw = treatmentsWorksRepository.findById(workId);
+        if (null==tw) {
+            throw new Exception("INVALID_WORK_ID");
+        }
+        return treatmentsWorksDetailsRepository.findByTreatmentWork(tw);
+    }
+
+    public TreatmentWorkDetail getOneWorkDetail(Long workDetailId) throws Exception {
+        TreatmentWorkDetail twd = treatmentsWorksDetailsRepository.findById(workDetailId);
+        if (null!=twd && !user.getOrganization().equals(twd.getTreatmentWork().getTreatment().getOrganization())) {
+            return null;
+        }
+        return twd;
+    }
+
+    public TreatmentWorkDetail saveWorkDetail(Long workId, Long typeId) throws Exception, DataIntegrityViolationException {
+        if (null==workId) {
+            throw new Exception("WORK_ID_NULL");
+        }
+        if (null==typeId) {
+            throw new Exception("TYPE_ID_NULL");
+        }
+        TreatmentWork tw = treatmentsWorksRepository.findById(workId);
+        if (null==tw) {
+            throw new Exception("INVALID_WORK_ID");
+        }
+        Type type = typesRepository.findByIdAndOrganizationAndTypeAndEnabledIsTrue(typeId, user.getOrganization(), WORK_DETAIL_TYPE);
+        if (null==type) {
+            throw new Exception("INVALID_WORK_DETAIL_TYPE");
+        }
+        TreatmentWorkDetail twd = new TreatmentWorkDetail(tw,type);
+        return treatmentsWorksDetailsRepository.save(twd);
+    }
+
+    public void removeWorkDetail(Long workDetailId) throws Exception, DataIntegrityViolationException {
+        TreatmentWorkDetail twd = treatmentsWorksDetailsRepository.findById(workDetailId);
+        if (null==twd) {
+            throw new Exception("INVALID_WORK_DETAIL_ID");
+        }
+        treatmentsWorksDetailsRepository.delete(twd);
+    }
+
+    public Iterable<TreatmentProduct> getAllProductsByTreatment(Long treatmentId) throws Exception {
+        Treatment treatment = treatmentsRepository.findByIdAndOrganization(treatmentId, user.getOrganization());
+        if (null==treatment) {
+            throw new Exception("INVALID_TREATMENT");
+        }
+        return treatmentsProductsRepository.findByTreatment(treatment);
+    }
+
+    public TreatmentProduct getOneTreatmentProduct(Long treatmentProductId) throws Exception {
+        TreatmentProduct tp = treatmentsProductsRepository.findById(treatmentProductId);
+        if (null!=tp && !user.getOrganization().equals(tp.getTreatment().getOrganization())) {
+            return null;
+        }
+        return tp;
+    }
+
+    public TreatmentProduct saveTreatmentProduct(Long treatmentId, Long productId, Double qty) throws Exception, DataIntegrityViolationException {
+        if (null==treatmentId) {
+            throw new Exception("TREATMENT_ID_NULL");
+        }
+        if (null==productId) {
+            throw new Exception("PRODUCT_ID_NULL");
+        }
+        if (null==qty || qty<0) {
+            qty=0D;
+        }
+        Treatment treatment = treatmentsRepository.findByIdAndOrganization(treatmentId, user.getOrganization());
+        if (null==treatment) {
+            throw new Exception("INVALID_TREATMENT");
+        }
+        Product product = productsRepository.findByIdAndOrganization(productId, user.getOrganization());
+        if (null==product) {
+            throw new Exception("INVALID_PRODUCT");
+        }
+        TreatmentProduct tp = new TreatmentProduct(treatment,product, qty);
+        return treatmentsProductsRepository.save(tp);
+    }
+
+    public void removeTreatmentProduct(Long treatmentProductId) throws Exception, DataIntegrityViolationException {
+        TreatmentProduct tp = treatmentsProductsRepository.findById(treatmentProductId);
+        if (null==tp) {
+            throw new Exception("INVALID_PRODUCT");
+        }
+        treatmentsProductsRepository.delete(tp);
+    }
+
+    public Iterable<TreatmentPlague> getAllPlaguesByTreatment(Long treatmentId) throws Exception {
+        Treatment treatment = treatmentsRepository.findByIdAndOrganization(treatmentId, user.getOrganization());
+        if (null==treatment) {
+            throw new Exception("INVALID_TREATMENT");
+        }
+        return treatmentsPlaguesRepository.findByTreatment(treatment);
+    }
+
+    public TreatmentPlague getOneTreatmentPlague(Long treatmentPlagueId) throws Exception {
+        TreatmentPlague tp = treatmentsPlaguesRepository.findById(treatmentPlagueId);
+        if (null!=tp && !user.getOrganization().equals(tp.getTreatment().getOrganization())) {
+            return null;
+        }
+        return tp;
+    }
+
+    public TreatmentPlague saveTreatmentPlague(Long treatmentId, Long plagueId, Long controlled) throws Exception, DataIntegrityViolationException {
+        if (null==treatmentId) {
+            throw new Exception("TREATMENT_ID_NULL");
+        }
+        if (null==plagueId) {
+            throw new Exception("PLAGUE_ID_NULL");
+        }
+        Treatment treatment = treatmentsRepository.findByIdAndOrganization(treatmentId, user.getOrganization());
+        if (null==treatment) {
+            throw new Exception("INVALID_TREATMENT");
+        }
+        Type plague = typesRepository.findByIdAndOrganizationAndTypeAndEnabledIsTrue(plagueId, user.getOrganization(), PLAGUE_TYPE);
+        if (null==plague) {
+            throw new Exception("INVALID_PLAGUE_TYPE");
+        }
+        Type controlledType = typesRepository.findByIdAndOrganizationAndTypeAndEnabledIsTrue(controlled, user.getOrganization(), PLAGUE_CONTROLLED_TYPE);
+        if (null==controlledType) {
+            throw new Exception("INVALID_CONTROLLED_TYPE");
+        }
+        TreatmentPlague tp = new TreatmentPlague(treatment,plague, controlledType);
+        return treatmentsPlaguesRepository.save(tp);
+    }
+
+    public void removeTreatmentPlague(Long treatmentPlagueId) throws Exception, DataIntegrityViolationException {
+        TreatmentPlague tp = treatmentsPlaguesRepository.findById(treatmentPlagueId);
+        if (null==tp) {
+            throw new Exception("INVALID_PLAGUE");
+        }
+        treatmentsPlaguesRepository.delete(tp);
+    }
+
+    public Iterable<TreatmentSurvey> getAllSurveyByTreatment(Long treatmentId) throws Exception {
+        Treatment treatment = treatmentsRepository.findByIdAndOrganization(treatmentId, user.getOrganization());
+        if (null==treatment) {
+            throw new Exception("Invalid Treatment");
+        }
+        return treatmentsSurveysRepository.findByTreatment(treatment);
+    }
+
+    public TreatmentSurvey getOneTreatmentSurvey(Long treatmentSurveyId) throws Exception {
+        TreatmentSurvey ts = treatmentsSurveysRepository.findById(treatmentSurveyId);
+        if (null!=ts && !user.getOrganization().equals(ts.getTreatment().getOrganization())) {
+            return null;
+        }
+        return ts;
+    }
+
+    public TreatmentSurvey saveTreatmentSurvey(Long treatmentId, Long surveyTypeId, Long surveySubtypeId, boolean checked) throws Exception, DataIntegrityViolationException {
+        if (null==treatmentId) {
+            throw new Exception("TREATMENT_ID_NULL");
+        }
+        if (null==surveyTypeId) {
+            throw new Exception("SURVEY_ID_NULL");
+        }
+        if (null==surveySubtypeId) {
+            throw new Exception("SUB_SURVEY_ID_NULL");
+        }
+        Treatment treatment = treatmentsRepository.findByIdAndOrganization(treatmentId, user.getOrganization());
+        if (null==treatment) {
+            throw new Exception("INVALID_TREATMENT");
+        }
+        Type survey = typesRepository.findByIdAndOrganizationAndTypeAndEnabledIsTrueAndParentIdIsNull(surveyTypeId, user.getOrganization(), SURVEY_TYPE);
+        if (null==survey) {
+            throw new Exception("INVALID_SURVEY_TYPE");
+        }
+        Type subSurvey = typesRepository.findByIdAndOrganizationAndTypeAndEnabledIsTrueAndParentId(surveySubtypeId, user.getOrganization(), SURVEY_TYPE, surveyTypeId);
+        if (null==subSurvey) {
+            throw new Exception("INVALID_SURVEY_SUBTYPE");
+        }
+        TreatmentSurvey ts = new TreatmentSurvey(treatment, survey, subSurvey, checked);
+        return treatmentsSurveysRepository.save(ts);
+    }
+
+    public void removeTreatmentSurvey(Long treatmentSurveyId) throws Exception, DataIntegrityViolationException {
+        TreatmentSurvey ts = treatmentsSurveysRepository.findById(treatmentSurveyId);
+        if (null==ts) {
+            throw new Exception("INVALID_SURVEY");
+        }
+        treatmentsSurveysRepository.delete(ts);
     }
 }

@@ -10,6 +10,7 @@ public class Type extends BaseModel {
     private String description;
     private boolean enabled;
     private Set subTypes;
+    @ExcludeFieldFromJSON private Long parentId;
     @ExcludeFieldFromJSON private Organization organization;
 
     public Type(){
@@ -78,5 +79,13 @@ public class Type extends BaseModel {
 
     public void setSubTypes(Set subTypes){
         this.subTypes = subTypes;
+    }
+
+    public Long getParentId(){
+        return parentId;
+    }
+
+    public void setParentId(Long parentId){
+        this.parentId = parentId;
     }
 }

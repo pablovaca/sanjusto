@@ -12,7 +12,7 @@ public class TreatmentSurvey extends BaseModel {
     public TreatmentSurvey(){
     }
 
-    public TreatmentSurvey(Long id, Treatment treatment, Type typeSurvey, Type subTypeSurvey, boolean checked){
+    public TreatmentSurvey(Treatment treatment, Type typeSurvey, Type subTypeSurvey, boolean checked){
         this.id = id;
         this.treatment = treatment;
         this.typeSurvey = typeSurvey;

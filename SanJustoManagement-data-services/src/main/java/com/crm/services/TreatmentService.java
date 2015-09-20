@@ -16,7 +16,7 @@ public interface TreatmentService {
 
     Treatment getOneTreatment(Long treatmentId) throws  Exception;
 
-    Treatment saveTreatment(Long treatmentId, Long branchId,boolean coordinated, boolean finished, Long typeId,
+    Treatment saveTreatment(Long treatmentId, Long branchId,boolean coordinated, boolean finished, Long motiveId,
                             boolean certificate, String comments, Long userTreatmentId, Date treatmentDate) throws Exception, DataIntegrityViolationException;
 
     void removeTreatment(Long treatmentId) throws Exception, DataIntegrityViolationException;
@@ -28,4 +28,36 @@ public interface TreatmentService {
     TreatmentWork saveTreatmentWork(Long treatmentId, Long typeId) throws Exception, DataIntegrityViolationException;
 
     void removeTreatmentWork(Long treatmentWorkId) throws Exception, DataIntegrityViolationException;
+
+    Iterable<TreatmentWorkDetail> getAllDetailsByWork(Long workId) throws Exception;
+
+    TreatmentWorkDetail getOneWorkDetail(Long workDetailId) throws Exception;
+
+    TreatmentWorkDetail saveWorkDetail(Long workId, Long typeId) throws Exception, DataIntegrityViolationException;
+
+    void removeWorkDetail(Long workDetailId) throws Exception, DataIntegrityViolationException;
+
+    Iterable<TreatmentProduct> getAllProductsByTreatment(Long treatmentId) throws Exception;
+
+    TreatmentProduct getOneTreatmentProduct(Long treatmentProductId) throws Exception;
+
+    TreatmentProduct saveTreatmentProduct(Long treatmentId, Long productId, Double qty) throws Exception, DataIntegrityViolationException;
+
+    void removeTreatmentProduct(Long treatmentProductId) throws Exception, DataIntegrityViolationException;
+
+    Iterable<TreatmentPlague> getAllPlaguesByTreatment(Long treatmentId) throws Exception;
+
+    TreatmentPlague getOneTreatmentPlague(Long treatmentPlagueId) throws Exception;
+
+    TreatmentPlague saveTreatmentPlague(Long treatmentId, Long plagueId, Long controlled) throws Exception, DataIntegrityViolationException;
+
+    void removeTreatmentPlague(Long treatmentPlagueId) throws Exception, DataIntegrityViolationException;
+
+    Iterable<TreatmentSurvey> getAllSurveyByTreatment(Long treatmentId) throws Exception;
+
+    TreatmentSurvey getOneTreatmentSurvey(Long treatmentSurveyId) throws Exception;
+
+    TreatmentSurvey saveTreatmentSurvey(Long treatmentId, Long surveyTypeId, Long surveySubtypeId, boolean checked) throws Exception, DataIntegrityViolationException;
+
+    void removeTreatmentSurvey(Long treatmentSurveyId) throws Exception, DataIntegrityViolationException;
 }

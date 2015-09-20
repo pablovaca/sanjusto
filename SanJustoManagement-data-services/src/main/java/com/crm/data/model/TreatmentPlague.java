@@ -11,8 +11,7 @@ public class TreatmentPlague extends BaseModel {
     public TreatmentPlague(){
     }
 
-    public TreatmentPlague(Long id, Treatment treatment, Type typePlague, Type controlled){
-        this.id = id;
+    public TreatmentPlague(Treatment treatment, Type typePlague, Type controlled){
         this.treatment = treatment;
         this.typePlague = typePlague;
         this.controlled = controlled;

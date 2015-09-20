@@ -10,8 +10,7 @@ public class TreatmentWorkDetail extends BaseModel {
     public TreatmentWorkDetail(){
     }
 
-    public TreatmentWorkDetail(Long id, TreatmentWork treatmentWork, Type typeWorkDetail){
-        this.id = id;
+    public TreatmentWorkDetail(TreatmentWork treatmentWork, Type typeWorkDetail){
         this.treatmentWork = treatmentWork;
         this.typeWorkDetail = typeWorkDetail;
     }

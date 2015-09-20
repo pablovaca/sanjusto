@@ -1,5 +1,7 @@
 package com.crm.services.impl;
 
+import com.crm.data.model.TreatmentProduct;
+import com.crm.data.model.TreatmentWorkDetail;
 import com.crm.data.model.User;
 import com.crm.data.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,22 @@ public abstract class BaseServiceImpl {
     protected UsersRepository usersRepository;
 
     @Autowired
+    protected ProductsRepository productsRepository;
+
+    @Autowired
     protected TreatmentsWorksRepository treatmentsWorksRepository;
+
+    @Autowired
+    protected TreatmentsWorksDetailsRepository treatmentsWorksDetailsRepository;
+
+    @Autowired
+    protected TreatmentsProductsRepository treatmentsProductsRepository;
+
+    @Autowired
+    protected TreatmentsPlaguesRepository treatmentsPlaguesRepository;
+
+    @Autowired
+    protected TreatmentsSurveysRepository treatmentsSurveysRepository;
 
     protected User user;
 

@@ -11,8 +11,7 @@ public class TreatmentProduct extends BaseModel {
     public TreatmentProduct(){
     }
 
-    public TreatmentProduct(Long id, Treatment treatment, Product product, Double quantity){
-        this.id = id;
+    public TreatmentProduct(Treatment treatment, Product product, Double quantity){
         this.treatment = treatment;
         this.product = product;
         this.quantity = quantity;

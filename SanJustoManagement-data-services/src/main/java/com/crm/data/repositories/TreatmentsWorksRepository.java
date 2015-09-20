@@ -7,4 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface TreatmentsWorksRepository extends CrudRepository<TreatmentWork, Long>{
 
     Iterable<TreatmentWork> findByTreatment(Treatment treatment);
+
+    TreatmentWork findById(Long id);
 }

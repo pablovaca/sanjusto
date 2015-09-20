@@ -13,6 +13,9 @@ import java.util.List;
 public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
     private static final Logger LOGGER = LogManager.getLogger(AdminServiceImpl.class);
 
+    private static final String CUSTOMER_TYPE = "CUSTOMER_TYPE";
+    private static final String BRANCH_TYPE = "BRANCH_TYPE";
+
     public Iterable<Customer> getAllCustomers(boolean onlyEnabled) throws Exception {
         Iterable<Customer> result;
         if (onlyEnabled) {
@@ -33,43 +36,36 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
     }
 
     public Customer saveCustomer(Long customerId, String name, String address, String neighborhood, String city, String phone,
-                                 String email, Long typeId, boolean enabled) throws Exception{
+                                 String email, Long customerTypeId, boolean enabled) throws Exception{
         Customer customer;
-        Type type;
-        if (null!=typeId) {
-            type = typesRepository.findByIdAndOrganizationAndEnabledIsTrue(typeId,user.getOrganization());
-            if (null==type) {
-                throw new Exception("Invalid type id");
+        Type customerType;
+        if (null!=customerTypeId) {
+            customerType = typesRepository.findByIdAndOrganizationAndTypeAndEnabledIsTrue(customerTypeId, user.getOrganization(), CUSTOMER_TYPE);
+            if (null==customerType) {
+                throw new Exception("INVALID_CUSTOMER_TYPE");
             }
         } else {
-            throw new Exception("Type Id cannot be null");
+            throw new Exception("CUSTOMER_TYPE_NULL");
         }
         if (null!=customerId) {
             customer = customersRepository.findByIdAndOrganization(customerId,user.getOrganization());
             if (null==customer) {
-                throw new Exception("Invalid Customer Id");
+                throw new Exception("INVALID_CUSTOMER");
             }
-            customer.setName(name);
-            customer.setAddress(address);
-            customer.setNeighborhood(neighborhood);
-            customer.setCity(city);
-            customer.setPhone(phone);
-            customer.setEmail(email);
-            customer.setType(type);
-            customer.setEnabled(enabled);
         } else {
             customer = new Customer();
-            customer.setName(name);
-            customer.setAddress(address);
-            customer.setNeighborhood(neighborhood);
-            customer.setCity(city);
-            customer.setPhone(phone);
-            customer.setEmail(email);
-            customer.setType(type);
-            customer.setEnabled(enabled);
             customer.setOrganization(user.getOrganization());
             customer.setStartDate(DateUtils.getCurrentDate());
         }
+        customer.setName(name);
+        customer.setAddress(address);
+        customer.setNeighborhood(neighborhood);
+        customer.setCity(city);
+        customer.setPhone(phone);
+        customer.setEmail(email);
+        customer.setType(customerType);
+        customer.setEnabled(enabled);
+
         return customersRepository.save(customer);
     }
 
@@ -78,7 +74,7 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
         if (null!=customer) {
             customersRepository.delete(customer);
         } else {
-            throw new Exception("Cannot remove customer id " + customerId);
+            throw new Exception("INVALID_CUSTOMER");
         }
     }
 
@@ -106,7 +102,7 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
             }
             return result;
         }
-        throw new Exception("Customer doesn't exists");
+        throw new Exception("INVALID_CUSTOMER");
     };
 
     public Branch getOneBranch(Long branchId) throws Exception {
@@ -119,63 +115,56 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
     };
 
     public Branch saveBranch(Long branchId, String name, String address, String neighborhood, String city, String phone,
-                             Long customerId, Long typeId, boolean enabled) throws Exception {
+                             Long customerId, Long branchTypeId, boolean enabled) throws Exception {
         Customer customer;
         if (null!=customerId) {
             customer = customersRepository.findByIdAndOrganization(customerId, user.getOrganization());
             if (null==customer) {
-                throw new Exception("Invalid Customer Id");
+                throw new Exception("INVALID_CUSTOMER");
             }
         } else {
-            throw new Exception("Customer Id cannot be null");
+            throw new Exception("CUSTOMER_ID_NULL");
         }
-        Type type;
-        if (null!=typeId) {
-            type = typesRepository.findByIdAndOrganizationAndEnabledIsTrue(typeId,user.getOrganization());
-            if (null==type) {
-                throw new Exception("Invalid Type Id");
+        Type branchType;
+        if (null!=branchTypeId) {
+            branchType = typesRepository.findByIdAndOrganizationAndTypeAndEnabledIsTrue(branchTypeId, user.getOrganization(), BRANCH_TYPE);
+            if (null==branchType) {
+                throw new Exception("INVALID_BRANCH_TYPE");
             }
         } else {
-            throw new Exception("Type Id cannot be null");
+            throw new Exception("BRANCH_TYPE_ID_NULL");
         }
 
         Branch branch;
         if (null!=branchId) {
             branch = branchesRepository.findByIdAndOrganization(branchId, user.getOrganization());
             if (null==branch) {
-                throw new Exception("Invalid Branch Id");
+                throw new Exception("INVALID_BRANCH");
             }
-            branch.setName(name);
-            branch.setAddress(address);
-            branch.setNeighborhood(neighborhood);
-            branch.setCity(city);
-            branch.setPhone(phone);
-            branch.setCustomer(customer);
-            branch.setType(type);
-            branch.setEnabled(enabled);
         } else {
             branch = new Branch();
-            branch.setName(name);
-            branch.setAddress(address);
-            branch.setNeighborhood(neighborhood);
-            branch.setCity(city);
-            branch.setPhone(phone);
-            branch.setCustomer(customer);
-            branch.setType(type);
-            branch.setEnabled(enabled);
             branch.setStartDate(DateUtils.getCurrentDate());
             branch.setOrganization(user.getOrganization());
         }
+        branch.setName(name);
+        branch.setAddress(address);
+        branch.setNeighborhood(neighborhood);
+        branch.setCity(city);
+        branch.setPhone(phone);
+        branch.setCustomer(customer);
+        branch.setType(branchType);
+        branch.setEnabled(enabled);
+
         return branchesRepository.save(branch);
     };
 
     public void removeBranch(Long branchId) throws Exception {
         if (null==branchId) {
-            throw new Exception("Branch Id cannot be null");
+            throw new Exception("BRANCH_ID_NULL");
         }
         Branch branch = branchesRepository.findByIdAndOrganization(branchId,user.getOrganization());
         if (null==branch) {
-            throw new Exception("Invalid Branch Id");
+            throw new Exception("INVALID_BRANCH");
         }
         branchesRepository.delete(branch);
     }
@@ -191,7 +180,7 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
             }
             return result;
         }
-        throw new Exception("Customer doesn't exists");
+        throw new Exception("INVALID_CUSTOMER");
     }
 
     public Contact getOneContact(Long contactId) throws Exception {
@@ -209,47 +198,40 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
         if (null!=customerId) {
             customer = customersRepository.findByIdAndOrganization(customerId, user.getOrganization());
             if (null==customer) {
-                throw new Exception("Invalid Customer Id");
+                throw new Exception("INVALID_CUSTOMER");
             }
         } else {
-            throw new Exception("Customer Id cannot be null");
+            throw new Exception("CUSTOMER_ID_NULL");
         }
 
         Contact contact;
         if (null!=contactId) {
             contact = contactsRepository.findByIdAndOrganization(contactId, user.getOrganization());
             if (null==contact) {
-                throw new Exception("Invalid Contact Id");
+                throw new Exception("INVALID_CONTACT");
             }
-            contact.setFirstName(firstName);
-            contact.setMiddleName(middleName);
-            contact.setLastName(lastName);
-            contact.setPhone(phone);
-            contact.setEmail(email);
-            contact.setEnabled(enabled);
-            contact.setOrganization(user.getOrganization());
-            contact.setCustomer(customer);
         } else {
             contact = new Contact();
-            contact.setFirstName(firstName);
-            contact.setMiddleName(middleName);
-            contact.setLastName(lastName);
-            contact.setPhone(phone);
-            contact.setEmail(email);
-            contact.setEnabled(enabled);
-            contact.setOrganization(user.getOrganization());
-            contact.setCustomer(customer);
         }
+        contact.setFirstName(firstName);
+        contact.setMiddleName(middleName);
+        contact.setLastName(lastName);
+        contact.setPhone(phone);
+        contact.setEmail(email);
+        contact.setEnabled(enabled);
+        contact.setOrganization(user.getOrganization());
+        contact.setCustomer(customer);
+
         return contactsRepository.save(contact);
     }
 
     public void removeContact(Long contactId) throws Exception {
         if (null==contactId) {
-            throw new Exception("Contact Id cannot be null");
+            throw new Exception("CONTACT_ID_NULL");
         }
         Contact contact = contactsRepository.findByIdAndOrganization(contactId,user.getOrganization());
         if (null==contact) {
-            throw new Exception("Invalid Contact Id");
+            throw new Exception("INVALID_CONTACT");
         }
         contactsRepository.delete(contact);
     }
@@ -257,11 +239,11 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
     public List<Contact> getContactsByBranch(Long branchId, boolean onlyEnabled) throws Exception {
         List<Contact> contacts = new ArrayList<Contact>();
         if (null==branchId) {
-            throw new Exception("Branch Id cannot be null");
+            throw new Exception("BRANCH_ID_NULL");
         }
         Branch branch = branchesRepository.findByIdAndOrganization(branchId,user.getOrganization());
         if (null==branch) {
-            throw new Exception("Invalid Branch Id");
+            throw new Exception("INVALID_BRANCH");
         }
         Iterable<BranchContact> results;
         if (onlyEnabled) {

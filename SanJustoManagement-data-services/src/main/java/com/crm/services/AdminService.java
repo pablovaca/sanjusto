@@ -15,7 +15,7 @@ public interface AdminService {
     Customer getOneCustomer(Long custId) throws Exception;
 
     Customer saveCustomer(Long customerId, String name, String address, String neighborhood, String city, String phone,
-                          String email, Long typeId, boolean enabled) throws Exception;
+                          String email, Long customerTypeId, boolean enabled) throws Exception;
 
     void removeCustomer(Long customerId) throws Exception;
 
@@ -28,7 +28,7 @@ public interface AdminService {
     Branch getOneBranch(Long branchId) throws Exception;
 
     Branch saveBranch(Long branchId, String name, String address, String neighborhood, String city, String phone,
-                      Long customerId, Long typeId, boolean enabled) throws Exception;
+                      Long customerId, Long branchTypeId, boolean enabled) throws Exception;
 
     void removeBranch(Long branchId) throws Exception;
 
