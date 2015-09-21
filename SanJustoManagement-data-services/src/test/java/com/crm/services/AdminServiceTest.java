@@ -6,12 +6,14 @@ import com.crm.utils.TransactionalSupportTest;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 /**
  * Created by pvaca on 8/17/15.
@@ -25,14 +27,14 @@ public class AdminServiceTest extends TransactionalSupportTest {
         User user = getTestUser();
         AdminService adminService = getAdminService(user);
         Iterable<Customer> result = adminService.getAllCustomers(true);
-        assertNotNull("Result should not be null",result);
+        assertNotNull("Result should not be null", result);
         int counter = 0;
         for (Customer customer:result) {
             assertNotNull("Customer should not be null",customer);
             counter++;
         }
         LOGGER.info("counter " + counter);
-        assertEquals("Should be equals to 1",1,counter);
+        assertEquals("Should be equals to 1", 1, counter);
         LOGGER.info("testGetAllCustomers");
     }
 
@@ -47,7 +49,7 @@ public class AdminServiceTest extends TransactionalSupportTest {
         assertEquals("Id should be 2", 2, newCustomer.getId().longValue());
 
         Customer modifyCustomer = adminService.saveCustomer(newCustomer.getId(), "Test Customer", "Test Customer Address", "Test Neighborhood", "Test City",
-                                                        "123", "emailCustomer@email.com", 1L, true);
+                "123", "emailCustomer@email.com", 1L, true);
         assertEquals("Phone should be 123", "123", modifyCustomer.getPhone());
 
         adminService.removeCustomer(modifyCustomer.getId());
@@ -138,6 +140,67 @@ public class AdminServiceTest extends TransactionalSupportTest {
             counter++;
         }
         assertEquals("Quantity of Contacts should be 2", 2, counter);
+    }
+
+    @Test
+    public void testGetAllProduct() throws Exception {
+        LOGGER.info("testGetAllProduct");
+        User user = getTestUser();
+        AdminService adminService = getAdminService(user);
+
+        Iterable<Product> products = adminService.getAllProducts();
+        assertNotNull("Should not be null", products);
+        int counter=0;
+        for (Product product:products) {
+            assertNotNull(product);
+            LOGGER.info("Product " + product.getId() + " - " + product.getName());
+            counter++;
+        }
+        assertEquals("Should be 3", 3, counter);
+    }
+
+    @Test
+    public void testGetOneProduct() throws Exception {
+        LOGGER.info("testGetOneProduct");
+        User user = getTestUser();
+        AdminService adminService = getAdminService(user);
+
+        Product product = adminService.getOneProduct(1L);
+        assertNotNull("Should not be null", product);
+        assertEquals("Should be FIPRONIL 2%", "FIPRONIL 2%", product.getName());
+    }
+
+    @Test
+    public void testSaveNewProduct() throws Exception {
+        LOGGER.info("testSaveNewProduct");
+        User user = getTestUser();
+        AdminService adminService = getAdminService(user);
+
+        String name = "Product Test";
+        String description = "Product Test description";
+        Double qty = 10.5D;
+        Long unitTypeId = 25L;
+        Product product = adminService.saveProduct(null, name, description, qty, unitTypeId);
+        LOGGER.info("Product " + product.getId());
+        assertNotNull("Should not be null", product);
+        adminService.removeProduct(product.getId());
+        Product newProduct = adminService.getOneProduct(product.getId());
+        assertNull("Should be null", newProduct);
+    }
+
+    @Test
+    public void testRemoveProductWithTreatment() throws Exception {
+        LOGGER.info("testRemoveProductWithTreatment");
+        User user = getTestUser();
+        AdminService adminService = getAdminService(user);
+
+        try {
+            adminService.removeProduct(1L);
+            Product newProduct = adminService.getOneProduct(1L);
+            fail();
+        } catch (DataIntegrityViolationException die) {
+            LOGGER.info("Error", die);
+        }
     }
 
     private AdminService getAdminService(User user) throws Exception {

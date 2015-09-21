@@ -5,6 +5,7 @@ import com.crm.services.AdminService;
 import com.crm.utils.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.List;
 public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
     private static final Logger LOGGER = LogManager.getLogger(AdminServiceImpl.class);
 
+    private static final String PRODUCT_UNIT = "PRODUCT_UNIT";
     private static final String CUSTOMER_TYPE = "CUSTOMER_TYPE";
     private static final String BRANCH_TYPE = "BRANCH_TYPE";
 
@@ -174,7 +176,7 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
         Customer customer = customersRepository.findByIdAndOrganization(customerId,user.getOrganization());
         if (null!=customer) {
             if (onlyEnabled) {
-                result = contactsRepository.findByCustomerAndEnabledIsTrueAndOrganization(customer,user.getOrganization());
+                result = contactsRepository.findByCustomerAndEnabledIsTrueAndOrganization(customer, user.getOrganization());
             } else {
                 result = contactsRepository.findByCustomerAndOrganization(customer, user.getOrganization());
             }
@@ -255,5 +257,49 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
             contacts.add(branchContact.getContact());
         }
         return contacts;
+    }
+
+    public Iterable<Product> getAllProducts() throws Exception {
+        return productsRepository.findByOrganization(user.getOrganization());
+    }
+
+    public Product getOneProduct(Long productId) throws Exception {
+        Product product = productsRepository.findByIdAndOrganization(productId, user.getOrganization());
+        return product;
+    }
+
+    public Product saveProduct(Long productId, String productName, String productDescription, Double qty, Long unitTypeId) throws Exception {
+        if (null == unitTypeId) {
+            throw new Exception("UNIT_PRODUCT_ID_NULL");
+        }
+        Type productUnit = typesRepository.findByIdAndOrganizationAndTypeAndEnabledIsTrue(unitTypeId, user.getOrganization(), PRODUCT_UNIT);
+        if (null == productUnit) {
+            throw new Exception("INVALID_PRODUCT_UNIT");
+        }
+
+        Product product;
+        if (null == productId) {
+            product = new Product();
+            product.setOrganization(user.getOrganization());
+        } else {
+            product = productsRepository.findByIdAndOrganization(productId, user.getOrganization());
+            if (null == product) {
+                throw new Exception("INVALID PRODUCT");
+            }
+        }
+        product.setName(productName);
+        product.setDescription(productDescription);
+        product.setQuantity(qty);
+        product.setUnit(productUnit);
+
+        return productsRepository.save(product);
+    }
+
+    public void removeProduct(Long productId) throws Exception, DataIntegrityViolationException {
+        Product product = productsRepository.findByIdAndOrganization(productId, user.getOrganization());
+        if (null == product) {
+            throw new Exception("INVALID PRODUCT");
+        }
+        productsRepository.delete(product);
     }
 }

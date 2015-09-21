@@ -7,4 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface ProductsRepository extends CrudRepository<Product, Long>{
 
     Product findByIdAndOrganization(Long id, Organization organization);
+
+    Iterable<Product> findByOrganization(Organization organization);
 }

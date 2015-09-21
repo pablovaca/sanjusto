@@ -1,6 +1,7 @@
 package com.crm.services;
 
 import com.crm.data.model.*;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.List;
 
@@ -42,4 +43,12 @@ public interface AdminService {
     void removeContact(Long contactId) throws Exception;
 
     List<Contact> getContactsByBranch(Long branchId, boolean onlyEnabled) throws Exception;
+
+    Iterable<Product> getAllProducts() throws Exception;
+
+    Product getOneProduct(Long productId) throws Exception;
+
+    Product saveProduct(Long productId, String productName, String productDescription, Double qty, Long unitTypeId) throws Exception;
+
+    void removeProduct(Long productId) throws Exception, DataIntegrityViolationException;
 }
