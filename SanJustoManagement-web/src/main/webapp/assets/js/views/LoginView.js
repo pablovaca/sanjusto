@@ -43,7 +43,7 @@ function($, _, Backbone, loginTemplate, Config, Common, api) {
 
         goToHome : function(result, status, message) {
             if (status == "OK") {
-                console.log("login ok");
+                Backbone.history.navigate('/',{trigger: true, replace: true});
             } else {
                 console.log("not login");
             }

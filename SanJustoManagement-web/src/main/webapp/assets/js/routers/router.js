@@ -33,7 +33,9 @@ define([
             if(!api.isLoggedIn()){
                 Backbone.history.navigate('/login',{trigger: true, replace: true});
             } else {
-                console.log("home view featured");
+                require(['views/HomeView'], function (HomeView) {
+                    HomeView.render();
+                });
             }
         }
     });
