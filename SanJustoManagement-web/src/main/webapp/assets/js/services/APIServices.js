@@ -2,6 +2,7 @@
 'use strict';
 define([], function () {
 
+    var size = 5;
     var token = "";
     var EXPIRE_MINUTES = 30;
     var COOKIE_TOKEN_KEY = 'tokenSanJusto';
@@ -280,6 +281,12 @@ define([], function () {
             return loggedUser;
         },
 
+        initializeLanguage:function() {
+            var language = 'es';
+
+            $.i18n.init({ lng: language, fallbackLng: 'es', resGetPath: 'assets/js/locales/__lng__-__ns__.json', ns: 'translation', getAsync: false, defaultValueFromContent: false });
+        },
+
         /* *************************
          *
          *  Treatments Service Methods
@@ -287,13 +294,20 @@ define([], function () {
          * *************************
          */
 
-        getAllCustomers:function (functionToCall,onlyEnabled,handleErrors)
+        getAllTreatments:function (functionToCall, page, handleErrors)
         {
             var request=getBasicRequest();
-            request.onlyEnabled = onlyEnabled;
-            callTreatmentsService("GET","/customers",request,functionToCall,handleErrors);
-        }
+            if (!page) {
+                page = 0;
+            }
+            callTreatmentsService("GET","/all/"+page+"/"+size,request,functionToCall,handleErrors);
+        },
 
+        getQtyTreatments:function (functionToCall,handleErrors)
+        {
+            var request=getBasicRequest();
+            callTreatmentsService("GET","/qty",request,functionToCall,handleErrors);
+        }
     };
     return APIServices.getInstance();
 });

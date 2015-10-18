@@ -22,7 +22,7 @@
         <property name="phone" type="text">
             <column name="PHONE" length="20" not-null="true" />
         </property>
-        <property name="startDate" type="date">
+        <property name="startDate" type="timestamp">
             <column name="START_DATE" length="10" />
         </property>
         <property name="enabled" type="boolean">

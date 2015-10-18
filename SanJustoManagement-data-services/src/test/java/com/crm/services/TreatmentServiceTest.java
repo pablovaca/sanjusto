@@ -21,10 +21,12 @@ public class TreatmentServiceTest extends TransactionalSupportTest {
     @Test
     public void testGetAllTreatments() throws Exception {
         LOGGER.info("testGetAllTreatments");
+        int page = 0;
+        int size = 5;
         User user = getTestUser();
         ServiceFactory serviceFactory = getServiceFactory();
         TreatmentService treatmentService = serviceFactory.getTreatmentService(user);
-        Iterable<Treatment> result = treatmentService.getAllTreatments();
+        Iterable<Treatment> result = treatmentService.getAllTreatments(page, size);
         assertNotNull("Result should not be null",result);
         int counter = 0;
         for (Treatment treatment:result) {
@@ -33,7 +35,7 @@ public class TreatmentServiceTest extends TransactionalSupportTest {
             counter++;
         }
         LOGGER.info("counter " + counter);
-        assertEquals("Should be equals to 1",1,counter);
+        assertEquals("Should be equals to 5",5,counter);
         LOGGER.info("testGetAllTreatments");
     }
 
@@ -65,11 +67,11 @@ public class TreatmentServiceTest extends TransactionalSupportTest {
         assertNotNull("Treatment id should not be null", treatment.getId());
         assertFalse("Finished should be false", treatment.getFinished());
         LOGGER.info("Treatment id " + treatment.getId());
-        assertEquals("Treatment id should be 2", 2L, treatment.getId().longValue());
+        assertEquals("Treatment id should be 2", 23L, treatment.getId().longValue());
         finished = true;
         treatment = treatmentService.saveTreatment(treatment.getId(),branchId, coordinated, finished, null, certificate, comments, 1L, null);
         assertNotNull("Treatment should not be null", treatment);
-        assertEquals("Treatment id should be 2", 2L, treatment.getId().longValue());
+        assertEquals("Treatment id should be 2", 23L, treatment.getId().longValue());
         assertTrue("Finished should be true", treatment.getFinished());
         LOGGER.info("testInsertTreatment");
         try {

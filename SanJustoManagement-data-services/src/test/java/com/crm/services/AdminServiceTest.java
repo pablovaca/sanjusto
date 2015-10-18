@@ -34,7 +34,7 @@ public class AdminServiceTest extends TransactionalSupportTest {
             counter++;
         }
         LOGGER.info("counter " + counter);
-        assertEquals("Should be equals to 1", 1, counter);
+        assertEquals("Should be equals to 1", 4, counter);
         LOGGER.info("testGetAllCustomers");
     }
 
@@ -46,14 +46,14 @@ public class AdminServiceTest extends TransactionalSupportTest {
 
         Customer newCustomer = adminService.saveCustomer(null, "Test Customer", "Test Customer Address", "Test Neighborhood", "Test City",
                 "123 Test", "emailCustomer@email.com", 1L, true);
-        assertEquals("Id should be 2", 2, newCustomer.getId().longValue());
+        assertEquals("Id should be 2", 5, newCustomer.getId().longValue());
 
         Customer modifyCustomer = adminService.saveCustomer(newCustomer.getId(), "Test Customer", "Test Customer Address", "Test Neighborhood", "Test City",
                 "123", "emailCustomer@email.com", 1L, true);
         assertEquals("Phone should be 123", "123", modifyCustomer.getPhone());
 
         adminService.removeCustomer(modifyCustomer.getId());
-        Customer customerRemoved = adminService.getOneCustomer(2L);
+        Customer customerRemoved = adminService.getOneCustomer(5L);
         assertNull("Customer should be null", customerRemoved);
     }
 
@@ -82,7 +82,7 @@ public class AdminServiceTest extends TransactionalSupportTest {
 
         Branch newBranch = adminService.saveBranch(null, "Test Branch", "Test Branch Address", "Test Branch Neighborhood", "Test Branch City", "123 Branch",
                 1L, 26L, true);
-        assertEquals("Branch should have id 3",3L,newBranch.getId().longValue());
+        assertEquals("Branch should have id 3",6L,newBranch.getId().longValue());
         Branch modifyBranch = adminService.saveBranch(null, "Test Branch", "Test Branch Address", "Test Branch Neighborhood", "Test Branch City", "123",
                 1L, 26L, true);
         assertEquals("Branch new phone number should be 123","123",modifyBranch.getPhone());
@@ -116,7 +116,7 @@ public class AdminServiceTest extends TransactionalSupportTest {
         AdminService adminService = getAdminService(user);
 
         Contact newContact = adminService.saveContact(null, "firstName", "middleName", "lastName", "123 phone", "email234@contact.com", true, 1L);
-        assertEquals("Contact should have id 5", 5L, newContact.getId().longValue());
+        assertEquals("Contact should have id 5", 8L, newContact.getId().longValue());
         Contact modifyContact = adminService.saveContact(null, "firstName", "middleName", "lastName", "12345", "emai234l@contact.com", true, 1L);
         assertEquals("Contact new phone number should be 12345", "12345", modifyContact.getPhone());
 

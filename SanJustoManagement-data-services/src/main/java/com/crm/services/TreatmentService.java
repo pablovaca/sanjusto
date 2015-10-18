@@ -12,7 +12,7 @@ public interface TreatmentService {
 
     User getUser();
 
-    Iterable<Treatment> getAllTreatments() throws Exception;
+    Iterable<Treatment> getAllTreatments(int page, int size) throws Exception;
 
     Treatment getOneTreatment(Long treatmentId) throws  Exception;
 

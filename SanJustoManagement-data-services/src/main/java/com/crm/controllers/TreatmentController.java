@@ -23,9 +23,11 @@ public class TreatmentController extends BaseController{
 
     protected static final Logger LOGGER = LogManager.getLogger(TreatmentController.class);
 
-    @RequestMapping(value = "/all", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
-    public @ResponseBody String getAllCustomers(@RequestHeader("token") String token) throws Exception{
-        String[] params = new String[]{"getAllTreatments",};
+    @RequestMapping(value = "/all/{page}/{size}", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    public @ResponseBody String getAllTreatments(@RequestHeader("token") String token
+                                                ,@PathVariable("page") Integer page
+                                                ,@PathVariable("size") Integer size) throws Exception {
+        String[] params = new String[]{"getAllTreatments", token, page.toString(), size.toString()};
         String param = this.makeJsonParam(params);
         return this.methodController(param);
     }

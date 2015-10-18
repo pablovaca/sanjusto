@@ -20,7 +20,7 @@ public class SecurityServiceImpl implements SecurityService {
     private TokenEncoder tokenEncoder;
 
     protected static final Logger LOGGER = LogManager.getLogger(SecurityServiceImpl.class);
-    private static long TOKEN_TIME_TO_LIVE = 1000L * 60L * 30L;
+    private static long TOKEN_TIME_TO_LIVE = 1000L * 60L * 60L * 8L;
 
     public User authenticateUser(String username, String password) throws Exception {
         LOGGER.debug("authenticateUser ingresando -> " + DateUtils.getCurrentDate() + " " + DateUtils.getCurrentTime());

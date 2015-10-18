@@ -79,10 +79,10 @@ values (3,'PERMETRINA 2%',25,1);
 insert into CUSTOMERS (ID,CUSTOMER_NAME,ADDRESS,NEIGHBORHOOD,CITY,PHONE,EMAIL,START_DATE,CUSTOMER_TYPE,ENABLED,ORG_ID)
 values (1,'Pablo Vaca','Mza 221 Lote 12','La Estanzuela 2','LA CALERA','1533731837','vacapablo72@gmail.com',current_date(),1,1,1);
 
-insert into BRANCHES (ID,BRANCH_NAME,ADDRESS,NEIGHBORHOOD,CITY,PHONE,CUSTOMER_ID,BRANCH_TYPE,ORG_ID)
-values (1,'Branch 1','Mza 221 lote 12','La Estanzuela 2','La Calera','402775',1,1,1);
-insert into BRANCHES (ID,BRANCH_NAME,ADDRESS,NEIGHBORHOOD,CITY,PHONE,CUSTOMER_ID,BRANCH_TYPE,ORG_ID)
-values (2,'Branch 2','Mza 224 lote 121','La Estanzuela','La Calera','402779',1,1,1);
+insert into BRANCHES (ID,BRANCH_NAME,ADDRESS,NEIGHBORHOOD,CITY,PHONE,CUSTOMER_ID,BRANCH_TYPE,ORG_ID, START_DATE)
+values (1,'Branch 1','Mza 221 lote 12','La Estanzuela 2','La Calera','402775',1,1,1,current_date());
+insert into BRANCHES (ID,BRANCH_NAME,ADDRESS,NEIGHBORHOOD,CITY,PHONE,CUSTOMER_ID,BRANCH_TYPE,ORG_ID, START_DATE)
+values (2,'Branch 2','Mza 224 lote 121','La Estanzuela','La Calera','402779',1,1,1,current_date());
 
 insert into CONTACTS (ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,ORG_ID,CUSTOMER_ID)
 values (1,'Contacto','Uno','contacto1@email.com','12345678',1,1);

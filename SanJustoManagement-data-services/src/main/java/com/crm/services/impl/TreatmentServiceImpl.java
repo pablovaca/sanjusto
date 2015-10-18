@@ -6,6 +6,8 @@ import com.crm.utils.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.util.Date;
 import java.util.List;
@@ -21,8 +23,10 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
     private static final String TREATMENT_MOTIVES = "MOTIVES";
 
 
-    public Iterable<Treatment> getAllTreatments() throws Exception {
-        return treatmentsRepository.findByOrganization(user.getOrganization());
+    public Iterable<Treatment> getAllTreatments(int page, int size) throws Exception {
+        PageRequest pageRequest = new PageRequest(page, size, new Sort(Sort.Direction.ASC, "treatmentDate"));
+        Iterable<Treatment> result = treatmentsRepository.findByOrganization(user.getOrganization(), pageRequest);
+        return result;
     }
 
     public Treatment getOneTreatment(Long treatmentId) throws  Exception {

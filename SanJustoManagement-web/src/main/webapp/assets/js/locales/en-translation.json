@@ -1,0 +1,7 @@
+{
+  "treatments": {
+    "nro": "Number",
+    "customerName": "Customer",
+    "branchName": "Branch"
+  }
+}

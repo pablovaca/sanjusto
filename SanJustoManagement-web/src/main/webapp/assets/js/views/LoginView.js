@@ -23,6 +23,7 @@ function($, _, Backbone, loginTemplate, Config, Common, api) {
 
         initialize : function() {
             this.$main = this.$('#mainView');
+            api.initializeLanguage();
         },
 
         events : {

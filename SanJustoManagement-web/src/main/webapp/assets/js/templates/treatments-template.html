@@ -1,0 +1,21 @@
+<div>
+    <? console.log(model.totalRows);?>
+    <table class="table" id="dataTable">
+        <thead>
+            <tr>
+                <th data-i18n="[html]translation:treatments.nro">Number</th>
+                <th data-i18n="[html]translation:treatments.customerName">CustomerName</th>
+                <th data-i18n="[html]translation:treatments.branchName">BranchName</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?_.each(model.treatments, function(treatment, index){?>
+            <tr>
+                <td><?=treatment.id?></td>
+                <td><?=treatment.customerName?></td>
+                <td><?=treatment.branchName?></td>
+            </tr>
+            <?})?>
+        </tbody>
+    </table>
+</div>
