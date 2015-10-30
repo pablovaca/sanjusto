@@ -2,10 +2,10 @@ define([
     "jquery",
     "underscore",
     "backbone",
-    "models/treatment-model",
+    "models/customer-model",
     "services/APIServices"
-], function($, _, Backbone,TreatmentModel, api){
-    var Treatments = Backbone.Collection.extend({
+], function($, _, Backbone,CustomerModel, api){
+    var Customers = Backbone.Collection.extend({
         defaults: {
             isReady:false,
             totalRows:0,
@@ -21,7 +21,7 @@ define([
             if (!pageNro) {
                 pageNro = this.page;
             }
-            api.getAllTreatments(_.bind(this.fillCollection, this),pageNro);
+            api.getAllCustomers(_.bind(this.fillCollection, this),pageNro);
         },
 
         fillCollection: function(result, status, message){
@@ -31,7 +31,7 @@ define([
                     this.page = result.pageable.page;
                     this.pageSize = result.pageable.size;
                     _.each(result.content,function(element){
-                        this.add(this.initializeTreatmentModel(element));
+                        this.add(this.initializeCustomerModel(element));
                     }, this);
                 }
                 this.isReady = true;
@@ -43,25 +43,20 @@ define([
             }
         },
 
-        initializeTreatmentModel: function(treatment){
-            return new TreatmentModel({
-                id: treatment.id,
-                branchId: treatment.branch.id,
-                branchName: treatment.branch.name,
-                customerId: treatment.branch.customer.id,
-                customerName: treatment.branch.customer.name,
-                treatmentDate: treatment.treatmentDate,
-                userId: treatment.user.id,
-                userName: treatment.user.username,
-                finished: treatment.finished,
-                certified: treatment.certificate,
-                motive: null,
-                comments: null,
-                coordinated: treatment.coordinated
+        initializeCustomerModel: function(customer){
+            return new CustomerModel({
+                id: customer.id,
+                name: customer.name,
+                startDate: customer.startDate,
+                address: customer.address,
+                neighborhood: customer.neighborhood,
+                city: customer.city,
+                phone: customer.phone,
+                email: customer.email
             });
         }
     });
 
-    return Treatments;
+    return Customers;
 
 });

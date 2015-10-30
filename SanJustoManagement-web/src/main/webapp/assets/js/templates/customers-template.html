@@ -2,17 +2,23 @@
     <table class="table-responsive table" id="dataTable">
         <thead>
             <tr>
-                <th data-i18n="[html]translation:treatments.nro">Number</th>
-                <th data-i18n="[html]translation:treatments.customerName">CustomerName</th>
-                <th data-i18n="[html]translation:treatments.branchName">BranchName</th>
+                <th data-i18n="[html]translation:customers.id">Id</th>
+                <th data-i18n="[html]translation:customers.name">Name</th>
+                <th data-i18n="[html]translation:customers.address">Address</th>
+                <th data-i18n="[html]translation:customers.neighborhood">Neighborhood</th>
+                <th data-i18n="[html]translation:customers.email">Email</th>
+                <th data-i18n="[html]translation:customers.phone">Phone</th>
             </tr>
         </thead>
         <tbody>
-            <?_.each(model.treatments, function(treatment, index){?>
+            <?_.each(model.customers, function(customer, index){?>
             <tr>
-                <td><?=treatment.id?></td>
-                <td><?=treatment.customerName?></td>
-                <td><?=treatment.branchName?></td>
+                <td><?=customer.id?></td>
+                <td><?=customer.name?></td>
+                <td><?=customer.address?></td>
+                <td><?=customer.neighborhood?></td>
+                <td><?=customer.email?></td>
+                <td><?=customer.phone?></td>
             </tr>
             <?});?>
         </tbody>

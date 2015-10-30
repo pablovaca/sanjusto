@@ -6,6 +6,8 @@ import com.crm.utils.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,12 +20,13 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
     private static final String CUSTOMER_TYPE = "CUSTOMER_TYPE";
     private static final String BRANCH_TYPE = "BRANCH_TYPE";
 
-    public Iterable<Customer> getAllCustomers(boolean onlyEnabled) throws Exception {
+    public Iterable<Customer> getAllCustomers(boolean onlyEnabled, int page, int size) throws Exception {
         Iterable<Customer> result;
+        PageRequest pageRequest = new PageRequest(page, size, new Sort(Sort.Direction.ASC, "name"));
         if (onlyEnabled) {
-            result = customersRepository.findByOrganization(user.getOrganization());
+            result = customersRepository.findByOrganization(user.getOrganization(), pageRequest);
         } else {
-            result = customersRepository.findByEnabledIsTrueAndOrganization(user.getOrganization());
+            result = customersRepository.findByEnabledIsTrueAndOrganization(user.getOrganization(), pageRequest);
         }
         return result;
     }

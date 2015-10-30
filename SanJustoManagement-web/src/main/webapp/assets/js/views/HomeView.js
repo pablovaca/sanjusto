@@ -22,13 +22,15 @@ define([
         className: 'row',
         template: _.template(homeTemplate),
         treatmentsView : {},
+        customersView : {},
 
         initialize: function () {
             this.$main = this.$('#mainView');
         },
 
         events: {
-            "click .js-click-treatments": "internalNavigation"
+            "click .js-click-treatments": "internalNavigation",
+            "click .js-click-customers": "internalNavigation"
         },
 
         render: function () {
@@ -51,6 +53,11 @@ define([
                 this.currentLocation = 'treatments';
                 return;
             };
+            if (cssClass === 'js-click-customers') {
+                this.customers(event);
+                this.currentLocation = 'customers';
+                return;
+            };
         },
 
         treatments: function (evt) {
@@ -65,6 +72,21 @@ define([
             require(['views/HomeView', 'views/TreatmentsView', 'backbone'], function (HomeView, TreatmentsView, Backbone) {
                 HomeView.treatmentsView = new TreatmentsView();
                 HomeView.treatmentsView.listenTo(Backbone,'NO_RIGHTS',HomeView.errorFunc);
+            });
+        },
+
+        customers: function (evt) {
+            if(evt){
+                evt.preventDefault();
+            }
+
+            this.renderCustomersView();
+        },
+
+        renderCustomersView: function () {
+            require(['views/HomeView', 'views/CustomersView', 'backbone'], function (HomeView, CustomersView, Backbone) {
+                HomeView.customersView = new CustomersView();
+                HomeView.customersView.listenTo(Backbone,'NO_RIGHTS',HomeView.errorFunc);
             });
         },
 

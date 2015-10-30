@@ -1,15 +1,17 @@
 package com.crm.data.repositories;
 
 import com.crm.data.model.Organization;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 import com.crm.data.model.Customer;
 
 public interface CustomersRepository extends CrudRepository<Customer, Long>{
 
-        Iterable<Customer> findByEnabledIsTrueAndOrganization(Organization organization);
+        Page<Customer> findByEnabledIsTrueAndOrganization(Organization organization, Pageable pageable);
 
-        Iterable<Customer> findByOrganization(Organization organization);
+        Page<Customer> findByOrganization(Organization organization, Pageable pageable);
 
         Customer findByIdAndOrganization(Long id,Organization organization);
 }

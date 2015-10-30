@@ -27,7 +27,7 @@ public class TreatmentController extends BaseController{
     public @ResponseBody String getAllTreatments(@RequestHeader("token") String token
                                                 ,@PathVariable("page") Integer page
                                                 ,@PathVariable("size") Integer size) throws Exception {
-        String[] params = new String[]{"getAllTreatments", token, page.toString(), size.toString()};
+        String[] params = new String[]{"getAllTreatments", token, String.valueOf(page), String.valueOf(size)};
         String param = this.makeJsonParam(params);
         return this.methodController(param);
     }

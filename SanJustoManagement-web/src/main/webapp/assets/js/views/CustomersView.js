@@ -3,28 +3,28 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!templates/treatments-template.html',
+    'text!templates/customers-template.html',
     'config',
-    'collections/treatments-collection',
+    'collections/customers-collection',
     'services/APIServices'
-], function ($, _, Backbone, treatmentsTemplate, Config, TreatmentsCollection, api) {
+], function ($, _, Backbone, customersTemplate, Config, CustomersCollection, api) {
     'use strict';
 
     Config.setUp();
 
-    var TreatmentView = Backbone.View.extend({
+    var CustomerView = Backbone.View.extend({
         el : '#app',
         className : 'row',
-        template : _.template(treatmentsTemplate),
-        treatmentsCollection : {},
+        template : _.template(customersTemplate),
+        customersCollection : {},
         container : 'centerPanel',
         pagesSelector : new Array(),
 
         initialize : function() {
             this.$main = this.$('#' + this.container);
-            this.treatmentsCollection = new TreatmentsCollection();
-            this.listenTo(this.treatmentsCollection, 'ready', this.render);
-            this.treatmentsCollection.callPage(0);
+            this.customersCollection = new CustomersCollection();
+            this.listenTo(this.customersCollection, 'ready', this.render);
+            this.customersCollection.callPage(0);
         },
 
         events : {
@@ -32,12 +32,12 @@ define([
         },
 
         render : function() {
-            if (!this.treatmentsCollection.isReady) {
+            if (!this.customersCollection.isReady) {
                 return;
             }
 
-            var totalPages = Math.ceil(this.treatmentsCollection.totalRows / this.treatmentsCollection.pageSize);
-            var page = this.treatmentsCollection.page+1;
+            var totalPages = Math.ceil(this.customersCollection.totalRows / this.customersCollection.pageSize);
+            var page = this.customersCollection.page+1;
             var prevPage = page-1;
             var nextPage = page+1;
 
@@ -64,9 +64,9 @@ define([
             }
 
             var model = {
-                treatments : this.treatmentsCollection.toJSON(),
-                totalRows : this.treatmentsCollection.totalRows,
-                currentPage : this.treatmentsCollection.page,
+                customers : this.customersCollection.toJSON(),
+                totalRows : this.customersCollection.totalRows,
+                currentPage : this.customersCollection.page,
                 pagesSelector : this.pagesSelector
             };
             this.$main.html(this.template({
@@ -78,10 +78,10 @@ define([
         goPage : function(evt) {
             evt.preventDefault();
             var id=$(evt.target).data('id');
-            this.treatmentsCollection.callPage(id);
+            this.customersCollection.callPage(id);
         }
 
     });
 
-    return TreatmentView;
+    return CustomerView;
 });

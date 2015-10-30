@@ -65,6 +65,19 @@ SET @treatment19 = @treatment18 + 1;
 SET @treatment20 = @treatment19 + 1;
 SET @treatment21 = @treatment20 + 1;
 SET @treatment22 = @treatment21 + 1;
+SET @treatment23 = @treatment22 + 1;
+SET @treatment24 = @treatment23 + 1;
+SET @treatment25 = @treatment24 + 1;
+SET @treatment26 = @treatment25 + 1;
+SET @treatment27 = @treatment26 + 1;
+SET @treatment28 = @treatment27 + 1;
+SET @treatment29 = @treatment28 + 1;
+SET @treatment30 = @treatment29 + 1;
+SET @treatment31 = @treatment30 + 1;
+SET @treatment32 = @treatment31 + 1;
+SET @treatment33 = @treatment32 + 1;
+SET @treatment34 = @treatment33 + 1;
+SET @treatment35 = @treatment34 + 1;
 
 insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment2,current_date(),2,1,1);
 insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment2,4);
@@ -149,5 +162,57 @@ insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment21,8);
 insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment22,current_date(),@branch4,1,1);
 insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment22,4);
 insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment22,8);
+
+insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment23,current_date(),@branch4,1,1);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment23,4);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment23,8);
+
+insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment24,current_date(),@branch4,1,1);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment24,4);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment24,8);
+
+insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment25,current_date(),@branch4,1,1);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment25,4);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment25,8);
+
+insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment26,current_date(),@branch4,1,1);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment26,4);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment26,8);
+
+insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment27,current_date(),@branch4,1,1);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment27,4);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment27,8);
+
+insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment28,current_date(),@branch4,1,1);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment28,4);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment28,8);
+
+insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment29,current_date(),@branch4,1,1);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment29,4);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment29,8);
+
+insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment30,current_date(),@branch4,1,1);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment30,4);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment30,8);
+
+insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment31,current_date(),@branch4,1,1);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment31,4);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment31,8);
+
+insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment32,current_date(),@branch4,1,1);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment32,4);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment32,8);
+
+insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment33,current_date(),@branch4,1,1);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment33,4);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment33,8);
+
+insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment34,current_date(),@branch4,1,1);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment34,4);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment34,8);
+
+insert into TREATMENTS (ID,TREATMENT_DATE,BRANCH_ID,USER_ID,ORG_ID) values (@treatment35,current_date(),@branch4,1,1);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment35,4);
+insert into TREATMENTS_WORKS (TREATMENT_ID,TYPE_WORK) values (@treatment35,8);
 
 commit;

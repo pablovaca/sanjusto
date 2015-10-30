@@ -22,10 +22,12 @@ public class AdminController extends BaseController{
 
     protected static final Logger LOGGER = LogManager.getLogger(AdminController.class);
 
-    @RequestMapping(value = "/customers", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
-    public @ResponseBody String getAllCustomers(@RequestHeader("token") String token,
-                                                @RequestParam(value="onlyEnabled",required = false, defaultValue = "true") Boolean onlyEnabled) throws Exception{
-        String[] params = new String[]{"getAllCustomers",token,onlyEnabled.toString()};
+    @RequestMapping(value = "/customers/{page}/{size}", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    public @ResponseBody String getAllCustomers(@RequestHeader("token") String token
+                                                ,@PathVariable("page") Integer page
+                                                ,@PathVariable("size") Integer size
+                                                ,@RequestParam(value="onlyEnabled",required = false, defaultValue = "true") Boolean onlyEnabled) throws Exception{
+        String[] params = new String[]{"getAllCustomers",token,onlyEnabled.toString(), String.valueOf(page), String.valueOf(size)};
         String param = this.makeJsonParam(params);
         return this.methodController(param);
     }

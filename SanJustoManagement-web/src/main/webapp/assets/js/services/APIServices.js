@@ -79,11 +79,16 @@ define([], function () {
 
     function getBasicRequest() {
         var request={};
+        request.timestamp = (new Date()).getTime();
         return request;
     }
 
     function callTreatmentsService (typeCall, urlAction, request, functionToCall, handleErrors) {
         callBackEnd("api/v1/treatments",typeCall,urlAction,request,functionToCall,handleErrors);
+    }
+
+    function callAdminService (typeCall, urlAction, request, functionToCall, handleErrors) {
+        callBackEnd("api/v1/admin",typeCall,urlAction,request,functionToCall,handleErrors);
     }
 
     function callBackEnd (service,typeCall, urlAction, request, functionToCall, handleErrors) {
@@ -150,6 +155,10 @@ define([], function () {
 
     APIServices.prototype = {
 
+        defaultPageSize:function(){
+            return size;
+        },
+
         isLoggedIn:function(){
               token = getCookie(COOKIE_TOKEN_KEY);
           return (token && token.length>10);
@@ -166,7 +175,7 @@ define([], function () {
         },
 
         login:function (functionToCall, username,password) {
-            var request={};
+            var request=getBasicRequest();
             request.username=username;
             request.password=password;
 
@@ -202,7 +211,7 @@ define([], function () {
         },
 
         getUserByToken:function(functionToCall){
-            var request={};
+            var request=getBasicRequest();
 
             if (!token || token.length<=10) {
                 token="1234567890";
@@ -241,7 +250,7 @@ define([], function () {
         },
 
         changePassword : function(functionToCall, oldPassword, newPassword){
-            var request={};
+            var request=getBasicRequest();
             request.oldPass=oldPassword;
             request.newPass=newPassword;
 
@@ -294,7 +303,7 @@ define([], function () {
          * *************************
          */
 
-        getAllTreatments:function (functionToCall, page, handleErrors)
+        getAllTreatments :function (functionToCall, page, handleErrors)
         {
             var request=getBasicRequest();
             if (!page) {
@@ -303,10 +312,20 @@ define([], function () {
             callTreatmentsService("GET","/all/"+page+"/"+size,request,functionToCall,handleErrors);
         },
 
-        getQtyTreatments:function (functionToCall,handleErrors)
+        /* *************************
+         *
+         *  Admin Service Methods
+         *
+         * *************************
+         */
+
+        getAllCustomers :function (functionToCall, page, handleErrors)
         {
             var request=getBasicRequest();
-            callTreatmentsService("GET","/qty",request,functionToCall,handleErrors);
+            if (!page) {
+                page = 0;
+            }
+            callAdminService("GET","/customers/"+page+"/"+size,request,functionToCall,handleErrors);
         }
     };
     return APIServices.getInstance();

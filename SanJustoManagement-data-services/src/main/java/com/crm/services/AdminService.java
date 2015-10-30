@@ -11,7 +11,7 @@ public interface AdminService {
 
     User getUser();
 
-    Iterable<Customer> getAllCustomers(boolean onlyEnabled) throws Exception;
+    Iterable<Customer> getAllCustomers(boolean onlyEnabled, int page, int size) throws Exception;
 
     Customer getOneCustomer(Long custId) throws Exception;
 

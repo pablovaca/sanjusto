@@ -3,5 +3,13 @@
     "nro": "Number",
     "customerName": "Customer",
     "branchName": "Branch"
+  },
+  "customers": {
+    "id": "Id",
+    "name": "Customer",
+    "address": "Address",
+    "neighborhood" : "Neighborhood",
+    "email" : "Email",
+    "phone" : "Phone"
   }
 }

@@ -26,7 +26,7 @@ public class AdminServiceTest extends TransactionalSupportTest {
         LOGGER.info("testGetAllCustomers");
         User user = getTestUser();
         AdminService adminService = getAdminService(user);
-        Iterable<Customer> result = adminService.getAllCustomers(true);
+        Iterable<Customer> result = adminService.getAllCustomers(true,0,5);
         assertNotNull("Result should not be null", result);
         int counter = 0;
         for (Customer customer:result) {
