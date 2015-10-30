@@ -63,7 +63,7 @@ public class AdminServiceTest extends TransactionalSupportTest {
         User user = getTestUser();
         AdminService adminService = getAdminService(user);
 
-        Iterable<Branch> branches = adminService.getAllBranchesByCustomer(1L, true);
+        Iterable<Branch> branches = adminService.getAllBranchesByCustomer(1L, true, 0 , 5);
         assertNotNull("Branches should not be null", branches);
         int counter=0;
         for (Branch branch:branches) {

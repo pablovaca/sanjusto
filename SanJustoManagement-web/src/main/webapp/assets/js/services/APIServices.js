@@ -326,6 +326,15 @@ define([], function () {
                 page = 0;
             }
             callAdminService("GET","/customers/"+page+"/"+size,request,functionToCall,handleErrors);
+        },
+
+        getAllBranches :function (functionToCall, page, handleErrors)
+        {
+            var request=getBasicRequest();
+            if (!page) {
+                page = 0;
+            }
+            callAdminService("GET","/branches/"+page+"/"+size,request,functionToCall,handleErrors);
         }
     };
     return APIServices.getInstance();

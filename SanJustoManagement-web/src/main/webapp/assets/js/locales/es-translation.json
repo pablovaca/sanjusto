@@ -11,5 +11,12 @@
     "neighborhood" : "Barrio",
     "email" : "Email",
     "phone" : "Teléfono"
+  },
+  "branches": {
+    "id": "Id",
+    "name": "Cliente",
+    "address": "Dirección",
+    "neighborhood" : "Barrio",
+    "phone" : "Teléfono"
   }
 }

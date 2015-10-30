@@ -32,6 +32,16 @@ public class AdminController extends BaseController{
         return this.methodController(param);
     }
 
+    @RequestMapping(value = "/branches/{page}/{size}", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    public @ResponseBody String getAllBranches(@RequestHeader("token") String token
+            ,@PathVariable("page") Integer page
+            ,@PathVariable("size") Integer size
+            ,@RequestParam(value="onlyEnabled",required = false, defaultValue = "true") Boolean onlyEnabled) throws Exception{
+        String[] params = new String[]{"getAllBranches",token,onlyEnabled.toString(), String.valueOf(page), String.valueOf(size)};
+        String param = this.makeJsonParam(params);
+        return this.methodController(param);
+    }
+
     private String methodController(String param) {
         try {
             JSONObject jsonParam = new JSONObject(param);

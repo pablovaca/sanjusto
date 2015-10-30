@@ -24,7 +24,9 @@ public interface AdminService {
 
     Type getOneType(Long typeId) throws Exception;
 
-    Iterable<Branch> getAllBranchesByCustomer(Long customerId, boolean onlyEnabled) throws Exception;
+    Iterable<Branch> getAllBranches(boolean onlyEnabled, int page, int size) throws Exception;
+
+    Iterable<Branch> getAllBranchesByCustomer(Long customerId, boolean onlyEnabled, int page, int size) throws Exception;
 
     Branch getOneBranch(Long branchId) throws Exception;
 

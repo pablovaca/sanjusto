@@ -96,14 +96,26 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
         return typesRepository.findByIdAndOrganizationAndEnabledIsTrue(typeId, user.getOrganization());
     }
 
-    public Iterable<Branch> getAllBranchesByCustomer(Long customerId, boolean onlyEnabled) throws Exception {
+    public Iterable<Branch> getAllBranches(boolean onlyEnabled, int page, int size) throws Exception {
+        Iterable<Branch> result;
+        PageRequest pageRequest = new PageRequest(page, size, new Sort(Sort.Direction.ASC, "name"));
+        if (onlyEnabled) {
+            result = branchesRepository.findByOrganizationAndEnabledIsTrue(user.getOrganization(), pageRequest);
+        } else {
+            result = branchesRepository.findByOrganization(user.getOrganization(), pageRequest);
+        }
+        return result;
+    };
+
+    public Iterable<Branch> getAllBranchesByCustomer(Long customerId, boolean onlyEnabled, int page, int size) throws Exception {
         Iterable<Branch> result;
         Customer customer = customersRepository.findByIdAndOrganization(customerId,user.getOrganization());
         if (null!=customer) {
+            PageRequest pageRequest = new PageRequest(page, size, new Sort(Sort.Direction.ASC, "name"));
             if (onlyEnabled) {
-                result = branchesRepository.findByOrganizationAndCustomerAndEnabledIsTrue(user.getOrganization(), customer);
+                result = branchesRepository.findByOrganizationAndCustomerAndEnabledIsTrue(user.getOrganization(), customer, pageRequest);
             } else {
-                result = branchesRepository.findByOrganizationAndCustomer(user.getOrganization(), customer);
+                result = branchesRepository.findByOrganizationAndCustomer(user.getOrganization(), customer, pageRequest);
             }
             return result;
         }

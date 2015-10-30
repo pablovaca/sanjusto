@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <table class="table-responsive table" id="dataTable">
+        <thead>
+            <tr>
+                <th data-i18n="[html]translation:branches.id">Id</th>
+                <th data-i18n="[html]translation:branches.name">Name</th>
+                <th data-i18n="[html]translation:branches.address">Address</th>
+                <th data-i18n="[html]translation:branches.neighborhood">Neighborhood</th>
+                <th data-i18n="[html]translation:branches.phone">Phone</th>
+                <th data-i18n="[html]translation:customers.name">Customer</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?_.each(model.branches, function(branch, index){?>
+            <tr>
+                <td><?=branch.id?></td>
+                <td><?=branch.name?></td>
+                <td><?=branch.address?></td>
+                <td><?=branch.neighborhood?></td>
+                <td><?=branch.phone?></td>
+                <td><?=branch.customerName?></td>
+            </tr>
+            <?});?>
+        </tbody>
+    </table>
+    <table class="table-responsive">
+        <tbody>
+            <tr>
+                <?
+                _.each(model.pagesSelector, function(element) {
+                    if (element > 0 && element) {
+                    if (element-1 == model.currentPage) {?>
+                        <td><span><strong><a href="#" data-id="<?=element-1?>" class="btn-toolbar btn-group-lg btn-lg js-click-page"> <?=element?></a></strong></span></td>
+                    <?} else {?>
+                        <td><span><a href="#" data-id="<?=element-1?>" class="btn-toolbar btn-group-lg btn-lg js-click-page"> <?=element?></a></span></td>
+                    <?}}});?>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

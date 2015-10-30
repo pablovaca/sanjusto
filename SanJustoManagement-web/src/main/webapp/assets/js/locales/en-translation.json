@@ -11,5 +11,12 @@
     "neighborhood" : "Neighborhood",
     "email" : "Email",
     "phone" : "Phone"
+  },
+  "branches": {
+    "id": "Id",
+    "name": "Customer",
+    "address": "Address",
+    "neighborhood" : "Neighborhood",
+    "phone" : "Phone"
   }
 }
