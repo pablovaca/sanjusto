@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <table class="table-responsive table" id="dataTable">
+        <thead>
+            <tr>
+                <th data-i18n="[html]translation:contacts.id">Id</th>
+                <th data-i18n="[html]translation:contacts.firstName">First Name</th>
+                <th data-i18n="[html]translation:contacts.lastName">Last Name</th>
+                <th data-i18n="[html]translation:contacts.email">Email</th>
+                <th data-i18n="[html]translation:contacts.phone">Phone</th>
+                <th data-i18n="[html]translation:customers.name">Customer</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?_.each(model.contacts, function(contact, index){?>
+            <tr>
+                <td><?=contact.id?></td>
+                <td><?=contact.firstName?></td>
+                <td><?=contact.lastName?></td>
+                <td><?=contact.email?></td>
+                <td><?=contact.phone?></td>
+                <td><?=contact.customerName?></td>
+            </tr>
+            <?});?>
+        </tbody>
+    </table>
+    <table class="table-responsive">
+        <tbody>
+            <tr>
+                <?
+                _.each(model.pagesSelector, function(element) {
+                    if (element > 0 && element) {
+                    if (element-1 == model.currentPage) {?>
+                        <td><span><strong><a href="#" id="contact-<?=element-1?>" data-id="<?=element-1?>" class="btn-toolbar btn-group-lg btn-lg js-click-page-contacts"> <?=element?></a></strong></span></td>
+                    <?} else {?>
+                        <td><span><a href="#" id="contact-<?=element-1?>" data-id="<?=element-1?>" class="btn-toolbar btn-group-lg btn-lg js-click-page-contacts"> <?=element?></a></span></td>
+                    <?}}});?>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

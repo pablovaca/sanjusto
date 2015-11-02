@@ -2,7 +2,13 @@
   "treatments": {
     "nro": "Número",
     "customerName": "Cliente",
-    "branchName": "Sucursal"
+    "branchName": "Sucursal",
+    "treatmentDate": "Fecha",
+    "certified": "Certificado",
+    "finished": "Finalizado",
+    "buttons":{
+      "new": "Nuevo Tratamiento"
+    }
   },
   "customers": {
     "id": "Id",
@@ -17,6 +23,13 @@
     "name": "Cliente",
     "address": "Dirección",
     "neighborhood" : "Barrio",
+    "phone" : "Teléfono"
+  },
+  "contacts": {
+    "id": "Id",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email" : "Email",
     "phone" : "Teléfono"
   }
 }

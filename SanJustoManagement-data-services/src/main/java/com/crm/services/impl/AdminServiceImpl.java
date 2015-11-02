@@ -186,14 +186,26 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
         branchesRepository.delete(branch);
     }
 
-    public Iterable<Contact> getAllContactsByCustomer(Long customerId, boolean onlyEnabled) throws Exception {
+    public Iterable<Contact> getAllContacts(boolean onlyEnabled, int page, int size) throws Exception {
+        Iterable<Contact> result;
+        PageRequest pageRequest = new PageRequest(page, size, new Sort(Sort.Direction.ASC, "lastName"));
+        if (onlyEnabled) {
+            result = contactsRepository.findByEnabledIsTrueAndOrganization(user.getOrganization(), pageRequest);
+        } else {
+            result = contactsRepository.findByOrganization(user.getOrganization(), pageRequest);
+        }
+        return result;
+    }
+
+    public Iterable<Contact> getAllContactsByCustomer(Long customerId, boolean onlyEnabled, int page, int size) throws Exception {
         Iterable<Contact> result;
         Customer customer = customersRepository.findByIdAndOrganization(customerId,user.getOrganization());
         if (null!=customer) {
+            PageRequest pageRequest = new PageRequest(page, size, new Sort(Sort.Direction.ASC, "lastName"));
             if (onlyEnabled) {
-                result = contactsRepository.findByCustomerAndEnabledIsTrueAndOrganization(customer, user.getOrganization());
+                result = contactsRepository.findByCustomerAndEnabledIsTrueAndOrganization(customer, user.getOrganization(), pageRequest);
             } else {
-                result = contactsRepository.findByCustomerAndOrganization(customer, user.getOrganization());
+                result = contactsRepository.findByCustomerAndOrganization(customer, user.getOrganization(), pageRequest);
             }
             return result;
         }

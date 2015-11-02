@@ -35,7 +35,9 @@ public interface AdminService {
 
     void removeBranch(Long branchId) throws Exception;
 
-    Iterable<Contact> getAllContactsByCustomer(Long customerId, boolean onlyEnabled) throws Exception;
+    Iterable<Contact> getAllContacts(boolean onlyEnabled, int page, int size) throws Exception;
+
+    Iterable<Contact> getAllContactsByCustomer(Long customerId, boolean onlyEnabled, int page, int size) throws Exception;
 
     Contact getOneContact(Long contactId) throws Exception;
 

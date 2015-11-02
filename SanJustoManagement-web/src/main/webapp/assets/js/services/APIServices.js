@@ -4,7 +4,7 @@ define([], function () {
 
     var size = 5;
     var token = "";
-    var EXPIRE_MINUTES = 30;
+    var EXPIRE_MINUTES = 480;
     var COOKIE_TOKEN_KEY = 'tokenSanJusto';
     var settings = {};
     var loggedUser = {};
@@ -335,6 +335,15 @@ define([], function () {
                 page = 0;
             }
             callAdminService("GET","/branches/"+page+"/"+size,request,functionToCall,handleErrors);
+        },
+
+        getAllContacts :function (functionToCall, page, handleErrors)
+        {
+            var request=getBasicRequest();
+            if (!page) {
+                page = 0;
+            }
+            callAdminService("GET","/contacts/"+page+"/"+size,request,functionToCall,handleErrors);
         }
     };
     return APIServices.getInstance();

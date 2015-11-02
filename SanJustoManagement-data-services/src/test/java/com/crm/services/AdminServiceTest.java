@@ -98,7 +98,7 @@ public class AdminServiceTest extends TransactionalSupportTest {
         User user = getTestUser();
         AdminService adminService = getAdminService(user);
 
-        Iterable<Contact> contacts = adminService.getAllContactsByCustomer(1L, true);
+        Iterable<Contact> contacts = adminService.getAllContactsByCustomer(1L, true, 0, 5);
         assertNotNull("Contacts should not be null", contacts);
         int counter=0;
         for (Contact contact:contacts) {

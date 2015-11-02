@@ -30,9 +30,9 @@
                 _.each(model.pagesSelector, function(element) {
                     if (element > 0 && element) {
                     if (element-1 == model.currentPage) {?>
-                        <td><span><strong><a href="#" data-id="<?=element-1?>" class="btn-toolbar btn-group-lg btn-lg js-click-page"> <?=element?></a></strong></span></td>
+                        <td><span><strong><a href="#" id="branch-<?=element-1?>" data-id="<?=element-1?>" class="btn-toolbar btn-group-lg btn-lg js-click-page-branches"> <?=element?></a></strong></span></td>
                     <?} else {?>
-                        <td><span><a href="#" data-id="<?=element-1?>" class="btn-toolbar btn-group-lg btn-lg js-click-page"> <?=element?></a></span></td>
+                        <td><span><a href="#" id="branch-<?=element-1?>" data-id="<?=element-1?>" class="btn-toolbar btn-group-lg btn-lg js-click-page-branches"> <?=element?></a></span></td>
                     <?}}});?>
             </tr>
         </tbody>

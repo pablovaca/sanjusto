@@ -19,7 +19,7 @@ define([
         callPage : function(pageNro) {
             this.reset();
             if (!pageNro) {
-                pageNro = this.page;
+                pageNro = this.defaults.page;
             }
             api.getAllCustomers(_.bind(this.fillCollection, this),pageNro);
         },

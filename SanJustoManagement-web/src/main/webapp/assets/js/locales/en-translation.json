@@ -2,7 +2,13 @@
   "treatments": {
     "nro": "Number",
     "customerName": "Customer",
-    "branchName": "Branch"
+    "branchName": "Branch",
+    "treatmentDate": "Date",
+    "certified": "Certified",
+    "finished": "Finished",
+    "buttons":{
+      "new": "New Treatment"
+    }
   },
   "customers": {
     "id": "Id",
@@ -17,6 +23,13 @@
     "name": "Customer",
     "address": "Address",
     "neighborhood" : "Neighborhood",
+    "phone" : "Phone"
+  },
+  "contacts": {
+    "id": "Id",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email" : "Email",
     "phone" : "Phone"
   }
 }

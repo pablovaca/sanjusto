@@ -179,3 +179,10 @@ ul ul {
 .menu > li > ul li:hover a:before {
     color: #32373D;
 }
+
+.btn-new {
+    border: 1px solid #b4b4b4;
+    color: #ffffff;
+    font-weight: bold;
+    background-color: #2EA4DF
+}

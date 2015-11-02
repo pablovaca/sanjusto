@@ -28,7 +28,7 @@ define([
         },
 
         events : {
-            'click .js-click-page': 'goPage'
+            'click .js-click-page-branches': 'goPage'
         },
 
         render : function() {
@@ -57,7 +57,7 @@ define([
                     this.pagesSelector[3] = nextPage;
                 }
                 this.pagesSelector[4] = totalPages;
-            } else {
+            } else if (totalPages > 1) {
                 for (var i=0;i<totalPages;i++) {
                     this.pagesSelector[i] = i+1;
                 }

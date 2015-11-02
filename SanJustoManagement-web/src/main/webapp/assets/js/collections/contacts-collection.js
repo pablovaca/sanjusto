@@ -2,10 +2,10 @@ define([
     "jquery",
     "underscore",
     "backbone",
-    "models/branch-model",
+    "models/contact-model",
     "services/APIServices"
-], function($, _, Backbone,BranchModel, api){
-    var Branches = Backbone.Collection.extend({
+], function($, _, Backbone,ContactModel, api){
+    var Contacts = Backbone.Collection.extend({
         defaults: {
             isReady:false,
             totalRows:0,
@@ -21,7 +21,7 @@ define([
             if (!pageNro) {
                 pageNro = this.defaults.page;
             }
-            api.getAllBranches(_.bind(this.fillCollection, this),pageNro);
+            api.getAllContacts(_.bind(this.fillCollection, this),pageNro);
         },
 
         fillCollection: function(result, status, message){
@@ -31,7 +31,7 @@ define([
                     this.page = result.pageable.page;
                     this.pageSize = result.pageable.size;
                     _.each(result.content,function(element){
-                        this.add(this.initializeBranchModel(element));
+                        this.add(this.initializeContactModel(element));
                     }, this);
                 }
                 this.isReady = true;
@@ -43,21 +43,21 @@ define([
             }
         },
 
-        initializeBranchModel: function(branch){
-            return new BranchModel({
-                id: branch.id,
-                name: branch.name,
-                startDate: branch.startDate,
-                address: branch.address,
-                neighborhood: branch.neighborhood,
-                city: branch.city,
-                phone: branch.phone,
-                customerId: branch.customer.id,
-                customerName: branch.customer.name
+        initializeContactModel: function(contact){
+            return new ContactModel({
+                id : contact.id,
+                firstName : contact.firstName,
+                middleName : contact.middleName,
+                lastName : contact.lastName,
+                phone : contact.phone,
+                email : contact.email,
+                enabled : contact.enabled,
+                customerId : contact.customer.id,
+                customerName : contact.customer.name
             });
         }
     });
 
-    return Branches;
+    return Contacts;
 
 });

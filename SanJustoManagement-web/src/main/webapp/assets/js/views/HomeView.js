@@ -24,6 +24,7 @@ define([
         treatmentsView : {},
         customersView : {},
         branchesView : {},
+        contactsView : {},
 
         initialize: function () {
             this.$main = this.$('#mainView');
@@ -32,7 +33,8 @@ define([
         events: {
             "click .js-click-treatments": "internalNavigation",
             "click .js-click-customers": "internalNavigation",
-            "click .js-click-branches": "internalNavigation"
+            "click .js-click-branches": "internalNavigation",
+            "click .js-click-contacts": "internalNavigation"
         },
 
         render: function () {
@@ -63,6 +65,11 @@ define([
             if (cssClass === 'js-click-branches') {
                 this.branches(event);
                 this.currentLocation = 'branches';
+                return;
+            };
+            if (cssClass === 'js-click-contacts') {
+                this.contacts(event);
+                this.currentLocation = 'contacts';
                 return;
             };
         },
@@ -109,6 +116,21 @@ define([
             require(['views/HomeView', 'views/BranchesView', 'backbone'], function (HomeView, BranchesView, Backbone) {
                 HomeView.branchesView = new BranchesView();
                 HomeView.branchesView.listenTo(Backbone,'NO_RIGHTS',HomeView.errorFunc);
+            });
+        },
+
+        contacts: function (evt) {
+            if(evt){
+                evt.preventDefault();
+            }
+
+            this.renderContactsView();
+        },
+
+        renderContactsView: function () {
+            require(['views/HomeView', 'views/ContactsView', 'backbone'], function (HomeView, ContactsView, Backbone) {
+                HomeView.contactsView = new ContactsView();
+                HomeView.contactsView.listenTo(Backbone,'NO_RIGHTS',HomeView.errorFunc);
             });
         },
 
