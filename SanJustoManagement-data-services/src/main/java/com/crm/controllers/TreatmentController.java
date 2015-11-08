@@ -32,6 +32,14 @@ public class TreatmentController extends BaseController{
         return this.methodController(param);
     }
 
+    @RequestMapping(value = "/locateCustomers", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    public @ResponseBody String locateCustomers(@RequestHeader("token") String token
+                                                , @RequestParam("search") String search) throws Exception {
+        String[] params = new String[]{"locateCustomers", token, search};
+        String param = this.makeJsonParam(params);
+        return this.methodController(param);
+    }
+
     private String methodController(String param) {
         try {
             JSONObject jsonParam = new JSONObject(param);

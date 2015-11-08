@@ -6,6 +6,10 @@
     "treatmentDate": "Fecha",
     "certified": "Certificado",
     "finished": "Finalizado",
+    "coordinated": "Coordinado",
+    "comments": "Comentarios",
+    "employee": "Empleado",
+    "motives": "Motivos",
     "buttons":{
       "new": "Nuevo Tratamiento"
     }

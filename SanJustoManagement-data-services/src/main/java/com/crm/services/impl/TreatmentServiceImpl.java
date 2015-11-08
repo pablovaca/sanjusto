@@ -3,12 +3,14 @@ package com.crm.services.impl;
 import com.crm.data.model.*;
 import com.crm.services.TreatmentService;
 import com.crm.utils.DateUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +24,24 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
     private static final String WORK_TYPE = "JOB_TYPE";
     private static final String TREATMENT_MOTIVES = "MOTIVES";
 
+    public List<Customer> locateCustomers(String searchString) throws Exception {
+        if (StringUtils.isBlank(searchString))
+            return new ArrayList<Customer>();
+
+        String localSearchString = searchString.replace(" ", "%");
+
+        if (!localSearchString.startsWith("%")) {
+            localSearchString = "%" + localSearchString;
+        }
+
+        if (!localSearchString.endsWith("%")) {
+            localSearchString = localSearchString + "%";
+        }
+
+        PageRequest pageRequest = new PageRequest(0, 100, new Sort(Sort.Direction.ASC, "name"));
+
+        return customersRepository.locateCustomers(user.getOrganization().getId(), localSearchString, pageRequest);
+    }
 
     public Iterable<Treatment> getAllTreatments(int page, int size) throws Exception {
         PageRequest pageRequest = new PageRequest(page, size, new Sort(Sort.Direction.ASC, "treatmentDate"));

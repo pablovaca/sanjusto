@@ -6,6 +6,10 @@
     "treatmentDate": "Date",
     "certified": "Certified",
     "finished": "Finished",
+    "coordinated": "Coordinated",
+    "comments": "Comments",
+    "employee": "Employee",
+    "motives": "Motives",
     "buttons":{
       "new": "New Treatment"
     }

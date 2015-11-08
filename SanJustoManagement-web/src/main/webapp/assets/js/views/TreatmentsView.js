@@ -21,6 +21,7 @@ define([
         treatmentsCollection : {},
         container : 'centerPanel',
         pagesSelector : new Array(),
+        treatmentFormView : {},
 
         initialize : function() {
             this.$main = this.$('#' + this.container);
@@ -88,14 +89,15 @@ define([
             evt.preventDefault();
             var action = $(evt.target).data('action');
             console.log("New Treatment " + action);
-            this.renderForm(action);
+            this.renderTreatmentForm(action,0);
         },
 
-        renderForm : function(action) {
-            console.log("Action " + action);
-            this.$main.html(this.templateForm({
-            }));
-            this.$main.i18n($.i18n.options);
+        renderTreatmentForm : function(action, treatmentId) {
+            require(['views/TreatmentsView', 'views/TreatmentFormView', 'backbone'], function (TreatmentView, TreatmentFormView, Backbone) {
+                console.log("renderForm");
+                TreatmentView.treatmentFormView = new TreatmentFormView(action,treatmentId);
+                TreatmentView.treatmentFormView.listenTo(Backbone,'NO_RIGHTS',TreatmentView.errorFunc);
+            });
         }
     });
 

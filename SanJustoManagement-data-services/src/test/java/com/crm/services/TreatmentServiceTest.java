@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.Rollback;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -18,6 +20,16 @@ import static org.junit.Assert.*;
 public class TreatmentServiceTest extends TransactionalSupportTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(TreatmentServiceTest.class);
 
+    @Test
+    public void testsLocateCustomers() throws Exception {
+        LOGGER.info("testsLocateCustomers");
+        User user = getTestUser();
+        ServiceFactory serviceFactory = getServiceFactory();
+        TreatmentService treatmentService = serviceFactory.getTreatmentService(user);
+        List<Customer> customers = treatmentService.locateCustomers("pab");
+        assertNotNull("Customers should not be null",customers);
+        LOGGER.info("testsLocateCustomers");
+    }
     @Test
     public void testGetAllTreatments() throws Exception {
         LOGGER.info("testGetAllTreatments");

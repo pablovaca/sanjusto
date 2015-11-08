@@ -24,6 +24,9 @@ require.config({
         },
         'i18next' : {
             deps :['jquery']
+        },
+        'typeahead' : {
+            deps :['jquery']
         }
     },
     baseUrl: 'assets/js',
@@ -37,7 +40,8 @@ require.config({
         views: 'views',
         collections: 'collections',
         bootstrap: './libs/bootstrap',
-        'i18next': './libs/i18next-1.7.7.min'
+        'i18next': './libs/i18next-1.7.7.min',
+        typeahead: './libs/typeahead.bundle'
     }
 });
 

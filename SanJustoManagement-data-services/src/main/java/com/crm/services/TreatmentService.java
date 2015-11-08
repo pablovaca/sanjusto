@@ -12,6 +12,8 @@ public interface TreatmentService {
 
     User getUser();
 
+    List<Customer> locateCustomers(String searchString) throws Exception;
+
     Iterable<Treatment> getAllTreatments(int page, int size) throws Exception;
 
     Treatment getOneTreatment(Long treatmentId) throws  Exception;

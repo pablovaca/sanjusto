@@ -312,6 +312,13 @@ define([], function () {
             callTreatmentsService("GET","/all/"+page+"/"+size,request,functionToCall,handleErrors);
         },
 
+        locateCustomers :function (functionToCall, search, handleErrors)
+        {
+            var request=getBasicRequest();
+            request.search = search
+            callTreatmentsService("GET","/locateCustomers",request,functionToCall,handleErrors);
+        },
+
         /* *************************
          *
          *  Admin Service Methods
