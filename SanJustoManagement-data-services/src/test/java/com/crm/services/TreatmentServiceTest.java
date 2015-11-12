@@ -30,6 +30,34 @@ public class TreatmentServiceTest extends TransactionalSupportTest {
         assertNotNull("Customers should not be null",customers);
         LOGGER.info("testsLocateCustomers");
     }
+
+    @Test
+    public void testsLocateBranches() throws Exception {
+        LOGGER.info("testsLocateBranches");
+        User user = getTestUser();
+        ServiceFactory serviceFactory = getServiceFactory();
+        TreatmentService treatmentService = serviceFactory.getTreatmentService(user);
+        List<Branch> branches = treatmentService.locateBranches("Branch");
+        assertNotNull("Branches should not be null",branches);
+        LOGGER.info("Cantidad " + branches.size());
+        assertEquals("Branches size should be 2", 2, branches.size());
+        LOGGER.info("testsLocateBranches");
+    }
+
+    @Test
+    public void testsGetAllUsers() throws Exception {
+        LOGGER.info("testsGetAllUsers");
+        User user = getTestUser();
+        ServiceFactory serviceFactory = getServiceFactory();
+        TreatmentService treatmentService = serviceFactory.getTreatmentService(user);
+        List<User> users = treatmentService.getAllUsers();
+        for (User userRow:users) {
+            LOGGER.info(userRow.getEmail());
+        }
+        assertNotNull("Users should not be null", users);
+        LOGGER.info("testsGetAllUsers");
+    }
+
     @Test
     public void testGetAllTreatments() throws Exception {
         LOGGER.info("testGetAllTreatments");

@@ -319,6 +319,18 @@ define([], function () {
             callTreatmentsService("GET","/locateCustomers",request,functionToCall,handleErrors);
         },
 
+        locateBranches :function (functionToCall, search, handleErrors)
+        {
+            var request=getBasicRequest();
+            request.search = search
+            callTreatmentsService("GET","/locateBranches",request,functionToCall,handleErrors);
+        },
+
+        getAllUsers :function (functionToCall, handleErrors)
+        {
+            var request=getBasicRequest();
+            callTreatmentsService("GET","/users",request,functionToCall,handleErrors);
+        },
         /* *************************
          *
          *  Admin Service Methods

@@ -1,21 +1,29 @@
 <div class="container-fluid bg-search">
+    <input type="hidden" id="treatmentId" value="0">
     <div class="form-group">
-        <input type="hidden" id="treatmentId" value="0">
         <ul>
             <li>
                 <div id="customerSearch" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search">
-                    <input id="treatmentCustomer" size="100" class="typeahead" placeholder="Customer" data-i18n="[placeholder]translation:treatments.customerName" type="text" autocomplete="off" data-provide="typeahead"/>
-                    <a href="#" class="ico-search"><i class="fa fa-search fa-2x"></i></a>
+                    <input type="hidden" id="customerId" value="0">
+                    <label id="customerName"></label>
+                    <input id="treatmentCustomer" value="" size="50" class="typeahead" placeholder="Customer" data-i18n="[placeholder]translation:treatments.customerName" type="text" autocomplete="off" data-provide="typeahead"/>
+                </div>
+            </li>
+            <li>
+                <div id="branchSearch" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search">
+                    <input type="hidden" id="branchId" value="0">
+                    <label id="branchName"></label>
+                    <input id="treatmentBranch" value="" size="50" class="typeahead" placeholder="Branch" data-i18n="[placeholder]translation:treatments.branchName" type="text" autocomplete="off" data-provide="typeahead"/>
                 </div>
             </li>
             <li>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <input type="text" id="treatmentBranch" size="30" placeholder="Branch" data-i18n="[placeholder]translation:treatments.branchName">
-                </div>
-            </li>
-            <li>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <input type="text" id="treatmentEmployee" size="30" placeholder="Employee" data-i18n="[placeholder]translation:treatments.employee">
+                    <label data-i18n="[placeholder]translation:treatments.employee">Employee</label>
+                    <select name="employee" id="treatmentEmployee" class="user-select">
+                    <? _.each(model.employees,function(employee, index){?>
+                            <option value="<?=employee.id?>" selected><?=employee.fullName?></option>
+                        <?});?>
+                    </select>
                 </div>
             </li>
             <li>

@@ -2,7 +2,6 @@ package com.crm.services.impl;
 
 import com.crm.data.model.*;
 import com.crm.services.TreatmentService;
-import com.crm.utils.DateUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,6 +40,25 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
         PageRequest pageRequest = new PageRequest(0, 100, new Sort(Sort.Direction.ASC, "name"));
 
         return customersRepository.locateCustomers(user.getOrganization().getId(), localSearchString, pageRequest);
+    }
+
+    public List<Branch> locateBranches(String searchString) throws Exception {
+        if (StringUtils.isBlank(searchString))
+            return new ArrayList<Branch>();
+
+        String localSearchString = searchString.replace(" ", "%");
+
+        if (!localSearchString.startsWith("%")) {
+            localSearchString = "%" + localSearchString;
+        }
+
+        if (!localSearchString.endsWith("%")) {
+            localSearchString = localSearchString + "%";
+        }
+
+        PageRequest pageRequest = new PageRequest(0, 100, new Sort(Sort.Direction.ASC, "name"));
+
+        return branchesRepository.locateBranches(user.getOrganization().getId(), localSearchString, pageRequest);
     }
 
     public Iterable<Treatment> getAllTreatments(int page, int size) throws Exception {
@@ -318,5 +336,9 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
             throw new Exception("INVALID_SURVEY");
         }
         treatmentsSurveysRepository.delete(ts);
+    }
+
+    public List<User> getAllUsers() throws Exception {
+        return usersRepository.findByOrganizationOrderByLastNameAsc(user.getOrganization());
     }
 }

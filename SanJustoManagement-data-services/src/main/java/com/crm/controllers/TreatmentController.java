@@ -40,6 +40,21 @@ public class TreatmentController extends BaseController{
         return this.methodController(param);
     }
 
+    @RequestMapping(value = "/locateBranches", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    public @ResponseBody String locateBranches(@RequestHeader("token") String token
+            , @RequestParam("search") String search) throws Exception {
+        String[] params = new String[]{"locateBranches", token, search};
+        String param = this.makeJsonParam(params);
+        return this.methodController(param);
+    }
+
+    @RequestMapping(value = "/users", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    public @ResponseBody String getAllUsers(@RequestHeader("token") String token) throws Exception {
+        String[] params = new String[]{"getAllUsers", token};
+        String param = this.makeJsonParam(params);
+        return this.methodController(param);
+    }
+
     private String methodController(String param) {
         try {
             JSONObject jsonParam = new JSONObject(param);

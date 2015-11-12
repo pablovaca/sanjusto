@@ -5,7 +5,11 @@ import com.crm.data.model.Customer;
 import com.crm.data.model.Organization;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface BranchesRepository extends CrudRepository<Branch, Long> {
 
@@ -18,4 +22,11 @@ public interface BranchesRepository extends CrudRepository<Branch, Long> {
     Page<Branch> findByOrganizationAndEnabledIsTrue(Organization organization, Pageable pageable);
 
     Branch findByIdAndOrganization(Long id, Organization organization);
+
+    @Query("select b "
+            + "from Branch b "
+            + "where b.enabled = 1 "
+            + "and (b.organization.id = :orgId or :orgId = -1) "
+            + "and b.name like :searchString")
+    List<Branch> locateBranches(@Param("orgId") Long orgId, @Param("searchString") String searchString, Pageable pageable);
 }

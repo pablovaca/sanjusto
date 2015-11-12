@@ -14,6 +14,8 @@ public interface TreatmentService {
 
     List<Customer> locateCustomers(String searchString) throws Exception;
 
+    List<Branch> locateBranches(String searchString) throws Exception;
+
     Iterable<Treatment> getAllTreatments(int page, int size) throws Exception;
 
     Treatment getOneTreatment(Long treatmentId) throws  Exception;
@@ -62,4 +64,6 @@ public interface TreatmentService {
     TreatmentSurvey saveTreatmentSurvey(Long treatmentId, Long surveyTypeId, Long surveySubtypeId, boolean checked) throws Exception, DataIntegrityViolationException;
 
     void removeTreatmentSurvey(Long treatmentSurveyId) throws Exception, DataIntegrityViolationException;
+
+    List<User> getAllUsers() throws Exception;
 }
