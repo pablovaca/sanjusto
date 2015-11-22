@@ -10,6 +10,7 @@
     "comments": "Comentarios",
     "employee": "Empleado",
     "motives": "Motivos",
+    "selectCustomer": "Elija un Cliente",
     "buttons":{
       "new": "Nuevo Tratamiento"
     }

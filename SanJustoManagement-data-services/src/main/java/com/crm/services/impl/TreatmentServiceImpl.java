@@ -2,6 +2,7 @@ package com.crm.services.impl;
 
 import com.crm.data.model.*;
 import com.crm.services.TreatmentService;
+import com.crm.services.dto.BranchDTO;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentService {
@@ -136,7 +138,7 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
         if (null==treatment) {
             throw new Exception("INVALID_TREATMENT");
         }
-        Type type = typesRepository.findByIdAndOrganizationAndTypeAndEnabledIsTrue(typeId,user.getOrganization(), WORK_TYPE);
+        Type type = typesRepository.findByIdAndOrganizationAndTypeAndEnabledIsTrue(typeId, user.getOrganization(), WORK_TYPE);
         if (null==type) {
             throw new Exception("INVALID_WORK_TYPE");
         }
@@ -341,4 +343,12 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
     public List<User> getAllUsers() throws Exception {
         return usersRepository.findByOrganizationOrderByLastNameAsc(user.getOrganization());
     }
+
+    public List<Type> getTypes(String keyType) throws Exception {
+        return typesRepository.findByOrganizationAndTypeAndEnabledIsTrue(user.getOrganization(), keyType);
+    }
+
+    public List<BranchDTO> getAllBranchesByCustomer(Long customerId) throws Exception {
+           return branchesRepository.findBranchByCustomerEnabled(user.getOrganization().getId(), customerId);
+    };
 }

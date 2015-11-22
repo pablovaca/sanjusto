@@ -4,13 +4,17 @@ import com.crm.data.model.Organization;
 import com.crm.data.model.Type;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 public interface TypesRepository extends CrudRepository<Type, Long>{
 
-    public Type findByIdAndOrganizationAndEnabledIsTrue(Long id,Organization organization);
+    Type findByIdAndOrganizationAndEnabledIsTrue(Long id,Organization organization);
 
-    public Type findByIdAndOrganizationAndTypeAndEnabledIsTrue(Long id,Organization organization, String type);
+    Type findByIdAndOrganizationAndTypeAndEnabledIsTrue(Long id,Organization organization, String type);
 
-    public Type findByIdAndOrganizationAndTypeAndEnabledIsTrueAndParentIdIsNull(Long id,Organization organization, String type);
+    Type findByIdAndOrganizationAndTypeAndEnabledIsTrueAndParentIdIsNull(Long id,Organization organization, String type);
 
-    public Type findByIdAndOrganizationAndTypeAndEnabledIsTrueAndParentId(Long id,Organization organization, String type, Long parentId);
+    Type findByIdAndOrganizationAndTypeAndEnabledIsTrueAndParentId(Long id,Organization organization, String type, Long parentId);
+
+    List<Type> findByOrganizationAndTypeAndEnabledIsTrue(Organization organization, String type);
 }

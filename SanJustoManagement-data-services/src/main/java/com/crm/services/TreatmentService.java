@@ -1,6 +1,7 @@
 package com.crm.services;
 
 import com.crm.data.model.*;
+import com.crm.services.dto.BranchDTO;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Date;
@@ -66,4 +67,8 @@ public interface TreatmentService {
     void removeTreatmentSurvey(Long treatmentSurveyId) throws Exception, DataIntegrityViolationException;
 
     List<User> getAllUsers() throws Exception;
+
+    List<Type> getTypes(String keyType) throws Exception;
+
+    List<BranchDTO> getAllBranchesByCustomer(Long customerId) throws Exception;
 }

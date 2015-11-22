@@ -1,8 +1,8 @@
-{
+{branchName
   "treatments": {
     "nro": "Number",
     "customerName": "Customer",
-    "branchName": "Branch",
+    "": "Branch",
     "treatmentDate": "Date",
     "certified": "Certified",
     "finished": "Finished",
@@ -10,6 +10,7 @@
     "comments": "Comments",
     "employee": "Employee",
     "motives": "Motives",
+    "selectCustomer": "Select a Customer",
     "buttons":{
       "new": "New Treatment"
     }

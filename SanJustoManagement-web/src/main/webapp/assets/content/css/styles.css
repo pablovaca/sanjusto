@@ -265,3 +265,9 @@ div .tt-dataset-branches {
 .user-select {
     width : 60;
 }
+.type-select {
+    width : 40;
+}
+.branch-select {
+    width : 60;
+}

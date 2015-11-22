@@ -55,6 +55,22 @@ public class TreatmentController extends BaseController{
         return this.methodController(param);
     }
 
+    @RequestMapping(value = "/types/{keyType}", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    public @ResponseBody String getTypes(@RequestHeader("token") String token
+                                        ,@PathVariable("keyType") String keyType) throws Exception {
+        String[] params = new String[]{"getTypes", token, keyType};
+        String param = this.makeJsonParam(params);
+        return this.methodController(param);
+    }
+
+    @RequestMapping(value = "/branchByCustomer/{customerId}", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    public @ResponseBody String getBranchesByCustomer(@RequestHeader("token") String token
+            ,@PathVariable("customerId") long customerId) throws Exception {
+        String[] params = new String[]{"getAllBranchesByCustomer", token, String.valueOf(customerId)};
+        String param = this.makeJsonParam(params);
+        return this.methodController(param);
+    }
+
     private String methodController(String param) {
         try {
             JSONObject jsonParam = new JSONObject(param);

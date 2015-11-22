@@ -10,10 +10,11 @@
                 </div>
             </li>
             <li>
-                <div id="branchSearch" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search">
-                    <input type="hidden" id="branchId" value="0">
-                    <label id="branchName"></label>
-                    <input id="treatmentBranch" value="" size="50" class="typeahead" placeholder="Branch" data-i18n="[placeholder]translation:treatments.branchName" type="text" autocomplete="off" data-provide="typeahead"/>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <label data-i18n="[placeholder]translation:treatments.branchName">Branch</label>
+                    <select name="branch" id="treatmentBranch" class="branch-select">
+                        <option value="0" data-i18n="[html]translation:treatments.selectCustomer">Please search a customer</option>
+                    </select>
                 </div>
             </li>
             <li>
@@ -60,7 +61,12 @@
             </li>
             <li>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <input type="text" id="treatmentMotives" size="30" placeholder="Motives" data-i18n="[placeholder]translation:treatments.motives">
+                    <label data-i18n="[placeholder]translation:treatments.motives">Motives</label>
+                    <select name="motives" id="treatmentMotives" class="type-select">
+                        <? _.each(model.motives,function(type, index){?>
+                        <option value="<?=type.id?>" selected><?=type.shortName?></option>
+                        <?});?>
+                    </select>
                 </div>
             </li>
             <li>

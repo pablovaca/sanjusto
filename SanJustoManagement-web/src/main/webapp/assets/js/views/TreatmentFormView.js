@@ -6,10 +6,11 @@ define([
     'text!templates/new-treatment-template.html',
     'text!templates/searchCustomers-template.html',
     'collections/users-collection',
+    'collections/types-collection',
     'config',
     'services/APIServices',
     'typeahead'
-], function ($, _, Backbone, newTreatmentTemplate, searchTemplate, UsersCollection, Config, api) {
+], function ($, _, Backbone, newTreatmentTemplate, searchTemplate, UsersCollection, TypesCollection, Config, api) {
     'use strict';
 
     Config.setUp();
@@ -21,28 +22,29 @@ define([
         searchTemplate : _.template(searchTemplate),
         container : 'centerPanel',
         typeAheadCustomersCallback: {},
-        typeAheadBranchesCallback: {},
         employeesCollection: {},
+        typesCollection: {},
 
         initialize : function(action, treatmentId) {
             this.$main = this.$('#' + this.container);
-            console.log("Action " + action);
-            console.log("id: " + treatmentId);
             this.employeesCollection = new UsersCollection();
             this.listenTo(this.employeesCollection, 'ready', this.render);
+            this.typesCollection = new TypesCollection();
+            this.typesCollection.getTypes('MOTIVES');
+            this.listenTo(this.typesCollection, 'ready', this.render);
         },
 
         events : {
-            "typeahead:selected #customerSearch": "searchListenerCustomer",
-            "typeahead:selected #branchSearch": "searchListenerBranch"
+            "typeahead:selected #customerSearch": "searchListenerCustomer"
         },
 
         render : function() {
-            if (!this.employeesCollection.isReady) {
+            if (!this.employeesCollection.isReady || !this.typesCollection.isReady) {
                 return;
             }
             var model = {
-                employees : this.employeesCollection.toJSON()
+                employees : this.employeesCollection.toJSON(),
+                motives : this.typesCollection.toJSON()
             };
             this.$main.html(this.template({
                 model : model
@@ -75,33 +77,6 @@ define([
                     }
                 });
             $('#customerSearch').on('blur', _.bind(this.customerSearchBlur, this));
-            $('#branchSearch .typeahead').typeahead({
-                    hint: true,
-                    highlight: true,
-                    minLength: 3
-                },
-                {
-                    name: 'branches',
-                    source: _.bind(this.searchBranches, this),
-                    engine: _,
-                    templates: {
-                        empty: [
-                            '<div class="empty-message">',
-                                'Not found',
-                            '</div>'
-                        ].join('\n'),
-                        suggestion : _.bind(function(data){
-                            var model = {
-                                id : data.id,
-                                name : data.name,
-                                type : "BRANCH"
-                            };
-
-                            return this.searchTemplate({model:model});
-                          }, this)
-                    }
-                });
-            $('#branchSearch').on('blur', _.bind(this.branchSearchBlur, this));
         },
 
         searchCustomers: function (search, callback) {
@@ -120,37 +95,29 @@ define([
         },
 
         customerSearchBlur: function (evt) {
-            console.log("customer blur");
             $('#customerSearch').val($('#treatmentCustomer').val());
-        },
-
-        searchBranches: function (search, callback) {
-            this.typeAheadBranchesCallback = callback;
-            api.locateBranches(_.bind(this.branchesAreLocated, this), '%' + search + '%');
-        },
-
-        branchesAreLocated: function (result, status, message) {
-            if (status === "OK") {
-                this.typeAheadBranchesCallback(result);
-            } else if (message === "NO_RIGHTS") {
-                Backbone.trigger('NO_RIGHTS');
-            } else {
-                console.log(message);
-            }
-        },
-
-        branchSearchBlur: function (evt) {
-            $('#branchSearch').val($('#treatmentBranch').val());
         },
 
         searchListenerCustomer : function (jqobj, item, srcname) {
             $('#customerId').val(item.id);
             $('#customerName').html(item.name);
+            api.getBranchesByCustomer(_.bind(this.fillBranchesByCustomer,this),item.id)
         },
 
-        searchListenerBranch : function (jqobj, item, srcname) {
-            $('#branchId').val(item.id);
-            $('#branchName').html(item.name);
+        fillBranchesByCustomer : function (result, status, message) {
+            console.log("Customer selected " + customerId);
+            if (status === "OK") {
+                var branches = '<option value=""></option>';
+                $('#treatmentBranch').html('');
+                _.each(result,function(item) {
+                    branches += '<option value="' + item.id + '">' + item.name + '</option>';
+                });
+                $('#treatmentBranch').html(branches);
+            } else if (message === "NO_RIGHTS") {
+                Backbone.trigger('NO_RIGHTS');
+            } else {
+                console.log(message);
+            }
         }
     });
 
