@@ -1,82 +1,89 @@
 <div class="container-fluid bg-search">
-    <input type="hidden" id="treatmentId" value="0">
-    <div class="form-group">
-        <ul>
-            <li>
-                <div id="customerSearch" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search">
-                    <input type="hidden" id="customerId" value="0">
-                    <label id="customerName"></label>
-                    <input id="treatmentCustomer" value="" size="50" class="typeahead" placeholder="Customer" data-i18n="[placeholder]translation:treatments.customerName" type="text" autocomplete="off" data-provide="typeahead"/>
-                </div>
-            </li>
-            <li>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <label data-i18n="[placeholder]translation:treatments.branchName">Branch</label>
-                    <select name="branch" id="treatmentBranch" class="branch-select">
-                        <option value="0" data-i18n="[html]translation:treatments.selectCustomer">Please search a customer</option>
-                    </select>
-                </div>
-            </li>
-            <li>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <label data-i18n="[placeholder]translation:treatments.employee">Employee</label>
-                    <select name="employee" id="treatmentEmployee" class="user-select">
-                    <? _.each(model.employees,function(employee, index){?>
-                            <option value="<?=employee.id?>" selected><?=employee.fullName?></option>
-                        <?});?>
-                    </select>
-                </div>
-            </li>
-            <li>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <span data-i18n="[html]translation:treatments.treatmentDate">Treatment Date</span>
-                </div>
-                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                    <input type="date" id="treatmentDate">
-                </div>
-            </li>
-            <li>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <span data-i18n="[html]translation:treatments.certified">Certified</span>
-                </div>
-                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                    <input type="checkbox" id="treatmentCertified">
-                </div>
-            </li>
-            <li>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <span data-i18n="[html]translation:treatments.finished">Finished</span>
-                </div>
-                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                    <input type="checkbox" id="treatmentFinished">
-                </div>
-            </li>
-            <li>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <span data-i18n="[html]translation:treatments.coordinated">Coordinated</span>
-                </div>
-                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                    <input type="checkbox" id="treatmentCoordinated">
-                </div>
-            </li>
-            <li>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <label data-i18n="[placeholder]translation:treatments.motives">Motives</label>
-                    <select name="motives" id="treatmentMotives" class="type-select">
-                        <? _.each(model.motives,function(type, index){?>
-                        <option value="<?=type.id?>" selected><?=type.shortName?></option>
-                        <?});?>
-                    </select>
-                </div>
-            </li>
-            <li>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <span data-i18n="[html]translation:treatments.comments">Comments</span>
-                </div>
-                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                    <textarea  id="treatmentComments"></textarea>
-                </div>
-            </li>
-        </ul>
-    </div>
+    <form class=""form-group">
+        <input type="hidden" id="treatmentId" value="0">
+        <div class="form-group">
+            <ul>
+                <li>
+                    <div id="customerSearch" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search">
+                        <input type="hidden" id="customerId" value="0">
+                        <label id="customerName"></label>
+                        <input id="treatmentCustomer" value="" size="50" class="typeahead" placeholder="Customer" data-i18n="[placeholder]translation:treatments.customerName" type="text" autocomplete="off" data-provide="typeahead"/>
+                    </div>
+                </li>
+                <li>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label data-i18n="[placeholder]translation:treatments.branchName">Branch</label>
+                        <select name="branch" id="treatmentBranch" class="branch-select">
+                            <option value="0" data-i18n="[html]translation:treatments.selectCustomer">Please search a customer</option>
+                        </select>
+                    </div>
+                </li>
+                <li>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label data-i18n="[placeholder]translation:treatments.employee">Employee</label>
+                        <select name="employee" id="treatmentEmployee" class="user-select">
+                        <? _.each(model.employees,function(employee, index){?>
+                                <option value="<?=employee.id?>" selected><?=employee.fullName?></option>
+                            <?});?>
+                        </select>
+                    </div>
+                </li>
+                <li>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <span data-i18n="[html]translation:treatments.treatmentDate">Treatment Date</span>
+                    </div>
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <input type="date" id="treatmentDate">
+                    </div>
+                </li>
+                <li>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <span data-i18n="[html]translation:treatments.certified">Certified</span>
+                    </div>
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <input type="checkbox" id="treatmentCertified">
+                    </div>
+                </li>
+                <li>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <span data-i18n="[html]translation:treatments.finished">Finished</span>
+                    </div>
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <input type="checkbox" id="treatmentFinished">
+                    </div>
+                </li>
+                <li>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <span data-i18n="[html]translation:treatments.coordinated">Coordinated</span>
+                    </div>
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <input type="checkbox" id="treatmentCoordinated">
+                    </div>
+                </li>
+                <li>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label data-i18n="[placeholder]translation:treatments.motives">Motives</label>
+                        <select name="motives" id="treatmentMotives" class="type-select">
+                            <? _.each(model.motives,function(type, index){?>
+                            <option value="<?=type.id?>" selected><?=type.shortName?></option>
+                            <?});?>
+                        </select>
+                    </div>
+                </li>
+                <li>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <span data-i18n="[html]translation:treatments.comments">Comments</span>
+                    </div>
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <textarea  id="treatmentComments"></textarea>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <a href="#" id="saveTreatment" class="btn btn-new js-save-treatment" data-action="save" data-i18n="[html]translation:treatments.buttons.save">Save</a>
+            </div>
+        </div>
+    </form>
 </div>

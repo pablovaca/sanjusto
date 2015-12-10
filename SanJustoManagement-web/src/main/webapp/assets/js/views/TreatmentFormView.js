@@ -24,8 +24,11 @@ define([
         typeAheadCustomersCallback: {},
         employeesCollection: {},
         typesCollection: {},
+        formData: {},
+        localTreatmentView: {},
 
-        initialize : function(action, treatmentId) {
+        initialize : function(action, treatmentId, treatmentView) {
+            this.localTreatmentView = treatmentView;
             this.$main = this.$('#' + this.container);
             this.employeesCollection = new UsersCollection();
             this.listenTo(this.employeesCollection, 'ready', this.render);
@@ -35,7 +38,8 @@ define([
         },
 
         events : {
-            "typeahead:selected #customerSearch": "searchListenerCustomer"
+            "typeahead:selected #customerSearch": "searchListenerCustomer",
+            "click .js-save-treatment" : "saveTreatment"
         },
 
         render : function() {
@@ -105,7 +109,6 @@ define([
         },
 
         fillBranchesByCustomer : function (result, status, message) {
-            console.log("Customer selected " + customerId);
             if (status === "OK") {
                 var branches = '<option value=""></option>';
                 $('#treatmentBranch').html('');
@@ -118,6 +121,49 @@ define([
             } else {
                 console.log(message);
             }
+        },
+
+        saveTreatment : function(evt) {
+            evt.preventDefault();
+            var treatmentId = $('#treatmentId').val();
+            var branchId = $('#treatmentBranch').val();
+            var employeeId = $('#treatmentEmployee').val();
+            var treatmentDate = $('#treatmentDate').val();
+            var treatmentCertified = false;
+            if ($('#treatmentCertified').is(':checked')) {
+                treatmentCertified = true;
+            }
+            var treatmentFinished = false;
+            if ($('#treatmentFinished').is(':checked')) {
+                treatmentFinished = true;
+            }
+            var treatmentCoordinated = false;
+            if ($('#treatmentCoordinated').is(':checked')) {
+                treatmentCoordinated = true;
+            }
+            var treatmentMotives = $('#treatmentMotives').val();
+            var treatmentComments = $('#treatmentComments').val();
+            var date = new Date(treatmentDate);
+            var dateUTC = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),0,0,0);
+
+            this.formData.treatmentId = treatmentId;
+            this.formData.branchId = branchId;
+            this.formData.employeeId = employeeId;
+            this.formData.treatmentDate = dateUTC.getTime();
+            this.formData.treatmentCertified = treatmentCertified;
+            this.formData.treatmentFinished = treatmentFinished;
+            this.formData.treatmentCoordinated = treatmentCoordinated;
+            this.formData.treatmentMotives = treatmentMotives;
+            this.formData.treatmentComments = treatmentComments;
+
+            api.saveTreatment(_.bind(this.renderTreatmentsView,this),this.formData);
+        },
+
+        renderTreatmentsView: function () {
+            require(['views/HomeView', 'views/TreatmentsView', 'backbone'], function (HomeView, TreatmentsView, Backbone) {
+                HomeView.treatmentsView = new TreatmentsView();
+                HomeView.treatmentsView.listenTo(Backbone,'NO_RIGHTS',HomeView.errorFunc);
+            });
         }
     });
 

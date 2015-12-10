@@ -12,7 +12,8 @@
     "motives": "Motives",
     "selectCustomer": "Select a Customer",
     "buttons":{
-      "new": "New Treatment"
+      "new": "New Treatment",
+      "save": "Save"
     }
   },
   "customers": {

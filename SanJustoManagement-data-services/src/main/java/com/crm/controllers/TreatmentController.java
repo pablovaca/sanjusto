@@ -71,6 +71,14 @@ public class TreatmentController extends BaseController{
         return this.methodController(param);
     }
 
+    @RequestMapping(value = "/new", produces = "application/json; charset=UTF-8", method = {RequestMethod.POST})
+    public @ResponseBody String saveTreatment(@RequestHeader("token") String token
+            ,@RequestParam("treatment") String treatment) throws Exception {
+        String[] params = new String[]{"saveTreatment", token, treatment};
+        String param = this.makeJsonParam(params);
+        return this.methodController(param);
+    }
+
     private String methodController(String param) {
         try {
             JSONObject jsonParam = new JSONObject(param);

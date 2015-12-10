@@ -6,6 +6,7 @@ import com.crm.services.dto.BranchDTO;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -64,7 +65,7 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
     }
 
     public Iterable<Treatment> getAllTreatments(int page, int size) throws Exception {
-        PageRequest pageRequest = new PageRequest(page, size, new Sort(Sort.Direction.ASC, "treatmentDate"));
+        PageRequest pageRequest = new PageRequest(page, size, new Sort(Sort.Direction.DESC, "treatmentDate"));
         Iterable<Treatment> result = treatmentsRepository.findByOrganization(user.getOrganization(), pageRequest);
         return result;
     }
@@ -73,12 +74,28 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
         return treatmentsRepository.findByIdAndOrganization(treatmentId, user.getOrganization());
     }
 
-    public Treatment saveTreatment(Long treatmentId, Long branchId,boolean coordinated, boolean finished, Long motiveId,
+    public Treatment saveTreatment(String treatment) throws Exception, DataIntegrityViolationException {
+        JSONObject treatmentJSON = new JSONObject(treatment);
+        Long treatmentId = treatmentJSON.getLong("treatmentId");
+        Long branchId = treatmentJSON.getLong("branchId");
+        boolean coordinated = treatmentJSON.getBoolean("treatmentCoordinated");
+        boolean finished = treatmentJSON.getBoolean("treatmentFinished");
+        Long motiveId = treatmentJSON.getLong("treatmentMotives");
+        boolean certificate = treatmentJSON.getBoolean("treatmentCertified");
+        String comments = treatmentJSON.getString("treatmentComments");
+        Long userTreatmentId = treatmentJSON.getLong("employeeId");
+        Date treatmentDate = new Date(treatmentJSON.getLong("treatmentDate"));
+
+        return this.saveTreatment(treatmentId, branchId, coordinated, finished, motiveId, certificate,comments,userTreatmentId, treatmentDate);
+    }
+
+    private Treatment saveTreatment(Long treatmentId, Long branchId,boolean coordinated, boolean finished, Long motiveId,
                                    boolean certificate, String comments, Long userTreatmentId, Date treatmentDate) throws  Exception, DataIntegrityViolationException{
         Treatment treatment = new Treatment();
-        if (treatmentId!=null) {
+        if (treatmentId!=null && treatmentId > 0) {
             treatment = treatmentsRepository.findOne(treatmentId);
         }
+
         Branch branch = branchesRepository.findOne(branchId);
         User userTreatment = usersRepository.findOne(userTreatmentId);
         Type motive = null;

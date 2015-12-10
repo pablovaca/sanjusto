@@ -4,6 +4,7 @@ import com.crm.data.model.*;
 import com.crm.services.impl.ServiceFactory;
 import com.crm.utils.DateUtils;
 import com.crm.utils.TransactionalSupportTest;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,24 +99,21 @@ public class TreatmentServiceTest extends TransactionalSupportTest {
         ServiceFactory serviceFactory = getServiceFactory();
         TreatmentService treatmentService = serviceFactory.getTreatmentService(user);
 
-        Long branchId = 2L;
-        boolean coordinated = true;
-        boolean finished = false;
-        boolean certificate = true;
         String comments = "Treatment comments";
-        Treatment treatment = treatmentService.saveTreatment(null,branchId, coordinated, finished, null, certificate, comments, 1L, DateUtils.getCurrentDate());
+        String newTreatment = "{\"treatmentId\":\"0\",\"branchId\":\"2\",\"employeeId\":\"1\",\"treatmentDate\":\"1449532800000\",\"treatmentCertified\":true,\"treatmentFinished\":false,\"treatmentCoordinated\":true,\"treatmentMotives\":\"14\",\"treatmentComments\":\"hola\"}";
+        Treatment treatment = treatmentService.saveTreatment(newTreatment);
         assertNotNull("Treatment id should not be null", treatment.getId());
         assertFalse("Finished should be false", treatment.getFinished());
         LOGGER.info("Treatment id " + treatment.getId());
         assertEquals("Treatment id should be 2", 23L, treatment.getId().longValue());
-        finished = true;
-        treatment = treatmentService.saveTreatment(treatment.getId(),branchId, coordinated, finished, null, certificate, comments, 1L, null);
+        newTreatment = "{\"treatmentId\":\""+treatment.getId().toString()+"\",\"branchId\":\"2\",\"employeeId\":\"1\",\"treatmentDate\":\"1449532800000\",\"treatmentCertified\":true,\"treatmentFinished\":true,\"treatmentCoordinated\":true,\"treatmentMotives\":\"14\",\"treatmentComments\":\"hola\"}";
+        treatment = treatmentService.saveTreatment(newTreatment);
         assertNotNull("Treatment should not be null", treatment);
         assertEquals("Treatment id should be 2", 23L, treatment.getId().longValue());
         assertTrue("Finished should be true", treatment.getFinished());
         LOGGER.info("testInsertTreatment");
         try {
-            treatment = treatmentService.saveTreatment(null, branchId, coordinated, finished, null, certificate, comments, 1L, null);
+            treatment = treatmentService.saveTreatment(newTreatment);
         } catch (DataIntegrityViolationException die) {
             LOGGER.info(die.getMessage());
             assertTrue("Should be true", die.getMessage().contains("not-null property references a null"));
@@ -137,7 +135,8 @@ public class TreatmentServiceTest extends TransactionalSupportTest {
         boolean finished = false;
         boolean certificate = true;
         String comments = "Treatment comments";
-        Treatment treatment = treatmentService.saveTreatment(null, branchId, coordinated, finished, null, certificate, comments, 1L, DateUtils.getCurrentDate());
+        String newTreatment = "{\"treatmentId\":\"0\",\"branchId\":\"2\",\"employeeId\":\"1\",\"treatmentDate\":\"1449532800000\",\"treatmentCertified\":true,\"treatmentFinished\":false,\"treatmentCoordinated\":true,\"treatmentMotives\":\"14\",\"treatmentComments\":\"hola\"}";
+        Treatment treatment = treatmentService.saveTreatment(newTreatment);
         assertNotNull("Treatment id should not be null", treatment.getId());
         assertFalse("Finished should be false", treatment.getFinished());
         LOGGER.info("Treatment id " + treatment.getId());

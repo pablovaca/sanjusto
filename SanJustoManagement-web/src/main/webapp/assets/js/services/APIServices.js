@@ -343,6 +343,13 @@ define([], function () {
             var request=getBasicRequest();
             callTreatmentsService("GET","/branchByCustomer/" + customerId,request,functionToCall,handleErrors);
         },
+
+        saveTreatment :function (functionToCall, formData, handleErrors)
+        {
+            var request=getBasicRequest();
+            request.treatment = JSON.stringify(formData);
+            callTreatmentsService("POST","/new/",request,functionToCall,handleErrors);
+        },
         /* *************************
          *
          *  Admin Service Methods

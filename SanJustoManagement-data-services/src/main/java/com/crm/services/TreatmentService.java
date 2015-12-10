@@ -2,6 +2,7 @@ package com.crm.services;
 
 import com.crm.data.model.*;
 import com.crm.services.dto.BranchDTO;
+import org.json.JSONObject;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Date;
@@ -21,8 +22,7 @@ public interface TreatmentService {
 
     Treatment getOneTreatment(Long treatmentId) throws  Exception;
 
-    Treatment saveTreatment(Long treatmentId, Long branchId,boolean coordinated, boolean finished, Long motiveId,
-                            boolean certificate, String comments, Long userTreatmentId, Date treatmentDate) throws Exception, DataIntegrityViolationException;
+    Treatment saveTreatment(String treatment) throws Exception, DataIntegrityViolationException;
 
     void removeTreatment(Long treatmentId) throws Exception, DataIntegrityViolationException;
 

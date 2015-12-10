@@ -12,7 +12,8 @@
     "motives": "Motivos",
     "selectCustomer": "Elija un Cliente",
     "buttons":{
-      "new": "Nuevo Tratamiento"
+      "new": "Nuevo Tratamiento",
+      "save": "Grabar"
     }
   },
   "customers": {

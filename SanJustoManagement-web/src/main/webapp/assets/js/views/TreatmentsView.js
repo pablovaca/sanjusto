@@ -95,7 +95,7 @@ define([
         renderTreatmentForm : function(action, treatmentId) {
             require(['views/TreatmentsView', 'views/TreatmentFormView', 'backbone'], function (TreatmentView, TreatmentFormView, Backbone) {
                 console.log("renderForm");
-                TreatmentView.treatmentFormView = new TreatmentFormView(action,treatmentId);
+                TreatmentView.treatmentFormView = new TreatmentFormView(action,treatmentId,TreatmentView);
                 TreatmentView.treatmentFormView.listenTo(Backbone,'NO_RIGHTS',TreatmentView.errorFunc);
             });
         }
