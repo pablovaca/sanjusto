@@ -4,7 +4,7 @@ define([
     'underscore',
     'backbone',
     'text!templates/treatments-template.html',
-    'text!templates/new-treatment-template.html',
+    'text!templates/treatment-form-template.html',
     'config',
     'collections/treatments-collection',
     'services/APIServices'
@@ -32,7 +32,8 @@ define([
 
         events : {
             'click .js-click-page-treatments': 'goPage',
-            'click .js-new-treatment': 'actionTreatment'
+            'click .js-new-treatment': 'actionTreatment',
+            'click .js-edit-treatment': 'actionTreatment'
         },
 
         render : function() {
@@ -88,13 +89,18 @@ define([
         actionTreatment : function(evt) {
             evt.preventDefault();
             var action = $(evt.target).data('action');
-            console.log("New Treatment " + action);
-            this.renderTreatmentForm(action,0);
+            if (!action) {
+                action = $(evt.target).parent().data('action');
+            }
+            var id = 0;
+            if ("edit"===action) {
+                id=$(evt.target).parent().data('id');
+            }
+            this.renderTreatmentForm(action,id);
         },
 
         renderTreatmentForm : function(action, treatmentId) {
             require(['views/TreatmentsView', 'views/TreatmentFormView', 'backbone'], function (TreatmentView, TreatmentFormView, Backbone) {
-                console.log("renderForm");
                 TreatmentView.treatmentFormView = new TreatmentFormView(action,treatmentId,TreatmentView);
                 TreatmentView.treatmentFormView.listenTo(Backbone,'NO_RIGHTS',TreatmentView.errorFunc);
             });

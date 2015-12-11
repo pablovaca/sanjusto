@@ -2,7 +2,7 @@
 'use strict';
 define([], function () {
 
-    var size = 5;
+    var size = 12;
     var token = "";
     var EXPIRE_MINUTES = 480;
     var COOKIE_TOKEN_KEY = 'tokenSanJusto';
@@ -310,6 +310,12 @@ define([], function () {
                 page = 0;
             }
             callTreatmentsService("GET","/all/"+page+"/"+size,request,functionToCall,handleErrors);
+        },
+
+        getOneTreatment :function (functionToCall, id, handleErrors)
+        {
+            var request=getBasicRequest();
+            callTreatmentsService("GET","/"+id,request,functionToCall,handleErrors);
         },
 
         locateCustomers :function (functionToCall, search, handleErrors)

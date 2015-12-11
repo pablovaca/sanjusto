@@ -24,6 +24,11 @@ define([
             api.getAllTreatments(_.bind(this.fillCollection, this),pageNro);
         },
 
+        getTreatment : function (treatmentId) {
+            this.reset();
+            api.getOneTreatment(_.bind(this.fillTreatment, this),treatmentId);
+        },
+
         fillCollection: function(result, status, message){
             if (status == "OK") {
                 if(result && result.total > 0){
@@ -33,6 +38,20 @@ define([
                     _.each(result.content,function(element){
                         this.add(this.initializeTreatmentModel(element));
                     }, this);
+                }
+                this.isReady = true;
+                this.trigger('ready');
+            } else if (message=="NO_RIGHTS") {
+                Backbone.trigger('NO_RIGHTS');
+            } else {
+                console.log(message);
+            }
+        },
+
+        fillTreatment: function(result, status, message){
+            if (status == "OK") {
+                if(result){
+                    this.add(this.initializeTreatmentModel(result));
                 }
                 this.isReady = true;
                 this.trigger('ready');

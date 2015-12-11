@@ -17,7 +17,7 @@
         </thead>
         <tbody>
             <?_.each(model.treatments, function(treatment, index){?>
-            <tr>
+            <tr id="<?=treatment.id?>" data-id="<?=treatment.id?>" data-action="edit" class="js-edit-treatment">
                 <td><?=treatment.id?></td>
                 <td><?=treatment.customerName?></td>
                 <td><?=treatment.branchName?></td>

@@ -3,14 +3,15 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!templates/new-treatment-template.html',
+    'text!templates/treatment-form-template.html',
     'text!templates/searchCustomers-template.html',
     'collections/users-collection',
     'collections/types-collection',
+    'collections/treatments-collection',
     'config',
     'services/APIServices',
     'typeahead'
-], function ($, _, Backbone, newTreatmentTemplate, searchTemplate, UsersCollection, TypesCollection, Config, api) {
+], function ($, _, Backbone, newTreatmentTemplate, searchTemplate, UsersCollection, TypesCollection, TreatmentCollection, Config, api) {
     'use strict';
 
     Config.setUp();
@@ -26,6 +27,8 @@ define([
         typesCollection: {},
         formData: {},
         localTreatmentView: {},
+        treatmentCollection: {},
+        action:{},
 
         initialize : function(action, treatmentId, treatmentView) {
             this.localTreatmentView = treatmentView;
@@ -35,6 +38,12 @@ define([
             this.typesCollection = new TypesCollection();
             this.typesCollection.getTypes('MOTIVES');
             this.listenTo(this.typesCollection, 'ready', this.render);
+            this.action = action;
+            if (treatmentId && treatmentId > 0 && 'edit'===action) {
+                this.treatmentCollection = new TreatmentCollection();
+                this.treatmentCollection.getTreatment(treatmentId);
+                this.listenTo(this.treatmentCollection, 'ready', this.render);
+            }
         },
 
         events : {
@@ -43,10 +52,13 @@ define([
         },
 
         render : function() {
-            if (!this.employeesCollection.isReady || !this.typesCollection.isReady) {
+            if (!this.employeesCollection.isReady || !this.typesCollection.isReady
+                || (!this.treatmentCollection.isReady && this.action==='edit')) {
                 return;
             }
+
             var model = {
+                treatment : this.treatmentCollection.toJSON(),
                 employees : this.employeesCollection.toJSON(),
                 motives : this.typesCollection.toJSON()
             };
@@ -81,6 +93,10 @@ define([
                     }
                 });
             $('#customerSearch').on('blur', _.bind(this.customerSearchBlur, this));
+            if ('edit'===this.action) {
+                var customerId = this.treatmentCollection.toJSON()[0].customerId;
+                api.getBranchesByCustomer(_.bind(this.fillBranchesByCustomer,this),customerId)
+            }
         },
 
         searchCustomers: function (search, callback) {
@@ -113,8 +129,12 @@ define([
                 var branches = '<option value=""></option>';
                 $('#treatmentBranch').html('');
                 _.each(result,function(item) {
-                    branches += '<option value="' + item.id + '">' + item.name + '</option>';
-                });
+                    if ('edit'===this.action && item.id===this.treatmentCollection.toJSON()[0].branchId) {
+                        branches += '<option selected value="' + item.id + '">' + item.name + '</option>';
+                    } else {
+                        branches += '<option value="' + item.id + '">' + item.name + '</option>';
+                    }
+                },this);
                 $('#treatmentBranch').html(branches);
             } else if (message === "NO_RIGHTS") {
                 Backbone.trigger('NO_RIGHTS');

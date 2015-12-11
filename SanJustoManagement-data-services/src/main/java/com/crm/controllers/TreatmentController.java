@@ -32,6 +32,14 @@ public class TreatmentController extends BaseController{
         return this.methodController(param);
     }
 
+    @RequestMapping(value = "/{id}", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    public @ResponseBody String getOneTreatments(@RequestHeader("token") String token
+            ,@PathVariable("id") Long id) throws Exception {
+        String[] params = new String[]{"getOneTreatment", token, String.valueOf(id)};
+        String param = this.makeJsonParam(params);
+        return this.methodController(param);
+    }
+
     @RequestMapping(value = "/locateCustomers", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
     public @ResponseBody String locateCustomers(@RequestHeader("token") String token
                                                 , @RequestParam("search") String search) throws Exception {
