@@ -1,10 +1,9 @@
 <div class="container-fluid bg-search">
     <form class=""form-group">
         <?
-        console.log(model.treatment[0]);
-        if (model.treatment[0]) {
+        if (model.treatment) {
         ?>
-            <input type="hidden" id="treatmentId" value="<?=model.treatment[0].id?>">
+            <input type="hidden" id="treatmentId" value="<?=model.treatment.id?>">
         <?} else {?>
             <input type="hidden" id="treatmentId" value="0">
         <?}?>
@@ -13,10 +12,10 @@
                 <li>
                     <div id="customerSearch" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search">
                         <?
-                        if (model.treatment[0]) {
+                        if (model.treatment) {
                         ?>
-                            <input type="hidden" id="customerId" value="<?=model.treatment[0].customerId?>">
-                            <label id="customerName"><?=model.treatment[0].customerName?></label>
+                            <input type="hidden" id="customerId" value="<?=model.treatment.customerId?>">
+                            <label id="customerName"><?=model.treatment.customerName?></label>
                         <?} else {?>
                             <input type="hidden" id="customerId" value="0">
                             <label id="customerName"></label>
@@ -37,9 +36,13 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <label data-i18n="[placeholder]translation:treatments.employee">Employee</label>
                         <select name="employee" id="treatmentEmployee" class="user-select">
-                        <? _.each(model.employees,function(employee, index){?>
+                            <option value="0"></option>
+                        <? _.each(model.employees,function(employee, index){
+                            if (model.treatment && model.treatment.userId === employee.id) {?>
                                 <option value="<?=employee.id?>" selected><?=employee.fullName?></option>
-                            <?});?>
+                            <?} else {?>
+                                <option value="<?=employee.id?>"><?=employee.fullName?></option>
+                            <?}});?>
                         </select>
                     </div>
                 </li>
@@ -48,7 +51,11 @@
                         <span data-i18n="[html]translation:treatments.treatmentDate">Treatment Date</span>
                     </div>
                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <? if (model.treatment) {?>
+                        <input type="date" id="treatmentDate" value="<?=model.treatment.treatmentYear + '-' + model.treatment.treatmentMonth + '-' + model.treatment.treatmentDay?>">
+                        <?} else {?>
                         <input type="date" id="treatmentDate">
+                        <?}?>
                     </div>
                 </li>
                 <li>
@@ -56,7 +63,11 @@
                         <span data-i18n="[html]translation:treatments.certified">Certified</span>
                     </div>
                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <? if (model.treatment && model.treatment.certified) {?>
+                        <input type="checkbox" id="treatmentCertified" checked>
+                        <?} else {?>
                         <input type="checkbox" id="treatmentCertified">
+                        <?}?>
                     </div>
                 </li>
                 <li>
@@ -64,7 +75,11 @@
                         <span data-i18n="[html]translation:treatments.finished">Finished</span>
                     </div>
                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <? if (model.treatment && model.treatment.finished) {?>
+                        <input type="checkbox" id="treatmentFinished" checked>
+                        <?} else {?>
                         <input type="checkbox" id="treatmentFinished">
+                        <?}?>
                     </div>
                 </li>
                 <li>
@@ -72,16 +87,24 @@
                         <span data-i18n="[html]translation:treatments.coordinated">Coordinated</span>
                     </div>
                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <? if (model.treatment && model.treatment.coordinated) {?>
+                        <input type="checkbox" id="treatmentCoordinated" checked>
+                        <?} else {?>
                         <input type="checkbox" id="treatmentCoordinated">
+                        <?}?>
                     </div>
                 </li>
                 <li>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <label data-i18n="[placeholder]translation:treatments.motives">Motives</label>
                         <select name="motives" id="treatmentMotives" class="type-select">
-                            <? _.each(model.motives,function(type, index){?>
+                            <option value="0"></option>
+                            <? _.each(model.motives,function(type, index){
+                            if (model.treatment && model.treatment.motive && model.treatment.motive === type.id) {?>
                             <option value="<?=type.id?>" selected><?=type.shortName?></option>
-                            <?});?>
+                            <?} else {?>
+                            <option value="<?=type.id?>"><?=type.shortName?></option>
+                            <?}});?>
                         </select>
                     </div>
                 </li>
@@ -90,7 +113,11 @@
                         <span data-i18n="[html]translation:treatments.comments">Comments</span>
                     </div>
                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <? if (model.treatment && model.treatment.comments) {?>
+                        <textarea  id="treatmentComments"><?=model.treatment.comments?></textarea>
+                        <?} else {?>
                         <textarea  id="treatmentComments"></textarea>
+                        <?}?>
                     </div>
                 </li>
             </ul>

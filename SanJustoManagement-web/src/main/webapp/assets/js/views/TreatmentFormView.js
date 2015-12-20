@@ -56,9 +56,12 @@ define([
                 || (!this.treatmentCollection.isReady && this.action==='edit')) {
                 return;
             }
-
+            var treatment;
+            if ("edit"===this.action) {
+                treatment = this.treatmentCollection.toJSON()[0];
+            }
             var model = {
-                treatment : this.treatmentCollection.toJSON(),
+                treatment : treatment,
                 employees : this.employeesCollection.toJSON(),
                 motives : this.typesCollection.toJSON()
             };
@@ -95,7 +98,7 @@ define([
             $('#customerSearch').on('blur', _.bind(this.customerSearchBlur, this));
             if ('edit'===this.action) {
                 var customerId = this.treatmentCollection.toJSON()[0].customerId;
-                api.getBranchesByCustomer(_.bind(this.fillBranchesByCustomer,this),customerId)
+                api.getBranchesByCustomer(_.bind(this.fillBranchesByCustomer,this),customerId);
             }
         },
 

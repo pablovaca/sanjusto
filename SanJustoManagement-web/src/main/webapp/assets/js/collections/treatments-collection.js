@@ -63,19 +63,30 @@ define([
         },
 
         initializeTreatmentModel: function(treatment){
+            var date = new Date(treatment.treatmentDate);
+            var month = date.getUTCMonth()+1;
+            var strMonth = '00' + month;
+            var monthText = strMonth.substring(strMonth.length-2,strMonth.length);
+            var day = date.getUTCDate();
+            var strDay = '00' + day;
+            var dayText = strDay.substring(strDay.length-2,strDay.length);
+
             return new TreatmentModel({
                 id: treatment.id,
                 branchId: treatment.branch.id,
                 branchName: treatment.branch.name,
                 customerId: treatment.branch.customer.id,
                 customerName: treatment.branch.customer.name,
-                treatmentDate: treatment.treatmentDate,
+                treatmentDate: date,
+                treatmentYear: date.getUTCFullYear(),
+                treatmentMonth: monthText,
+                treatmentDay: dayText,
                 userId: treatment.user.id,
                 userName: treatment.user.username,
                 finished: treatment.finished,
                 certified: treatment.certificate,
-                motive: null,
-                comments: null,
+                motive: treatment.motive.id,
+                comments: treatment.comments,
                 coordinated: treatment.coordinated
             });
         }

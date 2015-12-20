@@ -20,7 +20,6 @@ define([
 
         fillCollection: function(result, status, message){
             if (status == "OK") {
-                console.log(result);
                 if(result && result.length > 0){
                     _.each(result.content,function(element){
                         this.add(this.initializeBranchModel(element));
