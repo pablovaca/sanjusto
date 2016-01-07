@@ -21,7 +21,8 @@ define([
             certified: null,
             motive: null,
             comments: null,
-            coordinated: null
+            coordinated: null,
+            products:null
         }
     });
 

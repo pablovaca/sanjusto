@@ -8,10 +8,11 @@ define([
     'collections/users-collection',
     'collections/types-collection',
     'collections/treatments-collection',
+    'collections/treatmentProducts-collection',
     'config',
     'services/APIServices',
     'typeahead'
-], function ($, _, Backbone, newTreatmentTemplate, searchTemplate, UsersCollection, TypesCollection, TreatmentCollection, Config, api) {
+], function ($, _, Backbone, newTreatmentTemplate, searchTemplate, UsersCollection, TypesCollection, TreatmentCollection, TreatmentProductsCollection, Config, api) {
     'use strict';
 
     Config.setUp();
@@ -28,6 +29,7 @@ define([
         formData: {},
         localTreatmentView: {},
         treatmentCollection: {},
+        treatmentProductsCollection: {},
         action:{},
 
         initialize : function(action, treatmentId, treatmentView) {
@@ -42,7 +44,7 @@ define([
             if (treatmentId && treatmentId > 0 && 'edit'===action) {
                 this.treatmentCollection = new TreatmentCollection();
                 this.treatmentCollection.getTreatment(treatmentId);
-                this.listenTo(this.treatmentCollection, 'ready', this.render);
+                this.listenTo(this.treatmentCollection, 'ready', this.getTreatmentProducts);
             }
         },
 
@@ -51,14 +53,20 @@ define([
             "click .js-save-treatment" : "saveTreatment"
         },
 
+        getTreatmentProducts : function() {
+            this.treatmentProductsCollection = new TreatmentProductsCollection(this.treatmentCollection.toJSON()[0].id);
+            this.listenTo(this.treatmentProductsCollection, 'ready', this.render);
+        },
+
         render : function() {
             if (!this.employeesCollection.isReady || !this.typesCollection.isReady
-                || (!this.treatmentCollection.isReady && this.action==='edit')) {
+                || (!this.treatmentProductsCollection.isReady && this.action==='edit')) {
                 return;
             }
             var treatment;
             if ("edit"===this.action) {
                 treatment = this.treatmentCollection.toJSON()[0];
+                treatment.products = this.treatmentProductsCollection.toJSON();
             }
             var model = {
                 treatment : treatment,

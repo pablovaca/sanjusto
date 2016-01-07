@@ -100,7 +100,7 @@
                         <select name="motives" id="treatmentMotives" class="type-select">
                             <option value="0"></option>
                             <? _.each(model.motives,function(type, index){
-                            if (model.treatment && model.treatment.motive && model.treatment.motive === type.id) {?>
+                            if (model.treatment && model.treatment.motive && model.treatment.motive.id === type.id) {?>
                             <option value="<?=type.id?>" selected><?=type.shortName?></option>
                             <?} else {?>
                             <option value="<?=type.id?>"><?=type.shortName?></option>
@@ -121,6 +121,26 @@
                     </div>
                 </li>
             </ul>
+        </div>
+        <div class="container-fluid">
+            <table class="table-responsive table" id="dataTreatmentProductsTable">
+                <thead>
+                <tr>
+                    <th data-i18n="[html]translation:treatments.product.name">Product</th>
+                    <th data-i18n="[html]translation:treatments.product.quantity">Quantity</th>
+                    <th data-i18n="[html]translation:treatments.product.unit">Unit</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?_.each(model.treatment.products, function(product, index){?>
+                <tr id="<?=product.id?>" data-id="<?=product.id?>" data-action="edit" class="js-edit-treatmentProduct">
+                    <td><?=product.productName?></td>
+                    <td><?=product.quantity?></td>
+                    <td><?=product.unitName?></td>
+                </tr>
+                <?});?>
+                </tbody>
+            </table>
         </div>
         <div class="container-fluid">
             <div class="row">

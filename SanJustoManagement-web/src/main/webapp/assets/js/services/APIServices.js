@@ -350,6 +350,12 @@ define([], function () {
             callTreatmentsService("GET","/branchByCustomer/" + customerId,request,functionToCall,handleErrors);
         },
 
+        getProductsByTreatment :function (functionToCall, treatmentId, handleErrors)
+        {
+            var request=getBasicRequest();
+            callTreatmentsService("GET","/" + treatmentId + "/products",request,functionToCall,handleErrors);
+        },
+
         saveTreatment :function (functionToCall, formData, handleErrors)
         {
             var request=getBasicRequest();

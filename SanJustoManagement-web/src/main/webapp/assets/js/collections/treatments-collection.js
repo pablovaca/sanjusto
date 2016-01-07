@@ -32,6 +32,7 @@ define([
         fillCollection: function(result, status, message){
             if (status == "OK") {
                 if(result && result.total > 0){
+                    this.reset();
                     this.totalRows = result.total;
                     this.page = result.pageable.page;
                     this.pageSize = result.pageable.size;
@@ -85,7 +86,7 @@ define([
                 userName: treatment.user.username,
                 finished: treatment.finished,
                 certified: treatment.certificate,
-                motive: treatment.motive.id,
+                motive: treatment.motive,
                 comments: treatment.comments,
                 coordinated: treatment.coordinated
             });

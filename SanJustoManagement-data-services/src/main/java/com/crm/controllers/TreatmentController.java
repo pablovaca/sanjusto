@@ -87,6 +87,15 @@ public class TreatmentController extends BaseController{
         return this.methodController(param);
     }
 
+    @RequestMapping(value = "/{id}/products", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    public @ResponseBody String getAllTreatmentProducts(@RequestHeader("token") String token
+            ,@PathVariable("id") Long treatmentId) throws Exception {
+        LOGGER.info("treatment products " + treatmentId);
+        String[] params = new String[]{"getAllProductsByTreatment", token, String.valueOf(treatmentId)};
+        String param = this.makeJsonParam(params);
+        return this.methodController(param);
+    }
+
     private String methodController(String param) {
         try {
             JSONObject jsonParam = new JSONObject(param);
