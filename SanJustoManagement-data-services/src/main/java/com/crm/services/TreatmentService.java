@@ -71,4 +71,6 @@ public interface TreatmentService {
     List<Type> getTypes(String keyType) throws Exception;
 
     List<BranchDTO> getAllBranchesByCustomer(Long customerId) throws Exception;
+
+    Iterable<Product> getAllProducts() throws Exception;
 }

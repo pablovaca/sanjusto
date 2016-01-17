@@ -31,8 +31,8 @@ define([
 
         fillCollection: function(result, status, message){
             if (status == "OK") {
+                this.reset();
                 if(result && result.total > 0){
-                    this.reset();
                     this.totalRows = result.total;
                     this.page = result.pageable.page;
                     this.pageSize = result.pageable.size;

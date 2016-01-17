@@ -86,7 +86,7 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
         Long userTreatmentId = treatmentJSON.getLong("employeeId");
         Date treatmentDate = new Date(treatmentJSON.getLong("treatmentDate"));
 
-        return this.saveTreatment(treatmentId, branchId, coordinated, finished, motiveId, certificate,comments,userTreatmentId, treatmentDate);
+        return this.saveTreatment(treatmentId, branchId, coordinated, finished, motiveId, certificate, comments, userTreatmentId, treatmentDate);
     }
 
     private Treatment saveTreatment(Long treatmentId, Long branchId,boolean coordinated, boolean finished, Long motiveId,
@@ -368,4 +368,8 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
     public List<BranchDTO> getAllBranchesByCustomer(Long customerId) throws Exception {
            return branchesRepository.findBranchByCustomerEnabled(user.getOrganization().getId(), customerId);
     };
+
+    public Iterable<Product> getAllProducts() throws Exception {
+        return productsRepository.findByOrganization(user.getOrganization());
+    }
 }

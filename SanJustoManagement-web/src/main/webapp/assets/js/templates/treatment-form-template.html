@@ -122,26 +122,7 @@
                 </li>
             </ul>
         </div>
-        <div class="container-fluid">
-            <table class="table-responsive table" id="dataTreatmentProductsTable">
-                <thead>
-                <tr>
-                    <th data-i18n="[html]translation:treatments.product.name">Product</th>
-                    <th data-i18n="[html]translation:treatments.product.quantity">Quantity</th>
-                    <th data-i18n="[html]translation:treatments.product.unit">Unit</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?_.each(model.treatment.products, function(product, index){?>
-                <tr id="<?=product.id?>" data-id="<?=product.id?>" data-action="edit" class="js-edit-treatmentProduct">
-                    <td><?=product.productName?></td>
-                    <td><?=product.quantity?></td>
-                    <td><?=product.unitName?></td>
-                </tr>
-                <?});?>
-                </tbody>
-            </table>
-        </div>
+        <div id="treatmentProducts"></div>
         <div class="container-fluid">
             <div class="row">
                 <a href="#" id="saveTreatment" class="btn btn-new js-save-treatment" data-action="save" data-i18n="[html]translation:treatments.buttons.save">Save</a>

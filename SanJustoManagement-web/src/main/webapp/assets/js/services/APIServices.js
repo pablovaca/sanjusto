@@ -356,6 +356,12 @@ define([], function () {
             callTreatmentsService("GET","/" + treatmentId + "/products",request,functionToCall,handleErrors);
         },
 
+        getProductsByOrganization :function (functionToCall, handleErrors)
+        {
+            var request=getBasicRequest();
+            callTreatmentsService("GET","/products",request,functionToCall,handleErrors);
+        },
+
         saveTreatment :function (functionToCall, formData, handleErrors)
         {
             var request=getBasicRequest();

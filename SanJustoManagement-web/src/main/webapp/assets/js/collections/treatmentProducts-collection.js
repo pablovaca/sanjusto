@@ -16,8 +16,8 @@ define([
 
         fillCollection: function(result, status, message){
             if (status == "OK") {
+                this.reset();
                 if(result && result.length > 0){
-                    this.reset();
                     _.each(result,function(element){
                         this.add(this.initializeTreatmentProductModel(element));
                     }, this);

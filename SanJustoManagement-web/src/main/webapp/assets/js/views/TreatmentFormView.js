@@ -8,11 +8,12 @@ define([
     'collections/users-collection',
     'collections/types-collection',
     'collections/treatments-collection',
-    'collections/treatmentProducts-collection',
+    'views/TreatmentProductsView',
     'config',
     'services/APIServices',
     'typeahead'
-], function ($, _, Backbone, newTreatmentTemplate, searchTemplate, UsersCollection, TypesCollection, TreatmentCollection, TreatmentProductsCollection, Config, api) {
+], function ($, _, Backbone, newTreatmentTemplate, searchTemplate, UsersCollection,
+TypesCollection, TreatmentCollection, TreatmentProductsView, Config, api) {
     'use strict';
 
     Config.setUp();
@@ -29,7 +30,6 @@ define([
         formData: {},
         localTreatmentView: {},
         treatmentCollection: {},
-        treatmentProductsCollection: {},
         action:{},
 
         initialize : function(action, treatmentId, treatmentView) {
@@ -44,7 +44,7 @@ define([
             if (treatmentId && treatmentId > 0 && 'edit'===action) {
                 this.treatmentCollection = new TreatmentCollection();
                 this.treatmentCollection.getTreatment(treatmentId);
-                this.listenTo(this.treatmentCollection, 'ready', this.getTreatmentProducts);
+                this.listenTo(this.treatmentCollection, 'ready', this.render);
             }
         },
 
@@ -53,25 +53,18 @@ define([
             "click .js-save-treatment" : "saveTreatment"
         },
 
-        getTreatmentProducts : function() {
-            this.treatmentProductsCollection = new TreatmentProductsCollection(this.treatmentCollection.toJSON()[0].id);
-            this.listenTo(this.treatmentProductsCollection, 'ready', this.render);
-        },
-
         render : function() {
-            if (!this.employeesCollection.isReady || !this.typesCollection.isReady
-                || (!this.treatmentProductsCollection.isReady && this.action==='edit')) {
+            if (!this.employeesCollection.isReady || !this.typesCollection.isReady || !this.treatmentCollection.isReady) {
                 return;
             }
             var treatment;
             if ("edit"===this.action) {
                 treatment = this.treatmentCollection.toJSON()[0];
-                treatment.products = this.treatmentProductsCollection.toJSON();
             }
             var model = {
                 treatment : treatment,
                 employees : this.employeesCollection.toJSON(),
-                motives : this.typesCollection.toJSON()
+                motives : this.typesCollection.toJSON(),
             };
             this.$main.html(this.template({
                 model : model
@@ -107,6 +100,9 @@ define([
             if ('edit'===this.action) {
                 var customerId = this.treatmentCollection.toJSON()[0].customerId;
                 api.getBranchesByCustomer(_.bind(this.fillBranchesByCustomer,this),customerId);
+                this.renderTreatmentProducts(this.treatmentCollection.toJSON()[0].id);
+            } else {
+                this.renderTreatmentProducts(0);
             }
         },
 
@@ -188,6 +184,12 @@ define([
             this.formData.treatmentComments = treatmentComments;
 
             api.saveTreatment(_.bind(this.renderTreatmentsView,this),this.formData);
+        },
+
+        renderTreatmentProducts : function(treatmentId) {
+            var treatmentProducts = new TreatmentProductsView(treatmentId);
+            $("#treatmentProducts").append(treatmentProducts.$el);
+            treatmentProducts.render();
         },
 
         renderTreatmentsView: function () {

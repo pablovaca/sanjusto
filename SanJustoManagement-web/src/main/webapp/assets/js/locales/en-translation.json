@@ -18,7 +18,8 @@
     "product": {
       "name":"Product",
       "quantity":"Quantity",
-      "unit":"Unit"
+      "unit":"Unit",
+      "qty":"qty"
     }
   },
   "customers": {

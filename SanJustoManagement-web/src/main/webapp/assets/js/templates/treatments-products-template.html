@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <table class="table-responsive table" id="dataTreatmentProductsTable">
+        <thead>
+        <tr>
+            <th data-i18n="[html]translation:treatments.product.name">Product</th>
+            <th data-i18n="[html]translation:treatments.product.quantity">Quantity</th>
+            <th data-i18n="[html]translation:treatments.product.unit">Unit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?if (model.treatmentProducts) {
+                    _.each(model.treatmentProducts, function(product, index){?>
+        <tr id="<?=product.id?>" data-id="<?=product.id?>" data-action="edit" class="js-edit-treatmentProduct">
+            <td><?=product.productName?></td>
+            <td><?=product.quantity?></td>
+            <td><?=product.unitName?></td>
+        </tr>
+        <?});
+                }?>
+        <tr id="0" data-id="0" data-action="new" class="new-product">
+            <td>
+                <select name="products" id="treatmentProduct" class="select-product">
+                    <option value="0"></option>
+                    <? _.each(model.products,function(product, index){?>
+                    <option value="<?=product.id?>"><?=product.name?></option>
+                    <?});?>
+                </select>
+            </td>
+            <td>
+                <input id="treatmentProductsQty" type="number" placeholder="Quantity" data-i18n="[placeholder]translation:treatments.product.qty">
+            </td>
+            <td>
+                <label id="treatmentProductUnit"></label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

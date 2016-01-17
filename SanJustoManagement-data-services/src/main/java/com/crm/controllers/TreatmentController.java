@@ -90,8 +90,15 @@ public class TreatmentController extends BaseController{
     @RequestMapping(value = "/{id}/products", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
     public @ResponseBody String getAllTreatmentProducts(@RequestHeader("token") String token
             ,@PathVariable("id") Long treatmentId) throws Exception {
-        LOGGER.info("treatment products " + treatmentId);
         String[] params = new String[]{"getAllProductsByTreatment", token, String.valueOf(treatmentId)};
+        String param = this.makeJsonParam(params);
+        return this.methodController(param);
+    }
+
+
+    @RequestMapping(value = "/products", produces = "application/json; charset=UTF-8", method = {RequestMethod.GET})
+    public @ResponseBody String getAllProducts(@RequestHeader("token") String token) throws Exception {
+        String[] params = new String[]{"getAllProducts", token};
         String param = this.makeJsonParam(params);
         return this.methodController(param);
     }
