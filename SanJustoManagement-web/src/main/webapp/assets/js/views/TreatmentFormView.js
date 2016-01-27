@@ -152,6 +152,7 @@ TypesCollection, TreatmentCollection, TreatmentProductsView, Config, api) {
 
         saveTreatment : function(evt) {
             evt.preventDefault();
+
             var treatmentId = $('#treatmentId').val();
             var branchId = $('#treatmentBranch').val();
             var employeeId = $('#treatmentEmployee').val();
@@ -182,6 +183,14 @@ TypesCollection, TreatmentCollection, TreatmentProductsView, Config, api) {
             this.formData.treatmentCoordinated = treatmentCoordinated;
             this.formData.treatmentMotives = treatmentMotives;
             this.formData.treatmentComments = treatmentComments;
+
+            var treatmentProductsList = new Array();
+            _.each($("#dataTreatmentProductsTable").find(".productsTreatment"),function(item,index){
+                var product = {"id":$(item).data("id"),"qty":$(item).data("qty")}
+                treatmentProductsList[index]=product;
+            },this);
+            this.formData.treatmentProducts=treatmentProductsList;
+            console.log(this.formData);
 
             api.saveTreatment(_.bind(this.renderTreatmentsView,this),this.formData);
         },

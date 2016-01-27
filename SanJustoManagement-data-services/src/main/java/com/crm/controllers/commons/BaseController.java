@@ -182,7 +182,6 @@ public abstract class BaseController {
     }
 
     protected String returnOK(Object resultObj,String token,Map additionalInfo) throws JSONException {
-        LOGGER.info("return ok " + token);
         ControllerResponse result = new ControllerResponse("OK","",resultObj);
         result.setToken(token);
         result.setAdditionalInfo(additionalInfo);

@@ -46,9 +46,9 @@ public interface TreatmentService {
 
     TreatmentProduct getOneTreatmentProduct(Long treatmentProductId) throws Exception;
 
-    TreatmentProduct saveTreatmentProduct(Long treatmentId, Long productId, Double qty) throws Exception, DataIntegrityViolationException;
+    //TreatmentProduct saveTreatmentProduct(Long treatmentId, Long productId, Double qty) throws Exception, DataIntegrityViolationException;
 
-    void removeTreatmentProduct(Long treatmentProductId) throws Exception, DataIntegrityViolationException;
+    //void removeTreatmentProduct(Long treatmentProductId) throws Exception, DataIntegrityViolationException;
 
     Iterable<TreatmentPlague> getAllPlaguesByTreatment(Long treatmentId) throws Exception;
 

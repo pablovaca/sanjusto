@@ -10,16 +10,18 @@
         <tbody>
         <?if (model.treatmentProducts) {
                     _.each(model.treatmentProducts, function(product, index){?>
-        <tr id="<?=product.id?>" data-id="<?=product.id?>" data-action="edit" class="js-edit-treatmentProduct">
+        <tr class="productsTreatment" data-id="<?=product.id?>" data-qty="<?=product.quantity?>">
             <td><?=product.productName?></td>
             <td><?=product.quantity?></td>
             <td><?=product.unitName?></td>
+            <td><a href="#" class="js-delete-treatment-product" data-id="<?=product.id?>"
+                   data-i18n="[html]translation:treatments.product.delete">Delete</a></td>
         </tr>
         <?});
                 }?>
-        <tr id="0" data-id="0" data-action="new" class="new-product">
+        <tr>
             <td>
-                <select name="products" id="treatmentProduct" class="select-product">
+                <select name="products" id="treatmentProductId" class="select-product">
                     <option value="0"></option>
                     <? _.each(model.products,function(product, index){?>
                     <option value="<?=product.id?>"><?=product.name?></option>
@@ -32,6 +34,8 @@
             <td>
                 <label id="treatmentProductUnit"></label>
             </td>
+            <td><a href="#" class="js-add-treatment-product" data-id="-1"
+                   data-i18n="[html]translation:treatments.product.add">Add</a></td>
         </tr>
         </tbody>
     </table>

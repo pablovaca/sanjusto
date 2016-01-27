@@ -6,6 +6,7 @@ import com.crm.services.dto.BranchDTO;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
@@ -74,8 +75,8 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
         return treatmentsRepository.findByIdAndOrganization(treatmentId, user.getOrganization());
     }
 
-    public Treatment saveTreatment(String treatment) throws Exception, DataIntegrityViolationException {
-        JSONObject treatmentJSON = new JSONObject(treatment);
+    public Treatment saveTreatment(String treatmentData) throws Exception, DataIntegrityViolationException {
+        JSONObject treatmentJSON = new JSONObject(treatmentData);
         Long treatmentId = treatmentJSON.getLong("treatmentId");
         Long branchId = treatmentJSON.getLong("branchId");
         boolean coordinated = treatmentJSON.getBoolean("treatmentCoordinated");
@@ -86,7 +87,20 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
         Long userTreatmentId = treatmentJSON.getLong("employeeId");
         Date treatmentDate = new Date(treatmentJSON.getLong("treatmentDate"));
 
-        return this.saveTreatment(treatmentId, branchId, coordinated, finished, motiveId, certificate, comments, userTreatmentId, treatmentDate);
+        Treatment treatment = this.saveTreatment(treatmentId, branchId, coordinated, finished, motiveId, certificate, comments, userTreatmentId, treatmentDate);
+
+        if (treatmentJSON.has("treatmentProducts")) {
+            JSONArray treatmentProducts = treatmentJSON.getJSONArray("treatmentProducts");
+            this.removeTreatmentProductByTreatment(treatment);
+            LOGGER.info("ARRAY " + treatmentProducts.length());
+            for (int i = 0; i < treatmentProducts.length(); i++) {
+                Long productId = treatmentProducts.getJSONObject(i).getLong("id");
+                Double qty = treatmentProducts.getJSONObject(i).getDouble("qty");
+                LOGGER.info("Treatment " + treatment.getId() + " Product id " + productId + " qty " + qty);
+                this.saveTreatmentProduct(treatment.getId(),productId,qty);
+            }
+        }
+        return treatment;
     }
 
     private Treatment saveTreatment(Long treatmentId, Long branchId,boolean coordinated, boolean finished, Long motiveId,
@@ -230,7 +244,7 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
         return tp;
     }
 
-    public TreatmentProduct saveTreatmentProduct(Long treatmentId, Long productId, Double qty) throws Exception, DataIntegrityViolationException {
+    private TreatmentProduct saveTreatmentProduct(Long treatmentId, Long productId, Double qty) throws Exception, DataIntegrityViolationException {
         if (null==treatmentId) {
             throw new Exception("TREATMENT_ID_NULL");
         }
@@ -252,12 +266,11 @@ public class TreatmentServiceImpl extends BaseServiceImpl implements TreatmentSe
         return treatmentsProductsRepository.save(tp);
     }
 
-    public void removeTreatmentProduct(Long treatmentProductId) throws Exception, DataIntegrityViolationException {
-        TreatmentProduct tp = treatmentsProductsRepository.findById(treatmentProductId);
-        if (null==tp) {
-            throw new Exception("INVALID_PRODUCT");
+    private void removeTreatmentProductByTreatment(Treatment treatment) throws Exception, DataIntegrityViolationException {
+        Iterable<TreatmentProduct> treatmentProducts = treatmentsProductsRepository.findByTreatment(treatment);
+        for (TreatmentProduct treatmentProduct:treatmentProducts) {
+            treatmentsProductsRepository.delete(treatmentProduct);
         }
-        treatmentsProductsRepository.delete(tp);
     }
 
     public Iterable<TreatmentPlague> getAllPlaguesByTreatment(Long treatmentId) throws Exception {

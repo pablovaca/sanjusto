@@ -19,7 +19,9 @@
       "name":"Producto",
       "quantity":"Cantidad",
       "unit":"Unidad",
-      "qty":"cant"
+      "qty":"cant",
+      "delete":"quitar",
+      "add":"agregar"
     }
   },
   "customers": {

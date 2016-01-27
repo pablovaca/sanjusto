@@ -331,7 +331,7 @@ public class TreatmentServiceTest extends TransactionalSupportTest {
         assertEquals("Product id related should be equals to 1", 1, tp.getProduct().getId().longValue());
     }
 
-    @Test
+ /*   @Test
     public void testSaveNewTreatmentProduct() throws Exception {
         LOGGER.info("testSaveNewTreatmentProduct");
         User user = getTestUser();
@@ -365,7 +365,7 @@ public class TreatmentServiceTest extends TransactionalSupportTest {
             LOGGER.info("Mensaje: " + die.getMessage());
             assertEquals("Should be equals", "org.springframework.dao.DataIntegrityViolationException", die.getClass().getName());
         }
-    }
+    }*/
 
     @Test
     public void testGetAllTreatmentPlague() throws Exception {
